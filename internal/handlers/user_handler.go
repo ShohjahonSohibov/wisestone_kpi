@@ -101,13 +101,13 @@ func (h *UserHandler) UpdateUser(c *gin.Context) {
 // @Tags Users
 // @Accept json
 // @Produce json
-// @Param email path string true "User Email"
+// @Param id path string true "User Id"
 // @Success 200 {object} map[string]string "message: User deleted successfully"
 // @Failure 404 {object} map[string]string "error: User not found"
-// @Router /api/v1/users/{email} [delete]
+// @Router /api/v1/users/{id} [delete]
 func (h *UserHandler) DeleteUser(c *gin.Context) {
-	email := c.Param("email")
-	if err := h.userService.Delete(c.Request.Context(), email); err != nil {
+	id := c.Param("id")
+	if err := h.userService.Delete(c.Request.Context(), id); err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
 	}

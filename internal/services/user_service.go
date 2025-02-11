@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"errors"
+	"fmt"
 	"kpi/internal/models"
 	"kpi/internal/repositories"
 
@@ -47,21 +48,22 @@ func (s *UserService) Update(ctx context.Context, user *models.User) error {
 	if err != nil {
 		return err
 	}
+	fmt.Println("\nuser:", user)
 	if existingUser == nil {
 		return errors.New("user not found")
 	}
 	return s.userRepo.Update(ctx, user)
 }
 
-func (s *UserService) Delete(ctx context.Context, email string) error {
-	existingUser, err := s.userRepo.FindByEmail(ctx, email)
+func (s *UserService) Delete(ctx context.Context, id string) error {
+	existingUser, err := s.userRepo.FindByID(ctx, id)
 	if err != nil {
 		return err
 	}
 	if existingUser == nil {
 		return errors.New("user not found")
 	}
-	return s.userRepo.Delete(ctx, email)
+	return s.userRepo.Delete(ctx, id)
 }
 
 func (s *UserService) List(ctx context.Context, filter *models.ListUsersRequest) (*models.ListUsersResponse, error) {

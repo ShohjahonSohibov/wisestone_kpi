@@ -2,6 +2,8 @@ package repositories
 
 import (
 	"context"
+	"fmt"
+	"time"
 
 	"kpi/internal/models"
 
@@ -69,15 +71,42 @@ func (r *UserRepository) Create(ctx context.Context, user *models.User) error {
 
 func (r *UserRepository) Update(ctx context.Context, user *models.User) error {
 	user.BeforeUpdate()
-	_, err := r.collection.UpdateOne(
+	objectID, err := primitive.ObjectIDFromHex(user.ID)
+	if err != nil {
+		return err
+	}
+
+	// Convert user struct to map to avoid issues with bson tags
+	userMap := bson.M{
+		"email":     user.Email,
+		"password":  user.Password,
+		"full_name": user.FullName,
+		"role_id":   user.RoleId,
+		"updated_at": time.Now(),
+	}
+
+	res, err := r.collection.UpdateOne(
 		ctx,
-		bson.M{"_id": user.ID},
-		bson.M{"$set": user},
+		bson.M{"_id": objectID},
+		bson.M{"$set": userMap},
 	)
-	return err
+	if err != nil {
+		return err
+	}
+
+	if res.MatchedCount == 0 {
+		return fmt.Errorf("no document found with ID: %s", user.ID)
+	}
+
+	return nil
 }
 
-func (r *UserRepository) Delete(ctx context.Context, email string) error {
-	_, err := r.collection.DeleteOne(ctx, bson.M{"email": email})
+func (r *UserRepository) Delete(ctx context.Context, id string) error {
+	fmt.Println("here")
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return err
+	}
+	_, err = r.collection.DeleteOne(ctx, bson.M{"_id": objectID})
 	return err
 }

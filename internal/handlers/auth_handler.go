@@ -26,7 +26,7 @@ func NewAuthHandler(authService *services.AuthService) *AuthHandler {
 // @Success 200 {object} map[string]string "token: JWT Token"
 // @Failure 401 {object} map[string]string "error: Unauthorized"
 // @Failure 500 {object} map[string]string "error: Internal server error"
-// @Router /auth/login [post]
+// @Router /api/v1/auth/login [post]
 func (h *AuthHandler) Login(c *gin.Context) {
 	req := &models.LoginRequest{}
 
