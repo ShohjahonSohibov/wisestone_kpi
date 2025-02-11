@@ -68,23 +68,25 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 
 // UpdateUser godoc
 // @Summary Update existing user
-// @Description Update user details by email
+// @Description Update user details by ID
 // @Tags Users
 // @Accept json
 // @Produce json
-// @Param email path string true "User Email"
+// @Param id path string true "User ID"
 // @Param user body models.User true "User Details"
 // @Success 200 {object} map[string]string "message: User updated successfully"
 // @Failure 400 {object} map[string]string "error: Validation error"
 // @Failure 404 {object} map[string]string "error: User not found"
-// @Router /api/v1/users/{email} [put]
+// @Router /api/v1/users/{id} [put]
 func (h *UserHandler) UpdateUser(c *gin.Context) {
+	id := c.Param("id")
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+	user.ID = id
 	if err := h.userService.Update(c.Request.Context(), &user); err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return

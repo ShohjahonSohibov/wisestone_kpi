@@ -192,8 +192,52 @@ const docTemplate = `{
                     }
                 }
             },
+            "delete": {
+                "description": "Delete user by email",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User Email",
+                        "name": "email",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "message: User deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "error: User not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/users/{id}": {
             "put": {
-                "description": "Update user details by email",
+                "description": "Update user details by ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -207,8 +251,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "User Email",
-                        "name": "email",
+                        "description": "User ID",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     },
@@ -234,48 +278,6 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "error: Validation error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "error: User not found",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Delete user by email",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Delete user",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User Email",
-                        "name": "email",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "message: User deleted successfully",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {

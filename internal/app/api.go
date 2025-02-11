@@ -34,7 +34,7 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 			users.GET("", userHandler.ListUsers)
 			users.GET("/:email", userHandler.GetUser)
 			users.POST("", userHandler.CreateUser)
-			users.PUT("", userHandler.UpdateUser)
+			users.PUT(":id", userHandler.UpdateUser)
 			// Add DELETE endpoint for completeness
 			users.DELETE("/:email", userHandler.DeleteUser)
 		}

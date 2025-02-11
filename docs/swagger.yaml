@@ -207,14 +207,15 @@ paths:
       summary: Get user by email
       tags:
       - Users
+  /api/v1/users/{id}:
     put:
       consumes:
       - application/json
-      description: Update user details by email
+      description: Update user details by ID
       parameters:
-      - description: User Email
+      - description: User ID
         in: path
-        name: email
+        name: id
         required: true
         type: string
       - description: User Details

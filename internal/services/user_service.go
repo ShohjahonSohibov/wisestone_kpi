@@ -42,9 +42,8 @@ func (s *UserService) Create(ctx context.Context, user *models.User) error {
 
 	return s.userRepo.Create(ctx, user)
 }
-
 func (s *UserService) Update(ctx context.Context, user *models.User) error {
-	existingUser, err := s.userRepo.FindByEmail(ctx, user.Email)
+	existingUser, err := s.userRepo.FindByID(ctx, user.ID)
 	if err != nil {
 		return err
 	}
