@@ -338,6 +338,284 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/role-permissions": {
+            "get": {
+                "description": "Get a list of all role-permissions",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "RolePermissions"
+                ],
+                "summary": "List all role-permissions",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "multi_search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "permission_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "role_id",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "asc",
+                            "desc"
+                        ],
+                        "type": "string",
+                        "name": "sort_order",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ListRolePermissionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "error: Invalid parameters",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "error: Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new role-permission with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "RolePermissions"
+                ],
+                "summary": "Create a new role-permission",
+                "parameters": [
+                    {
+                        "description": "RolePermission Details",
+                        "name": "rolePermission",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CreateRolePermission"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "message: RolePermission created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "error: Validation error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/role-permissions/{id}": {
+            "get": {
+                "description": "Get role-permission details by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "RolePermissions"
+                ],
+                "summary": "Get role-permission by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "RolePermission Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.RolePermission"
+                        }
+                    },
+                    "404": {
+                        "description": "error: RolePermission not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "error: Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update role-permission details by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "RolePermissions"
+                ],
+                "summary": "Update existing role-permission",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "RolePermission ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "RolePermission Details",
+                        "name": "rolePermission",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateRolePermission"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "message: RolePermission updated successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "error: Validation error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "error: RolePermission not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete role-permission by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "RolePermissions"
+                ],
+                "summary": "Delete role-permission",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "RolePermission Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "message: RolePermission deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "error: RolePermission not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/roles": {
             "get": {
                 "description": "Get a list of all roles",
@@ -1198,6 +1476,21 @@ const docTemplate = `{
                 }
             }
         },
+        "models.CreateRolePermission": {
+            "type": "object",
+            "required": [
+                "permission_id",
+                "role_id"
+            ],
+            "properties": {
+                "permission_id": {
+                    "type": "string"
+                },
+                "role_id": {
+                    "type": "string"
+                }
+            }
+        },
         "models.CreateTeam": {
             "type": "object",
             "required": [
@@ -1276,6 +1569,20 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/models.Permission"
+                    }
+                }
+            }
+        },
+        "models.ListRolePermissionResponse": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.RolePermission"
                     }
                 }
             }
@@ -1429,6 +1736,30 @@ const docTemplate = `{
                 }
             }
         },
+        "models.RolePermission": {
+            "type": "object",
+            "required": [
+                "permission_id",
+                "role_id"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "permission_id": {
+                    "type": "string"
+                },
+                "role_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Team": {
             "type": "object",
             "required": [
@@ -1521,6 +1852,24 @@ const docTemplate = `{
                 }
             }
         },
+        "models.UpdateRolePermission": {
+            "type": "object",
+            "required": [
+                "permission_id",
+                "role_id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "permission_id": {
+                    "type": "string"
+                },
+                "role_id": {
+                    "type": "string"
+                }
+            }
+        },
         "models.User": {
             "type": "object",
             "required": [
@@ -1572,7 +1921,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "wisestone-kpi.onrender.com",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "KPI System API",

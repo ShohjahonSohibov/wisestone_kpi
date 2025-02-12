@@ -25,6 +25,9 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 	// Initialize permission handler
 	permissionHandler := handlers.NewPermissionHandler(serviceManager.PermissionService)
 
+	// Initialize role-permission handler
+	rolePermissionHandler := handlers.NewRolePermissionHandler(serviceManager.RolePermissionService)
+
 	// API routes
 	api := router.Group("/api/v1") // Add version for better API management
 	{
@@ -73,6 +76,16 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 			permissions.POST("", permissionHandler.CreatePermission)
 			permissions.PUT("/:id", permissionHandler.UpdatePermission)
 			permissions.DELETE("/:id", permissionHandler.DeletePermission)
+		}
+
+		// Role-Permission routes
+		rolePermissions := api.Group("/role-permissions")
+		{
+			rolePermissions.GET("", rolePermissionHandler.ListRolePermissions)
+			rolePermissions.GET("/:id", rolePermissionHandler.GetRolePermission)
+			rolePermissions.POST("", rolePermissionHandler.CreateRolePermission)
+			rolePermissions.PUT("/:id", rolePermissionHandler.UpdateRolePermission)
+			rolePermissions.DELETE("/:id", rolePermissionHandler.DeleteRolePermission)
 		}
 	}
 }

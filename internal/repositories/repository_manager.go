@@ -3,17 +3,19 @@ package repositories
 import "go.mongodb.org/mongo-driver/mongo"
 
 type RepositoryManager struct {
-	UserRepository *UserRepository
-	TeamRepository *TeamRepository
-	RoleRepository *RoleRepository
-	PermissionRepository *PermissionRepository
+    UserRepository *UserRepository
+    TeamRepository *TeamRepository
+    RoleRepository *RoleRepository
+    PermissionRepository *PermissionRepository
+    RolePermissionRepository *RolePermissionRepository
 }
 
 func NewRepositoryManager(db *mongo.Database) *RepositoryManager {
-	return &RepositoryManager{
-		UserRepository: NewUserRepository(db),
-		TeamRepository: NewTeamRepository(db),
-		RoleRepository: NewRoleRepository(db),
-		PermissionRepository: NewPermissionRepository(db),
-	}
+    return &RepositoryManager{
+        UserRepository: NewUserRepository(db),
+        TeamRepository: NewTeamRepository(db),
+        RoleRepository: NewRoleRepository(db),
+        PermissionRepository: NewPermissionRepository(db),
+        RolePermissionRepository: NewRolePermissionRepository(db),
+    }
 }

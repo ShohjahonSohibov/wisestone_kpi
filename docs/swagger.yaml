@@ -30,6 +30,16 @@ definitions:
     - name_kr
     - name_uz
     type: object
+  models.CreateRolePermission:
+    properties:
+      permission_id:
+        type: string
+      role_id:
+        type: string
+    required:
+    - permission_id
+    - role_id
+    type: object
   models.CreateTeam:
     properties:
       description_en:
@@ -84,6 +94,15 @@ definitions:
       permissions:
         items:
           $ref: '#/definitions/models.Permission'
+        type: array
+    type: object
+  models.ListRolePermissionResponse:
+    properties:
+      count:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/models.RolePermission'
         type: array
     type: object
   models.ListRoleResponse:
@@ -184,6 +203,22 @@ definitions:
     - name_kr
     - name_uz
     type: object
+  models.RolePermission:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      permission_id:
+        type: string
+      role_id:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - permission_id
+    - role_id
+    type: object
   models.Team:
     properties:
       created_at:
@@ -246,6 +281,18 @@ definitions:
     - name_kr
     - name_uz
     type: object
+  models.UpdateRolePermission:
+    properties:
+      id:
+        type: string
+      permission_id:
+        type: string
+      role_id:
+        type: string
+    required:
+    - permission_id
+    - role_id
+    type: object
   models.User:
     properties:
       created_at:
@@ -277,7 +324,7 @@ definitions:
     - full_name_uz
     - password
     type: object
-host: localhost:8080
+host: wisestone-kpi.onrender.com
 info:
   contact:
     email: support@wisestonet.com
@@ -496,6 +543,188 @@ paths:
       summary: Update existing permission
       tags:
       - Permissions
+  /api/v1/role-permissions:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all role-permissions
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: multi_search
+        type: string
+      - in: query
+        name: offset
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: permission_id
+        type: string
+      - in: query
+        name: role_id
+        type: string
+      - enum:
+        - asc
+        - desc
+        in: query
+        name: sort_order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListRolePermissionResponse'
+        "400":
+          description: 'error: Invalid parameters'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: 'error: Internal server error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List all role-permissions
+      tags:
+      - RolePermissions
+    post:
+      consumes:
+      - application/json
+      description: Create a new role-permission with the provided details
+      parameters:
+      - description: RolePermission Details
+        in: body
+        name: rolePermission
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateRolePermission'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 'message: RolePermission created successfully'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 'error: Validation error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new role-permission
+      tags:
+      - RolePermissions
+  /api/v1/role-permissions/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete role-permission by ID
+      parameters:
+      - description: RolePermission Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message: RolePermission deleted successfully'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: 'error: RolePermission not found'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete role-permission
+      tags:
+      - RolePermissions
+    get:
+      consumes:
+      - application/json
+      description: Get role-permission details by id
+      parameters:
+      - description: RolePermission Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.RolePermission'
+        "404":
+          description: 'error: RolePermission not found'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: 'error: Internal server error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get role-permission by id
+      tags:
+      - RolePermissions
+    put:
+      consumes:
+      - application/json
+      description: Update role-permission details by ID
+      parameters:
+      - description: RolePermission ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: RolePermission Details
+        in: body
+        name: rolePermission
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateRolePermission'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message: RolePermission updated successfully'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 'error: Validation error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: 'error: RolePermission not found'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update existing role-permission
+      tags:
+      - RolePermissions
   /api/v1/roles:
     get:
       consumes:
