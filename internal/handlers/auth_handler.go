@@ -23,23 +23,40 @@ func NewAuthHandler(authService *services.AuthService) *AuthHandler {
 // @Accept json
 // @Produce json
 // @Param credentials body models.LoginRequest true "Login Request"
-// @Success 200 {object} map[string]string "token: JWT Token"
+// @Success 200 {object} models.LoginResponse "token: JWT Token"
 // @Failure 401 {object} map[string]string "error: Unauthorized"
 // @Failure 500 {object} map[string]string "error: Internal server error"
 // @Router /api/v1/auth/login [post]
 func (h *AuthHandler) Login(c *gin.Context) {
-	req := &models.LoginRequest{}
+    req := &models.LoginRequest{}
 
-	if err := c.ShouldBindJSON(req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+    if err := c.ShouldBindJSON(req); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
 
-	token, err := h.authService.Login(c.Request.Context(), req.Username, req.Password)
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
-		return
-	}
+    // Validate required fields
+    if req.Username == "" || req.Password == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "username and password are required"})
+        return
+    }
 
-	c.JSON(http.StatusOK, gin.H{"token": token})
+    res, err := h.authService.Login(c.Request.Context(), req.Username, req.Password)
+    if err != nil {
+        // Handle different types of errors with appropriate status codes
+        switch err.Error() {
+        case "user not found", "invalid credentials":
+            c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+        default:
+            c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+        }
+        return
+    }
+
+    if res == nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate login response"})
+        return
+    }
+
+    c.JSON(http.StatusOK, res)
 }

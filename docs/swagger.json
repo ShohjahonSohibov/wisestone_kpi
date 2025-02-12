@@ -9,7 +9,7 @@
         },
         "version": "1.0"
     },
-    "host": "wisestone-kpi.onrender.com",
+    "host": "wisestone-kpi.onrender.com/",
     "basePath": "/",
     "paths": {
         "/api/v1/auth/login": {
@@ -40,10 +40,7 @@
                     "200": {
                         "description": "token: JWT Token",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/models.LoginResponse"
                         }
                     },
                     "401": {
@@ -1231,14 +1228,22 @@
             "type": "object",
             "required": [
                 "email",
-                "full_name",
+                "full_name_en",
+                "full_name_kr",
+                "full_name_uz",
                 "password"
             ],
             "properties": {
                 "email": {
                     "type": "string"
                 },
-                "full_name": {
+                "full_name_en": {
+                    "type": "string"
+                },
+                "full_name_kr": {
+                    "type": "string"
+                },
+                "full_name_uz": {
                     "type": "string"
                 },
                 "password": {
@@ -1248,6 +1253,9 @@
                     "type": "string"
                 },
                 "role_id": {
+                    "type": "string"
+                },
+                "username": {
                     "type": "string"
                 }
             }
@@ -1315,6 +1323,39 @@
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.LoginResponse": {
+            "type": "object",
+            "properties": {
+                "role_id": {
+                    "$ref": "#/definitions/models.LoginResponseRole"
+                },
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.LoginResponseRole": {
+            "type": "object",
+            "required": [
+                "name_en",
+                "name_kr",
+                "name_uz"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_kr": {
+                    "type": "string"
+                },
+                "name_uz": {
                     "type": "string"
                 }
             }
@@ -1512,6 +1553,9 @@
                     "type": "string"
                 },
                 "updated_at": {
+                    "type": "string"
+                },
+                "username": {
                     "type": "string"
                 }
             }

@@ -12,7 +12,7 @@ type ServiceManager struct {
 
 func NewServiceManager(repoManager *repositories.RepositoryManager) *ServiceManager {
 	return &ServiceManager{
-		AuthService:       NewAuthService(repoManager.UserRepository),
+		AuthService:       NewAuthService(repoManager.UserRepository, repoManager.RoleRepository),
 		UserService:       NewUserService(repoManager.UserRepository),
 		TeamService:       NewTeamService(repoManager.TeamRepository),
 		RoleService:       NewRoleService(repoManager.RoleRepository),

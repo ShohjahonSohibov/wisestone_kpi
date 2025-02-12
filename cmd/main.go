@@ -22,7 +22,7 @@ import (
 // @contact.name Developer Team
 // @contact.email support@wisestonet.com
 // @host localhost:8080
-// @host wisestone-kpi.onrender.com
+// @host wisestone-kpi.onrender.com/
 // @BasePath /
 // ... existing swagger comments ...
 

@@ -46,10 +46,7 @@ const docTemplate = `{
                     "200": {
                         "description": "token: JWT Token",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/models.LoginResponse"
                         }
                     },
                     "401": {
@@ -1237,14 +1234,22 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "email",
-                "full_name",
+                "full_name_en",
+                "full_name_kr",
+                "full_name_uz",
                 "password"
             ],
             "properties": {
                 "email": {
                     "type": "string"
                 },
-                "full_name": {
+                "full_name_en": {
+                    "type": "string"
+                },
+                "full_name_kr": {
+                    "type": "string"
+                },
+                "full_name_uz": {
                     "type": "string"
                 },
                 "password": {
@@ -1254,6 +1259,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "role_id": {
+                    "type": "string"
+                },
+                "username": {
                     "type": "string"
                 }
             }
@@ -1321,6 +1329,39 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.LoginResponse": {
+            "type": "object",
+            "properties": {
+                "role_id": {
+                    "$ref": "#/definitions/models.LoginResponseRole"
+                },
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.LoginResponseRole": {
+            "type": "object",
+            "required": [
+                "name_en",
+                "name_kr",
+                "name_uz"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_kr": {
+                    "type": "string"
+                },
+                "name_uz": {
                     "type": "string"
                 }
             }
@@ -1519,6 +1560,9 @@ const docTemplate = `{
                 },
                 "updated_at": {
                     "type": "string"
+                },
+                "username": {
+                    "type": "string"
                 }
             }
         }
@@ -1528,7 +1572,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "wisestone-kpi.onrender.com",
+	Host:             "wisestone-kpi.onrender.com/",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "KPI System API",
