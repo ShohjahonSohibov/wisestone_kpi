@@ -24,7 +24,6 @@ import (
 // @host localhost:8080
 // @host wisestone-kpi.onrender.com
 // @BasePath /
-// ... existing swagger comments ...
 
 func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
