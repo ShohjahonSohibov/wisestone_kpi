@@ -45,7 +45,7 @@ func (h *AuthHandler) Login(c *gin.Context) {
     if err != nil {
         // Handle different types of errors with appropriate status codes
         switch err.Error() {
-        case "user not found", "invalid credentials":
+        case "user not found", "invalid email or password":
             c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
         default:
             c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
