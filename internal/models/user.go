@@ -42,7 +42,7 @@ type ListUsersResponse struct {
 }
 
 type ListUsersRequest struct {
-	Filter Filter `json:"filter"`
+	Filter
 }
 
 // BeforeCreate sets timestamps before creating a record

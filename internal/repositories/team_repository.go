@@ -10,6 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type TeamRepository struct {
@@ -38,17 +39,53 @@ func (r *TeamRepository) FindByID(ctx context.Context, id string) (*models.Team,
 }
 
 func (r *TeamRepository) FindAll(ctx context.Context, filter *models.ListTeamsRequest) (*models.ListTeamsResponse, error) {
-	cursor, err := r.collection.Find(ctx, bson.M{})
+	findOptions := options.Find()
+	filterQuery := bson.M{}
+
+	// Add search functionality for names
+	if filter.MultiSearch != "" {
+		filterQuery["$or"] = []bson.M{
+			{"name_uz": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
+			{"name_en": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
+			{"name_kr": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
+		}
+	}
+	// Add sorting functionality
+	if filter.SortOrder == "asc" {
+		findOptions.SetSort(bson.M{"_id": -1})
+	} else if filter.SortOrder == "desc" {
+		findOptions.SetSort(bson.M{"_id": 1})
+	}
+	// Apply pagination
+	if filter.Limit > 0 {
+		findOptions.SetLimit(int64(filter.Limit))
+		findOptions.SetSkip(int64(filter.Offset))
+	}
+	
+	// Get total count
+	total, err := r.collection.CountDocuments(ctx, filterQuery)
+	if err != nil {
+		return nil, err
+	}
+
+	// Execute the query with pagination
+	cursor, err := r.collection.Find(ctx, filterQuery, findOptions)
 	if err != nil {
 		return nil, err
 	}
 	defer cursor.Close(ctx)
 
-	var teams *models.ListTeamsResponse
+	var teams []*models.Team
 	if err = cursor.All(ctx, &teams); err != nil {
 		return nil, err
 	}
-	return teams, nil
+
+	response := &models.ListTeamsResponse{
+		Teams: teams,
+		Count: int(total),
+	}
+
+	return response, nil
 }
 
 func (r *TeamRepository) Create(ctx context.Context, team *models.Team) error {

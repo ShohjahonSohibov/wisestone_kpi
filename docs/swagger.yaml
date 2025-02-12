@@ -1,5 +1,27 @@
 basePath: /
 definitions:
+  models.CreateTeam:
+    properties:
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      description_uz:
+        type: string
+      leader_id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      name_uz:
+        type: string
+    required:
+    - leader_id
+    - name_en
+    - name_kr
+    - name_uz
+    type: object
   models.CreateUser:
     properties:
       email:
@@ -17,21 +39,14 @@ definitions:
     - full_name
     - password
     type: object
-  models.Filter:
+  models.ListTeamsResponse:
     properties:
-      limit:
+      count:
         type: integer
-      multi_search:
-        type: string
-      offset:
-        type: integer
-      page:
-        type: integer
-      sort_order:
-        enum:
-        - asc
-        - desc
-        type: string
+      teams:
+        items:
+          $ref: '#/definitions/models.Team'
+        type: array
     type: object
   models.ListUsersResponse:
     properties:
@@ -48,6 +63,34 @@ definitions:
         type: string
       username:
         type: string
+    type: object
+  models.Team:
+    properties:
+      created_at:
+        type: string
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      description_uz:
+        type: string
+      id:
+        type: string
+      leader_id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      name_uz:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - leader_id
+    - name_en
+    - name_kr
+    - name_uz
     type: object
   models.User:
     properties:
@@ -78,7 +121,7 @@ definitions:
     - full_name_uz
     - password
     type: object
-host: wisestone-kpi.onrender.com
+host: localhost:8080
 info:
   contact:
     email: support@wisestonet.com
@@ -123,11 +166,206 @@ paths:
       summary: Authenticate an existing user
       tags:
       - Authentication
+  /api/v1/teams:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all teams
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: multi_search
+        type: string
+      - in: query
+        name: offset
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - enum:
+        - asc
+        - desc
+        in: query
+        name: sort_order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListTeamsResponse'
+        "400":
+          description: 'error: Invalid parameters'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: 'error: Internal server error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List all teams
+      tags:
+      - Teams
+    post:
+      consumes:
+      - application/json
+      description: Create a new team with the provided details
+      parameters:
+      - description: Team Details
+        in: body
+        name: team
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateTeam'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 'message: Team created successfully'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 'error: Validation error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new team
+      tags:
+      - Teams
+  /api/v1/teams/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete team by ID
+      parameters:
+      - description: Team Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message: Team deleted successfully'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: 'error: Team not found'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete team
+      tags:
+      - Teams
+    get:
+      consumes:
+      - application/json
+      description: Get team details by id
+      parameters:
+      - description: Team Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Team'
+        "404":
+          description: 'error: Team not found'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: 'error: Internal server error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get team by id
+      tags:
+      - Teams
+    put:
+      consumes:
+      - application/json
+      description: Update team details by ID
+      parameters:
+      - description: Team ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Team Details
+        in: body
+        name: team
+        required: true
+        schema:
+          $ref: '#/definitions/models.Team'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message: Team updated successfully'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 'error: Validation error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: 'error: Team not found'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update existing team
+      tags:
+      - Teams
   /api/v1/users:
     get:
       consumes:
       - application/json
       description: Get a list of all users
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: multi_search
+        type: string
+      - in: query
+        name: offset
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - enum:
+        - asc
+        - desc
+        in: query
+        name: sort_order
+        type: string
       produces:
       - application/json
       responses:

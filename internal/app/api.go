@@ -17,6 +17,7 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 	// Initialize handlers
 	authHandler := handlers.NewAuthHandler(serviceManager.AuthService)
 	userHandler := handlers.NewUserHandler(serviceManager.UserService)
+	teamHandler := handlers.NewTeamHandler(serviceManager.TeamService)
 
 	// API routes
 	api := router.Group("/api/v1") // Add version for better API management
@@ -37,6 +38,15 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 			users.PUT(":id", userHandler.UpdateUser)
 			// Add DELETE endpoint for completeness
 			users.DELETE("/:id", userHandler.DeleteUser)
+		}
+
+		teams := api.Group("/teams")
+		{
+				teams.GET("", teamHandler.ListTeams)
+				teams.GET("/:id", teamHandler.GetTeam)
+				teams.POST("", teamHandler.CreateTeam)
+				teams.PUT("/:id", teamHandler.UpdateTeam)
+				teams.DELETE("/:id", teamHandler.DeleteTeam)
 		}
 	}
 }
