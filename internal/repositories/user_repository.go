@@ -20,9 +20,9 @@ func NewUserRepository(db *mongo.Database) *UserRepository {
 	return &UserRepository{collection: db.Collection("users")}
 }
 
-func (r *UserRepository) FindByEmail(ctx context.Context, email string) (*models.User, error) {
+func (r *UserRepository) FindByUsername(ctx context.Context, username string) (*models.User, error) {
 	var user models.User
-	err := r.collection.FindOne(ctx, bson.M{"email": email}).Decode(&user)
+	err := r.collection.FindOne(ctx, bson.M{"username": username}).Decode(&user)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, nil
@@ -70,7 +70,6 @@ func (r *UserRepository) Create(ctx context.Context, user *models.User) error {
 }
 
 func (r *UserRepository) Update(ctx context.Context, user *models.User) error {
-	user.BeforeUpdate()
 	objectID, err := primitive.ObjectIDFromHex(user.ID)
 	if err != nil {
 		return err
@@ -78,11 +77,13 @@ func (r *UserRepository) Update(ctx context.Context, user *models.User) error {
 
 	// Convert user struct to map to avoid issues with bson tags
 	userMap := bson.M{
-		"email":     user.Email,
-		"password":  user.Password,
-		"full_name": user.FullName,
-		"role_id":   user.RoleId,
-		"updated_at": time.Now(),
+		"email":        user.Email,
+		"password":     user.Password,
+		"full_name_uz": user.FullNameUz,
+		"full_name_en": user.FullNameEn,
+		"full_name_kr": user.FullNameKr,
+		"role_id":      user.RoleId,
+		"updated_at":   time.Now(),
 	}
 
 	res, err := r.collection.UpdateOne(

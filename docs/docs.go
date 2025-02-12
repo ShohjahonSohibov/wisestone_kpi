@@ -387,10 +387,10 @@ const docTemplate = `{
         "models.LoginRequest": {
             "type": "object",
             "properties": {
-                "email": {
+                "password": {
                     "type": "string"
                 },
-                "password": {
+                "username": {
                     "type": "string"
                 }
             }
@@ -399,7 +399,9 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "email",
-                "full_name",
+                "full_name_en",
+                "full_name_kr",
+                "full_name_uz",
                 "password"
             ],
             "properties": {
@@ -409,7 +411,13 @@ const docTemplate = `{
                 "email": {
                     "type": "string"
                 },
-                "full_name": {
+                "full_name_en": {
+                    "type": "string"
+                },
+                "full_name_kr": {
+                    "type": "string"
+                },
+                "full_name_uz": {
                     "type": "string"
                 },
                 "id": {

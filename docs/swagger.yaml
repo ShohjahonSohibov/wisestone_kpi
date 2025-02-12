@@ -44,9 +44,9 @@ definitions:
     type: object
   models.LoginRequest:
     properties:
-      email:
-        type: string
       password:
+        type: string
+      username:
         type: string
     type: object
   models.User:
@@ -55,7 +55,11 @@ definitions:
         type: string
       email:
         type: string
-      full_name:
+      full_name_en:
+        type: string
+      full_name_kr:
+        type: string
+      full_name_uz:
         type: string
       id:
         type: string
@@ -69,7 +73,9 @@ definitions:
         type: string
     required:
     - email
-    - full_name
+    - full_name_en
+    - full_name_kr
+    - full_name_uz
     - password
     type: object
 host: wisestone-kpi.onrender.com

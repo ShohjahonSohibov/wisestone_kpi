@@ -20,8 +20,8 @@ func NewAuthService(userRepo *repositories.UserRepository) *AuthService {
 	return &AuthService{userRepo: userRepo}
 }
 
-func (s *AuthService) Login(ctx context.Context, email, password string) (string, error) {
-	user, err := s.userRepo.FindByEmail(ctx, email)
+func (s *AuthService) Login(ctx context.Context, username, password string) (string, error) {
+	user, err := s.userRepo.FindByUsername(ctx, username)
 	if err != nil || user == nil {
 		return "", errors.New("invalid email or password")
 	}

@@ -24,6 +24,7 @@ import (
 // @host localhost:8080
 // @host wisestone-kpi.onrender.com
 // @BasePath /
+// ... existing swagger comments ...
 
 func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -36,6 +37,21 @@ func main() {
 
 	db := client.Database("kpi_system")
 	router := gin.Default()
+
+	// CORS middleware configuration
+	router.Use(func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
+	})
 
 	// Swagger endpoint
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

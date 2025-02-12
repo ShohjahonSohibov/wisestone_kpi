@@ -18,8 +18,8 @@ func NewUserService(userRepo *repositories.UserRepository) *UserService {
 	return &UserService{userRepo: userRepo}
 }
 
-func (s *UserService) GetById(ctx context.Context, email string) (*models.User, error) {
-	user, err := s.userRepo.FindByEmail(ctx, email)
+func (s *UserService) GetById(ctx context.Context, id string) (*models.User, error) {
+	user, err := s.userRepo.FindByID(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -30,7 +30,7 @@ func (s *UserService) GetById(ctx context.Context, email string) (*models.User, 
 }
 
 func (s *UserService) Create(ctx context.Context, user *models.User) error {
-	existingUser, _ := s.userRepo.FindByEmail(ctx, user.Email)
+	existingUser, _ := s.userRepo.FindByID(ctx, user.ID)
 	if existingUser != nil {
 		return errors.New("user already exists")
 	}
