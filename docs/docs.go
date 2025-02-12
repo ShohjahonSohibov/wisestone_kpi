@@ -167,9 +167,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/users/{email}": {
+        "/api/v1/users/{id}": {
             "get": {
-                "description": "Get user details by email",
+                "description": "Get user details by id",
                 "consumes": [
                     "application/json"
                 ],
@@ -179,12 +179,12 @@ const docTemplate = `{
                 "tags": [
                     "Users"
                 ],
-                "summary": "Get user by email",
+                "summary": "Get user by id",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "User Email",
-                        "name": "email",
+                        "description": "User Id",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -215,9 +215,7 @@ const docTemplate = `{
                         }
                     }
                 }
-            }
-        },
-        "/api/v1/users/{id}": {
+            },
             "put": {
                 "description": "Update user details by ID",
                 "consumes": [
@@ -437,7 +435,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "wisestone-kpi.onrender.com",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "KPI System API",

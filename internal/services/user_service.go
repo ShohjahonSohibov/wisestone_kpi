@@ -18,7 +18,7 @@ func NewUserService(userRepo *repositories.UserRepository) *UserService {
 	return &UserService{userRepo: userRepo}
 }
 
-func (s *UserService) GetByEmail(ctx context.Context, email string) (*models.User, error) {
+func (s *UserService) GetById(ctx context.Context, email string) (*models.User, error) {
 	user, err := s.userRepo.FindByEmail(ctx, email)
 	if err != nil {
 		return nil, err

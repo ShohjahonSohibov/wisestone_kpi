@@ -9,7 +9,7 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "wisestone-kpi.onrender.com",
     "basePath": "/",
     "paths": {
         "/api/v1/auth/login": {
@@ -161,9 +161,9 @@
                 }
             }
         },
-        "/api/v1/users/{email}": {
+        "/api/v1/users/{id}": {
             "get": {
-                "description": "Get user details by email",
+                "description": "Get user details by id",
                 "consumes": [
                     "application/json"
                 ],
@@ -173,12 +173,12 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Get user by email",
+                "summary": "Get user by id",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "User Email",
-                        "name": "email",
+                        "description": "User Id",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
@@ -209,9 +209,7 @@
                         }
                     }
                 }
-            }
-        },
-        "/api/v1/users/{id}": {
+            },
             "put": {
                 "description": "Update user details by ID",
                 "consumes": [

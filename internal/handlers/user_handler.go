@@ -19,19 +19,19 @@ func NewUserHandler(userService *services.UserService) *UserHandler {
 }
 
 // GetUser godoc
-// @Summary Get user by email
-// @Description Get user details by email
+// @Summary Get user by id
+// @Description Get user details by id
 // @Tags Users
 // @Accept json
 // @Produce json
-// @Param email path string true "User Email"
+// @Param id path string true "User Id"
 // @Success 200 {object} models.User
 // @Failure 404 {object} map[string]string "error: User not found"
 // @Failure 500 {object} map[string]string "error: Internal server error"
-// @Router /api/v1/users/{email} [get]
+// @Router /api/v1/users/{id} [get]
 func (h *UserHandler) GetUser(c *gin.Context) {
-	email := c.Param("email")
-	user, err := h.userService.GetByEmail(c.Request.Context(), email)
+	id := c.Param("id")
+	user, err := h.userService.GetById(c.Request.Context(), id)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
