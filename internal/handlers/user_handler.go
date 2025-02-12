@@ -127,11 +127,7 @@ func (h *UserHandler) DeleteUser(c *gin.Context) {
 // @Router /api/v1/users [get]
 func (h *UserHandler) ListUsers(c *gin.Context) {
 	filter := &models.ListUsersRequest{}
-	if err := c.ShouldBindQuery(filter); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
+	
 	offset, limit, err := getPageOffsetLimit(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -139,6 +135,8 @@ func (h *UserHandler) ListUsers(c *gin.Context) {
 	}
 	filter.Filter.Offset = offset
 	filter.Filter.Limit = limit
+	filter.MultiSearch = c.Query("multi_search")
+	filter.SortOrder = c.Query("sort_order")
 
 	users, err := h.userService.List(c.Request.Context(), filter)
 	if err != nil {

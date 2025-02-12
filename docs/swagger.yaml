@@ -1,5 +1,35 @@
 basePath: /
 definitions:
+  models.CreatePermission:
+    properties:
+      action_kr:
+        type: string
+      action_ru:
+        type: string
+      action_uz:
+        type: string
+      description_kr:
+        type: string
+      description_ru:
+        type: string
+      description_uz:
+        type: string
+    required:
+    - action_kr
+    type: object
+  models.CreateRole:
+    properties:
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      name_uz:
+        type: string
+    required:
+    - name_en
+    - name_kr
+    - name_uz
+    type: object
   models.CreateTeam:
     properties:
       description_en:
@@ -39,6 +69,24 @@ definitions:
     - full_name
     - password
     type: object
+  models.ListPermissionResponse:
+    properties:
+      count:
+        type: integer
+      permissions:
+        items:
+          $ref: '#/definitions/models.Permission'
+        type: array
+    type: object
+  models.ListRoleResponse:
+    properties:
+      count:
+        type: integer
+      teams:
+        items:
+          $ref: '#/definitions/models.Role'
+        type: array
+    type: object
   models.ListTeamsResponse:
     properties:
       count:
@@ -64,6 +112,48 @@ definitions:
       username:
         type: string
     type: object
+  models.Permission:
+    properties:
+      action_kr:
+        type: string
+      action_ru:
+        type: string
+      action_uz:
+        type: string
+      created_at:
+        type: string
+      description_kr:
+        type: string
+      description_ru:
+        type: string
+      description_uz:
+        type: string
+      id:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - action_kr
+    type: object
+  models.Role:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      name_uz:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - name_en
+    - name_kr
+    - name_uz
+    type: object
   models.Team:
     properties:
       created_at:
@@ -88,6 +178,40 @@ definitions:
         type: string
     required:
     - leader_id
+    - name_en
+    - name_kr
+    - name_uz
+    type: object
+  models.UpdatePermission:
+    properties:
+      action_kr:
+        type: string
+      action_ru:
+        type: string
+      action_uz:
+        type: string
+      description_kr:
+        type: string
+      description_ru:
+        type: string
+      description_uz:
+        type: string
+      id:
+        type: string
+    required:
+    - action_kr
+    type: object
+  models.UpdateRole:
+    properties:
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      name_uz:
+        type: string
+    required:
     - name_en
     - name_kr
     - name_uz
@@ -121,7 +245,7 @@ definitions:
     - full_name_uz
     - password
     type: object
-host: localhost:8080
+host: wisestone-kpi.onrender.com
 info:
   contact:
     email: support@wisestonet.com
@@ -166,6 +290,358 @@ paths:
       summary: Authenticate an existing user
       tags:
       - Authentication
+  /api/v1/permissions:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all permissions
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: multi_search
+        type: string
+      - in: query
+        name: offset
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - enum:
+        - asc
+        - desc
+        in: query
+        name: sort_order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListPermissionResponse'
+        "400":
+          description: 'error: Invalid parameters'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: 'error: Internal server error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List all permissions
+      tags:
+      - Permissions
+    post:
+      consumes:
+      - application/json
+      description: Create a new permission with the provided details
+      parameters:
+      - description: Permission Details
+        in: body
+        name: permission
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreatePermission'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 'message: Permission created successfully'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 'error: Validation error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new permission
+      tags:
+      - Permissions
+  /api/v1/permissions/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete permission by ID
+      parameters:
+      - description: Permission Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message: Permission deleted successfully'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: 'error: Permission not found'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete permission
+      tags:
+      - Permissions
+    get:
+      consumes:
+      - application/json
+      description: Get permission details by id
+      parameters:
+      - description: Permission Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Permission'
+        "404":
+          description: 'error: Permission not found'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: 'error: Internal server error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get permission by id
+      tags:
+      - Permissions
+    put:
+      consumes:
+      - application/json
+      description: Update permission details by ID
+      parameters:
+      - description: Permission ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Permission Details
+        in: body
+        name: permission
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdatePermission'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message: Permission updated successfully'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 'error: Validation error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: 'error: Permission not found'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update existing permission
+      tags:
+      - Permissions
+  /api/v1/roles:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all roles
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: multi_search
+        type: string
+      - in: query
+        name: offset
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - enum:
+        - asc
+        - desc
+        in: query
+        name: sort_order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListRoleResponse'
+        "400":
+          description: 'error: Invalid parameters'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: 'error: Internal server error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List all roles
+      tags:
+      - Roles
+    post:
+      consumes:
+      - application/json
+      description: Create a new role with the provided details
+      parameters:
+      - description: Role Details
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateRole'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 'message: Role created successfully'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 'error: Validation error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new role
+      tags:
+      - Roles
+  /api/v1/roles/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete role by ID
+      parameters:
+      - description: Role Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message: Role deleted successfully'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: 'error: Role not found'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete role
+      tags:
+      - Roles
+    get:
+      consumes:
+      - application/json
+      description: Get role details by id
+      parameters:
+      - description: Role Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Role'
+        "404":
+          description: 'error: Role not found'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: 'error: Internal server error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get role by id
+      tags:
+      - Roles
+    put:
+      consumes:
+      - application/json
+      description: Update role details by ID
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Role Details
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateRole'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message: Role updated successfully'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 'error: Validation error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: 'error: Role not found'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update existing role
+      tags:
+      - Roles
   /api/v1/teams:
     get:
       consumes:

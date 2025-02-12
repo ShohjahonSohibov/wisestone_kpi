@@ -19,6 +19,12 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 	userHandler := handlers.NewUserHandler(serviceManager.UserService)
 	teamHandler := handlers.NewTeamHandler(serviceManager.TeamService)
 
+	// Initialize role handler
+	roleHandler := handlers.NewRoleHandler(serviceManager.RoleService)
+
+	// Initialize permission handler
+	permissionHandler := handlers.NewPermissionHandler(serviceManager.PermissionService)
+
 	// API routes
 	api := router.Group("/api/v1") // Add version for better API management
 	{
@@ -42,11 +48,31 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 
 		teams := api.Group("/teams")
 		{
-				teams.GET("", teamHandler.ListTeams)
-				teams.GET("/:id", teamHandler.GetTeam)
-				teams.POST("", teamHandler.CreateTeam)
-				teams.PUT("/:id", teamHandler.UpdateTeam)
-				teams.DELETE("/:id", teamHandler.DeleteTeam)
+			teams.GET("", teamHandler.ListTeams)
+			teams.GET("/:id", teamHandler.GetTeam)
+			teams.POST("", teamHandler.CreateTeam)
+			teams.PUT("/:id", teamHandler.UpdateTeam)
+			teams.DELETE("/:id", teamHandler.DeleteTeam)
+		}
+
+		// Role routes
+		roles := api.Group("/roles")
+		{
+			roles.GET("", roleHandler.ListRoles)
+			roles.GET("/:id", roleHandler.GetRole)
+			roles.POST("", roleHandler.CreateRole)
+			roles.PUT("/:id", roleHandler.UpdateRole)
+			roles.DELETE("/:id", roleHandler.DeleteRole)
+		}
+
+		// Permission routes
+		permissions := api.Group("/permissions")
+		{
+			permissions.GET("", permissionHandler.ListPermissions)
+			permissions.GET("/:id", permissionHandler.GetPermission)
+			permissions.POST("", permissionHandler.CreatePermission)
+			permissions.PUT("/:id", permissionHandler.UpdatePermission)
+			permissions.DELETE("/:id", permissionHandler.DeletePermission)
 		}
 	}
 }
