@@ -15,6 +15,7 @@ type RolePermission struct {
 	UpdatedAt    time.Time       `json:"updated_at,omitempty" bson:"updated_at"`
 }
 
+
 type CreateRolePermission struct {
 	RoleId       string `bson:"role_id" json:"role_id" binding:"required"`
 	PermissionId string `bson:"permission_id" json:"permission_id" binding:"required"`
