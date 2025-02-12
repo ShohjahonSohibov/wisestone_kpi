@@ -142,7 +142,6 @@ func (r *UserRepository) Update(ctx context.Context, user *models.User) error {
 }
 
 func (r *UserRepository) Delete(ctx context.Context, id string) error {
-	fmt.Println("here")
 	objectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return err

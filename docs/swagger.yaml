@@ -209,15 +209,36 @@ definitions:
         type: string
       id:
         type: string
-      permission_id:
-        type: string
-      role_id:
+      permission:
+        $ref: '#/definitions/models.ShortPermission'
+      role:
+        $ref: '#/definitions/models.ShortRole'
+      role_uz:
         type: string
       updated_at:
         type: string
-    required:
-    - permission_id
-    - role_id
+    type: object
+  models.ShortPermission:
+    properties:
+      action_kr:
+        type: string
+      action_ru:
+        type: string
+      action_uz:
+        type: string
+      id:
+        type: string
+    type: object
+  models.ShortRole:
+    properties:
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      name_uz:
+        type: string
     type: object
   models.Team:
     properties:

@@ -10,7 +10,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type RolePermissionRepository struct {
@@ -20,98 +19,145 @@ type RolePermissionRepository struct {
 func NewRolePermissionRepository(db *mongo.Database) *RolePermissionRepository {
 	return &RolePermissionRepository{collection: db.Collection("role_permissions")}
 }
-
 func (r *RolePermissionRepository) FindByID(ctx context.Context, id string) (*models.RolePermission, error) {
-	// objectID, err := primitive.ObjectIDFromHex(id)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	// pipeline := mongo.Pipeline{
-	// 	{
-	// 		{"$match": bson.M{"_id": objectID}},
-	// 	},
-	// 	{
-	// 		{"$lookup": bson.M{
-	// 			"from":         "roles",
-	// 			"localField":   "role_id",
-	// 			"foreignField": "_id",
-	// 			"as":          "role",
-	// 		}},
-	// 	},
-	// 	{
-	// 		{"$lookup": bson.M{
-	// 			"from":         "permissions",
-	// 			"localField":   "permission_id",
-	// 			"foreignField": "_id",
-	// 			"as":          "permission",
-	// 		}},
-	// 	},
-	// 	{
-	// 		{"$unwind": "$role"},
-	// 	},
-	// 	{
-	// 		{"$unwind": "$permission"},
-	// 	},
-	// 	{
-	// 		{"$project": bson.M{
-	// 			"_id":            1,
-	// 			"role_id":        1,
-	// 			"permission_id":   1,
-	// 			"created_at":     1,
-	// 			"updated_at":     1,
-	// 			"role_name_uz":   "$role.name_uz",
-	// 			"role_name_en":   "$role.name_en",
-	// 			"role_name_kr":   "$role.name_kr",
-	// 			"perm_name_uz":   "$permission.name_uz",
-	// 			"perm_name_en":   "$permission.name_en",
-	// 			"perm_name_kr":   "$permission.name_kr",
-	// 		}},
-	// 	},
-	// }
-
-	// cursor, err := r.collection.Aggregate(ctx, pipeline)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// defer cursor.Close(ctx)
-
-	// var results []models.RolePermission
-	// if err = cursor.All(ctx, &results); err != nil {
-	// 	return nil, err
-	// }
-
-	// if len(results) == 0 {
-	// 	return nil, nil
-	// }
-
-	// return &results[0], nil
-	return nil, nil
-}
-
-func (r *RolePermissionRepository) FindAll(ctx context.Context, filter *models.ListRolePermissionRequest) (*models.ListRolePermissionResponse, error) {
-	findOptions := options.Find()
-	filterQuery := bson.M{}
-
-	// Add filters for role_id and permission_id if they are provided
-	if filter.RoleId != "" {
-		filterQuery["role_id"] = filter.RoleId
-	}
-	if filter.PermissionId != "" {
-		filterQuery["permission_id"] = filter.PermissionId
-	}
-
-	if filter.Limit > 0 {
-		findOptions.SetLimit(int64(filter.Limit))
-		findOptions.SetSkip(int64(filter.Offset))
-	}
-
-	total, err := r.collection.CountDocuments(ctx, filterQuery)
+	objectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err
 	}
 
-	cursor, err := r.collection.Find(ctx, filterQuery, findOptions)
+	pipeline := []bson.M{
+		{
+			"$match": bson.M{
+				"_id": objectID,
+			},
+		},
+		{
+			"$addFields": bson.M{
+				"role_id_obj":       bson.M{"$toObjectId": "$role_id"},
+				"permission_id_obj": bson.M{"$toObjectId": "$permission_id"},
+			},
+		},
+		{
+			"$lookup": bson.M{
+				"from":         "roles",
+				"localField":   "role_id_obj",
+				"foreignField": "_id",
+				"as":           "role",
+			},
+		},
+		{
+			"$lookup": bson.M{
+				"from":         "permissions",
+				"localField":   "permission_id_obj",
+				"foreignField": "_id",
+				"as":           "permission",
+			},
+		},
+		{
+			"$unwind": bson.M{
+				"path":                       "$role",
+				"preserveNullAndEmptyArrays": true,
+			},
+		},
+		{
+			"$unwind": bson.M{
+				"path":                       "$permission",
+				"preserveNullAndEmptyArrays": true,
+			},
+		},
+		{
+			"$project": bson.M{
+				"_id":           1,
+				"role_id":       1,
+				"permission_id": 1,
+				"role":          1,
+				"permission":    1,
+				"created_at":    1,
+				"updated_at":    1,
+			},
+		},
+	}
+
+	cursor, err := r.collection.Aggregate(ctx, pipeline)
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(ctx)
+
+	var results []models.RolePermission
+	if err = cursor.All(ctx, &results); err != nil {
+		return nil, err
+	}
+
+	if len(results) == 0 {
+		return nil, nil
+	}
+
+	return &results[0], nil
+}
+
+func (r *RolePermissionRepository) FindAll(ctx context.Context, filter *models.ListRolePermissionRequest) (*models.ListRolePermissionResponse, error) {
+	matchStage := bson.M{}
+	if filter.RoleId != "" {
+		matchStage["role_id"] = filter.RoleId
+	}
+	if filter.PermissionId != "" {
+		matchStage["permission_id"] = filter.PermissionId
+	}
+
+	pipeline := []bson.M{
+		{
+			"$match": matchStage,
+		},
+		{
+			"$addFields": bson.M{
+				"role_id_obj":       bson.M{"$toObjectId": "$role_id"},
+				"permission_id_obj": bson.M{"$toObjectId": "$permission_id"},
+			},
+		},
+		{
+			"$lookup": bson.M{
+				"from":         "roles",
+				"localField":   "role_id_obj",
+				"foreignField": "_id",
+				"as":           "role",
+			},
+		},
+		{
+			"$lookup": bson.M{
+				"from":         "permissions",
+				"localField":   "permission_id_obj",
+				"foreignField": "_id",
+				"as":           "permission",
+			},
+		},
+		{
+			"$unwind": bson.M{
+				"path":                       "$role",
+				"preserveNullAndEmptyArrays": true,
+			},
+		},
+		{
+			"$unwind": bson.M{
+				"path":                       "$permission",
+				"preserveNullAndEmptyArrays": true,
+			},
+		},
+	}
+
+	// Add pagination
+	if filter.Limit > 0 {
+		pipeline = append(pipeline, bson.M{"$skip": filter.Offset})
+		pipeline = append(pipeline, bson.M{"$limit": filter.Limit})
+	}
+
+	// Get total count
+	total, err := r.collection.CountDocuments(ctx, matchStage)
+	if err != nil {
+		return nil, err
+	}
+
+	cursor, err := r.collection.Aggregate(ctx, pipeline)
 	if err != nil {
 		return nil, err
 	}
@@ -135,7 +181,7 @@ func (r *RolePermissionRepository) Create(ctx context.Context, rolePermission *m
 	return err
 }
 
-func (r *RolePermissionRepository) Update(ctx context.Context, rolePermission *models.RolePermission) error {
+func (r *RolePermissionRepository) Update(ctx context.Context, rolePermission *models.UpdateRolePermission) error {
 	objectID, err := primitive.ObjectIDFromHex(rolePermission.ID)
 	if err != nil {
 		return err
@@ -164,10 +210,24 @@ func (r *RolePermissionRepository) Update(ctx context.Context, rolePermission *m
 }
 
 func (r *RolePermissionRepository) Delete(ctx context.Context, id string) error {
-	objectID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return err
-	}
-	_, err = r.collection.DeleteOne(ctx, bson.M{"_id": objectID})
-	return err
+    // Validate ID length
+    if len(id) != 24 {
+        return fmt.Errorf("invalid ID format: length should be 24 characters")
+    }
+
+    objectID, err := primitive.ObjectIDFromHex(id)
+    if err != nil {
+        return fmt.Errorf("invalid ID format: %v", err)
+    }
+
+    result, err := r.collection.DeleteOne(ctx, bson.M{"_id": objectID})
+    if err != nil {
+        return err
+    }
+
+    if result.DeletedCount == 0 {
+        return fmt.Errorf("no role-permission found with ID: %s", id)
+    }
+
+    return nil
 }

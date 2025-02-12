@@ -1738,10 +1738,6 @@ const docTemplate = `{
         },
         "models.RolePermission": {
             "type": "object",
-            "required": [
-                "permission_id",
-                "role_id"
-            ],
             "properties": {
                 "created_at": {
                     "type": "string"
@@ -1749,13 +1745,50 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
-                "permission_id": {
-                    "type": "string"
+                "permission": {
+                    "$ref": "#/definitions/models.ShortPermission"
                 },
-                "role_id": {
+                "role": {
+                    "$ref": "#/definitions/models.ShortRole"
+                },
+                "role_uz": {
                     "type": "string"
                 },
                 "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ShortPermission": {
+            "type": "object",
+            "properties": {
+                "action_kr": {
+                    "type": "string"
+                },
+                "action_ru": {
+                    "type": "string"
+                },
+                "action_uz": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ShortRole": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_kr": {
+                    "type": "string"
+                },
+                "name_uz": {
                     "type": "string"
                 }
             }

@@ -76,7 +76,7 @@ func (h *RolePermissionHandler) CreateRolePermission(c *gin.Context) {
 // @Router /api/v1/role-permissions/{id} [put]
 func (h *RolePermissionHandler) UpdateRolePermission(c *gin.Context) {
 	id := c.Param("id")
-	var rolePermission models.RolePermission
+	var rolePermission models.UpdateRolePermission
 	if err := c.ShouldBindJSON(&rolePermission); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -103,6 +103,7 @@ func (h *RolePermissionHandler) UpdateRolePermission(c *gin.Context) {
 // @Router /api/v1/role-permissions/{id} [delete]
 func (h *RolePermissionHandler) DeleteRolePermission(c *gin.Context) {
 	id := c.Param("id")
+
 	if err := h.rolePermissionService.Delete(c.Request.Context(), id); err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return

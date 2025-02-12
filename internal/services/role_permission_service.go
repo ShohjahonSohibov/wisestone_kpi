@@ -30,7 +30,7 @@ func (s *RolePermissionService) Create(ctx context.Context, rolePermission *mode
 	return s.rolePermissionRepo.Create(ctx, rolePermission)
 }
 
-func (s *RolePermissionService) Update(ctx context.Context, rolePermission *models.RolePermission) error {
+func (s *RolePermissionService) Update(ctx context.Context, rolePermission *models.UpdateRolePermission) error {
 	existingRolePermission, err := s.rolePermissionRepo.FindByID(ctx, rolePermission.ID)
 	if err != nil {
 		return err
