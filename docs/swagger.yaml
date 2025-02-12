@@ -211,8 +211,12 @@ definitions:
         type: string
       permission:
         $ref: '#/definitions/models.ShortPermission'
+      permission_id:
+        type: string
       role:
         $ref: '#/definitions/models.ShortRole'
+      role_id:
+        type: string
       role_uz:
         type: string
       updated_at:
@@ -345,7 +349,7 @@ definitions:
     - full_name_uz
     - password
     type: object
-host: wisestone-kpi.onrender.com
+host: localhost:8080
 info:
   contact:
     email: support@wisestonet.com

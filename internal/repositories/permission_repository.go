@@ -100,25 +100,12 @@ func (r *PermissionRepository) FindAll(ctx context.Context, filter *models.ListP
 	return response, nil
 }
 
-func (r *PermissionRepository) Create(ctx context.Context, permission *models.CreatePermission) error {
-	create := &models.Permission{}
-	create.BeforeCreate()
-
-	// Create the document with correct field names
-	doc := bson.M{
-		"action_kr":      permission.ActionKr,
-		"action_ru":      permission.ActionRu,
-		"action_uz":      permission.ActionUz,
-		"description_kr": permission.DescriptionKr,
-		"description_ru": permission.DescriptionRu,
-		"description_uz": permission.DescriptionUz,
-	}
-
-	_, err := r.collection.InsertOne(ctx, doc)
+func (r *PermissionRepository) Create(ctx context.Context, permission *models.Permission) error {
+	permission.BeforeCreate()
+	_, err := r.collection.InsertOne(ctx, permission)
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
 

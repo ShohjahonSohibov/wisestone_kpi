@@ -1748,8 +1748,14 @@ const docTemplate = `{
                 "permission": {
                     "$ref": "#/definitions/models.ShortPermission"
                 },
+                "permission_id": {
+                    "type": "string"
+                },
                 "role": {
                     "$ref": "#/definitions/models.ShortRole"
+                },
+                "role_id": {
+                    "type": "string"
                 },
                 "role_uz": {
                     "type": "string"
@@ -1954,7 +1960,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "wisestone-kpi.onrender.com",
+	Host:             "localhost:8080",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "KPI System API",

@@ -27,7 +27,7 @@ func (s *PermissionService) GetById(ctx context.Context, id string) (*models.Per
 	return permission, nil
 }
 
-func (s *PermissionService) Create(ctx context.Context, permission *models.CreatePermission) error {
+func (s *PermissionService) Create(ctx context.Context, permission *models.Permission) error {
     // Check if permission with same action_kr already exists
     existing, err := s.permissionRepo.FindByAction(ctx, permission.ActionKr)
     if err != nil {

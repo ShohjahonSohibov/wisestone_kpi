@@ -48,7 +48,7 @@ func (h *PermissionHandler) GetPermission(c *gin.Context) {
 // @Failure 400 {object} map[string]string "error: Validation error"
 // @Router /api/v1/permissions [post]
 func (h *PermissionHandler) CreatePermission(c *gin.Context) {
-	permission := &models.CreatePermission{}
+	permission := &models.Permission{}
 	if err := c.ShouldBindJSON(&permission); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

@@ -5,12 +5,14 @@ import (
 )
 
 type RolePermission struct {
-	ID         string          `json:"id,omitempty" bson:"_id,omitempty"`
-	RoleUz     string          `bson:"role_uz" json:"role_uz"`
-	Role       ShortRole       `bson:"role" json:"role"`
-	Permission ShortPermission `bson:"permission" json:"permission"`
-	CreatedAt  time.Time       `json:"created_at,omitempty" bson:"created_at"`
-	UpdatedAt  time.Time       `json:"updated_at,omitempty" bson:"updated_at"`
+	ID           string          `json:"id,omitempty" bson:"_id,omitempty"`
+	RoleUz       string          `bson:"role_uz" json:"role_uz"`
+	RoleId       string          `bson:"role_id,omitempty" json:"role_id,omitempty"`
+	Role         ShortRole       `bson:"role" json:"role"`
+	PermissionId string          `bson:"permission_id,omitempty" json:"permission_id,omitempty"`
+	Permission   ShortPermission `bson:"permission" json:"permission"`
+	CreatedAt    time.Time       `json:"created_at,omitempty" bson:"created_at"`
+	UpdatedAt    time.Time       `json:"updated_at,omitempty" bson:"updated_at"`
 }
 
 type CreateRolePermission struct {

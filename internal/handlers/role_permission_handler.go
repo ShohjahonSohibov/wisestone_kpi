@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"kpi/internal/models"
 	"kpi/internal/services"
 	"net/http"
@@ -103,10 +104,16 @@ func (h *RolePermissionHandler) UpdateRolePermission(c *gin.Context) {
 // @Router /api/v1/role-permissions/{id} [delete]
 func (h *RolePermissionHandler) DeleteRolePermission(c *gin.Context) {
 	id := c.Param("id")
+	fmt.Println("here")
+	// Validate ID format
+	if len(id) != 24 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "invalid ID format"})
+			return
+	}
 
 	if err := h.rolePermissionService.Delete(c.Request.Context(), id); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+			return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "role permission deleted successfully"})
 }
