@@ -36,7 +36,6 @@ definitions:
       name_kr:
         type: string
     required:
-    - leader_id
     - name_en
     - name_kr
     type: object
@@ -48,8 +47,6 @@ definitions:
         type: string
       full_name_kr:
         type: string
-      full_name_uz:
-        type: string
       password:
         type: string
       position:
@@ -59,11 +56,8 @@ definitions:
       username:
         type: string
     required:
-    - email
-    - full_name_en
-    - full_name_kr
-    - full_name_uz
     - password
+    - username
     type: object
   models.ListPermissionResponse:
     properties:
@@ -216,7 +210,6 @@ definitions:
       updated_at:
         type: string
     required:
-    - leader_id
     - name_en
     - name_kr
     type: object
@@ -257,8 +250,6 @@ definitions:
         type: string
       full_name_kr:
         type: string
-      full_name_uz:
-        type: string
       id:
         type: string
       password:
@@ -272,11 +263,8 @@ definitions:
       username:
         type: string
     required:
-    - email
-    - full_name_en
-    - full_name_kr
-    - full_name_uz
     - password
+    - username
     type: object
 host: wisestone-kpi.onrender.com
 info:

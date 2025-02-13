@@ -1609,7 +1609,6 @@ const docTemplate = `{
         "models.CreateTeam": {
             "type": "object",
             "required": [
-                "leader_id",
                 "name_en",
                 "name_kr"
             ],
@@ -1634,11 +1633,8 @@ const docTemplate = `{
         "models.CreateUser": {
             "type": "object",
             "required": [
-                "email",
-                "full_name_en",
-                "full_name_kr",
-                "full_name_uz",
-                "password"
+                "password",
+                "username"
             ],
             "properties": {
                 "email": {
@@ -1648,9 +1644,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "full_name_kr": {
-                    "type": "string"
-                },
-                "full_name_uz": {
                     "type": "string"
                 },
                 "password": {
@@ -1873,7 +1866,6 @@ const docTemplate = `{
         "models.Team": {
             "type": "object",
             "required": [
-                "leader_id",
                 "name_en",
                 "name_kr"
             ],
@@ -1948,11 +1940,8 @@ const docTemplate = `{
         "models.User": {
             "type": "object",
             "required": [
-                "email",
-                "full_name_en",
-                "full_name_kr",
-                "full_name_uz",
-                "password"
+                "password",
+                "username"
             ],
             "properties": {
                 "created_at": {
@@ -1965,9 +1954,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "full_name_kr": {
-                    "type": "string"
-                },
-                "full_name_uz": {
                     "type": "string"
                 },
                 "id": {

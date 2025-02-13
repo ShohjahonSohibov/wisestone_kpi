@@ -60,7 +60,7 @@ func (r *TeamRepository) FindAll(ctx context.Context, filter *models.ListTeamsRe
 		findOptions.SetLimit(int64(filter.Limit))
 		findOptions.SetSkip(int64(filter.Offset))
 	}
-	
+
 	// Get total count
 	total, err := r.collection.CountDocuments(ctx, filterQuery)
 	if err != nil {

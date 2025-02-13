@@ -10,7 +10,7 @@ type Team struct {
 	NameKr        string    `bson:"name_kr" json:"name_kr" binding:"required"`
 	DescriptionEn string    `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string    `bson:"description_kr" json:"description_kr,omitempty"`
-	LeaderId      string    `bson:"leader_id" json:"leader_id" binding:"required"`
+	LeaderId      string    `bson:"leader_id" json:"leader_id"`
 	CreatedAt     time.Time `json:"created_at,omitempty" bson:"created_at"`
 	UpdatedAt     time.Time `json:"updated_at,omitempty" bson:"updated_at"`
 }
@@ -20,7 +20,7 @@ type CreateTeam struct {
 	NameKr        string `bson:"name_kr" json:"name_kr" binding:"required"`
 	DescriptionEn string `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string `bson:"description_kr" json:"description_kr,omitempty"`
-	LeaderId      string `bson:"leader_id" json:"leader_id" binding:"required"`
+	LeaderId      string `bson:"leader_id" json:"leader_id"`
 }
 
 type UpdateTeam struct {
@@ -29,7 +29,7 @@ type UpdateTeam struct {
 	NameKr        string `bson:"name_kr" json:"name_kr" binding:"required"`
 	DescriptionEn string `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string `bson:"description_kr" json:"description_kr,omitempty"`
-	LeaderId      string `bson:"leader_id" json:"leader_id" binding:"required"`
+	LeaderId      string `bson:"leader_id" json:"leader_id"`
 }
 
 type ListTeamsResponse struct {
