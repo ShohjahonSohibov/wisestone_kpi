@@ -61,7 +61,6 @@ func (s *AuthService) Login(ctx context.Context, username, password string) (*mo
 
     roleRes := &models.LoginResponseRole{
         ID:     role.ID,
-        NameUz: role.NameUz,
         NameEn: role.NameEn,
         NameKr: role.NameKr,
     }

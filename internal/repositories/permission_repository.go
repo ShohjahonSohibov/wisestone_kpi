@@ -58,10 +58,8 @@ func (r *PermissionRepository) FindAll(ctx context.Context, filter *models.ListP
 		filterQuery["$or"] = []bson.M{
 			{"action_kr": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
 			{"action_ru": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
-			{"action_uz": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
 			{"description_kr": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
 			{"description_ru": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
-			{"description_uz": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
 		}
 	}
 
@@ -118,10 +116,8 @@ func (r *PermissionRepository) Update(ctx context.Context, permission *models.Pe
 	permissionMap := bson.M{
 		"action_kr":      permission.ActionKr,
 		"action_ru":      permission.ActionRu,
-		"action_uz":      permission.ActionUz,
 		"description_kr": permission.DescriptionKr,
 		"description_ru": permission.DescriptionRu,
-		"description_uz": permission.DescriptionUz,
 		"updated_at":     time.Now(),
 	}
 

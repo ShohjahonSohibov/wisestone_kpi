@@ -6,13 +6,9 @@ definitions:
         type: string
       action_ru:
         type: string
-      action_uz:
-        type: string
       description_kr:
         type: string
       description_ru:
-        type: string
-      description_uz:
         type: string
     required:
     - action_kr
@@ -23,12 +19,9 @@ definitions:
         type: string
       name_kr:
         type: string
-      name_uz:
-        type: string
     required:
     - name_en
     - name_kr
-    - name_uz
     type: object
   models.CreateRolePermission:
     properties:
@@ -46,21 +39,16 @@ definitions:
         type: string
       description_kr:
         type: string
-      description_uz:
-        type: string
       leader_id:
         type: string
       name_en:
         type: string
       name_kr:
         type: string
-      name_uz:
-        type: string
     required:
     - leader_id
     - name_en
     - name_kr
-    - name_uz
     type: object
   models.CreateUser:
     properties:
@@ -154,12 +142,9 @@ definitions:
         type: string
       name_kr:
         type: string
-      name_uz:
-        type: string
     required:
     - name_en
     - name_kr
-    - name_uz
     type: object
   models.Permission:
     properties:
@@ -167,15 +152,11 @@ definitions:
         type: string
       action_ru:
         type: string
-      action_uz:
-        type: string
       created_at:
         type: string
       description_kr:
         type: string
       description_ru:
-        type: string
-      description_uz:
         type: string
       id:
         type: string
@@ -194,14 +175,11 @@ definitions:
         type: string
       name_kr:
         type: string
-      name_uz:
-        type: string
       updated_at:
         type: string
     required:
     - name_en
     - name_kr
-    - name_uz
     type: object
   models.RolePermission:
     properties:
@@ -217,8 +195,6 @@ definitions:
         $ref: '#/definitions/models.ShortRole'
       role_id:
         type: string
-      role_uz:
-        type: string
       updated_at:
         type: string
     type: object
@@ -227,8 +203,6 @@ definitions:
       action_kr:
         type: string
       action_ru:
-        type: string
-      action_uz:
         type: string
       id:
         type: string
@@ -241,8 +215,6 @@ definitions:
         type: string
       name_kr:
         type: string
-      name_uz:
-        type: string
     type: object
   models.Team:
     properties:
@@ -252,8 +224,6 @@ definitions:
         type: string
       description_kr:
         type: string
-      description_uz:
-        type: string
       id:
         type: string
       leader_id:
@@ -262,15 +232,12 @@ definitions:
         type: string
       name_kr:
         type: string
-      name_uz:
-        type: string
       updated_at:
         type: string
     required:
     - leader_id
     - name_en
     - name_kr
-    - name_uz
     type: object
   models.UpdatePermission:
     properties:
@@ -278,13 +245,9 @@ definitions:
         type: string
       action_ru:
         type: string
-      action_uz:
-        type: string
       description_kr:
         type: string
       description_ru:
-        type: string
-      description_uz:
         type: string
       id:
         type: string
@@ -299,12 +262,9 @@ definitions:
         type: string
       name_kr:
         type: string
-      name_uz:
-        type: string
     required:
     - name_en
     - name_kr
-    - name_uz
     type: object
   models.UpdateRolePermission:
     properties:
@@ -349,7 +309,7 @@ definitions:
     - full_name_uz
     - password
     type: object
-host: localhost:8080
+host: wisestone-kpi.onrender.com
 info:
   contact:
     email: support@wisestonet.com

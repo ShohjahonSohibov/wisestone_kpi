@@ -1443,16 +1443,10 @@ const docTemplate = `{
                 "action_ru": {
                     "type": "string"
                 },
-                "action_uz": {
-                    "type": "string"
-                },
                 "description_kr": {
                     "type": "string"
                 },
                 "description_ru": {
-                    "type": "string"
-                },
-                "description_uz": {
                     "type": "string"
                 }
             }
@@ -1461,17 +1455,13 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "name_en",
-                "name_kr",
-                "name_uz"
+                "name_kr"
             ],
             "properties": {
                 "name_en": {
                     "type": "string"
                 },
                 "name_kr": {
-                    "type": "string"
-                },
-                "name_uz": {
                     "type": "string"
                 }
             }
@@ -1496,17 +1486,13 @@ const docTemplate = `{
             "required": [
                 "leader_id",
                 "name_en",
-                "name_kr",
-                "name_uz"
+                "name_kr"
             ],
             "properties": {
                 "description_en": {
                     "type": "string"
                 },
                 "description_kr": {
-                    "type": "string"
-                },
-                "description_uz": {
                     "type": "string"
                 },
                 "leader_id": {
@@ -1516,9 +1502,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name_kr": {
-                    "type": "string"
-                },
-                "name_uz": {
                     "type": "string"
                 }
             }
@@ -1655,8 +1638,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "name_en",
-                "name_kr",
-                "name_uz"
+                "name_kr"
             ],
             "properties": {
                 "id": {
@@ -1666,9 +1648,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name_kr": {
-                    "type": "string"
-                },
-                "name_uz": {
                     "type": "string"
                 }
             }
@@ -1685,9 +1664,6 @@ const docTemplate = `{
                 "action_ru": {
                     "type": "string"
                 },
-                "action_uz": {
-                    "type": "string"
-                },
                 "created_at": {
                     "type": "string"
                 },
@@ -1695,9 +1671,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "description_ru": {
-                    "type": "string"
-                },
-                "description_uz": {
                     "type": "string"
                 },
                 "id": {
@@ -1712,8 +1685,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "name_en",
-                "name_kr",
-                "name_uz"
+                "name_kr"
             ],
             "properties": {
                 "created_at": {
@@ -1726,9 +1698,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name_kr": {
-                    "type": "string"
-                },
-                "name_uz": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -1757,9 +1726,6 @@ const docTemplate = `{
                 "role_id": {
                     "type": "string"
                 },
-                "role_uz": {
-                    "type": "string"
-                },
                 "updated_at": {
                     "type": "string"
                 }
@@ -1772,9 +1738,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "action_ru": {
-                    "type": "string"
-                },
-                "action_uz": {
                     "type": "string"
                 },
                 "id": {
@@ -1793,9 +1756,6 @@ const docTemplate = `{
                 },
                 "name_kr": {
                     "type": "string"
-                },
-                "name_uz": {
-                    "type": "string"
                 }
             }
         },
@@ -1804,8 +1764,7 @@ const docTemplate = `{
             "required": [
                 "leader_id",
                 "name_en",
-                "name_kr",
-                "name_uz"
+                "name_kr"
             ],
             "properties": {
                 "created_at": {
@@ -1815,9 +1774,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "description_kr": {
-                    "type": "string"
-                },
-                "description_uz": {
                     "type": "string"
                 },
                 "id": {
@@ -1830,9 +1786,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name_kr": {
-                    "type": "string"
-                },
-                "name_uz": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -1852,16 +1805,10 @@ const docTemplate = `{
                 "action_ru": {
                     "type": "string"
                 },
-                "action_uz": {
-                    "type": "string"
-                },
                 "description_kr": {
                     "type": "string"
                 },
                 "description_ru": {
-                    "type": "string"
-                },
-                "description_uz": {
                     "type": "string"
                 },
                 "id": {
@@ -1873,8 +1820,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "name_en",
-                "name_kr",
-                "name_uz"
+                "name_kr"
             ],
             "properties": {
                 "id": {
@@ -1884,9 +1830,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name_kr": {
-                    "type": "string"
-                },
-                "name_uz": {
                     "type": "string"
                 }
             }
@@ -1960,7 +1903,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "wisestone-kpi.onrender.com",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "KPI System API",

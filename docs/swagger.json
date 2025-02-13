@@ -9,7 +9,7 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "wisestone-kpi.onrender.com",
     "basePath": "/",
     "paths": {
         "/api/v1/auth/login": {
@@ -1437,16 +1437,10 @@
                 "action_ru": {
                     "type": "string"
                 },
-                "action_uz": {
-                    "type": "string"
-                },
                 "description_kr": {
                     "type": "string"
                 },
                 "description_ru": {
-                    "type": "string"
-                },
-                "description_uz": {
                     "type": "string"
                 }
             }
@@ -1455,17 +1449,13 @@
             "type": "object",
             "required": [
                 "name_en",
-                "name_kr",
-                "name_uz"
+                "name_kr"
             ],
             "properties": {
                 "name_en": {
                     "type": "string"
                 },
                 "name_kr": {
-                    "type": "string"
-                },
-                "name_uz": {
                     "type": "string"
                 }
             }
@@ -1490,17 +1480,13 @@
             "required": [
                 "leader_id",
                 "name_en",
-                "name_kr",
-                "name_uz"
+                "name_kr"
             ],
             "properties": {
                 "description_en": {
                     "type": "string"
                 },
                 "description_kr": {
-                    "type": "string"
-                },
-                "description_uz": {
                     "type": "string"
                 },
                 "leader_id": {
@@ -1510,9 +1496,6 @@
                     "type": "string"
                 },
                 "name_kr": {
-                    "type": "string"
-                },
-                "name_uz": {
                     "type": "string"
                 }
             }
@@ -1649,8 +1632,7 @@
             "type": "object",
             "required": [
                 "name_en",
-                "name_kr",
-                "name_uz"
+                "name_kr"
             ],
             "properties": {
                 "id": {
@@ -1660,9 +1642,6 @@
                     "type": "string"
                 },
                 "name_kr": {
-                    "type": "string"
-                },
-                "name_uz": {
                     "type": "string"
                 }
             }
@@ -1679,9 +1658,6 @@
                 "action_ru": {
                     "type": "string"
                 },
-                "action_uz": {
-                    "type": "string"
-                },
                 "created_at": {
                     "type": "string"
                 },
@@ -1689,9 +1665,6 @@
                     "type": "string"
                 },
                 "description_ru": {
-                    "type": "string"
-                },
-                "description_uz": {
                     "type": "string"
                 },
                 "id": {
@@ -1706,8 +1679,7 @@
             "type": "object",
             "required": [
                 "name_en",
-                "name_kr",
-                "name_uz"
+                "name_kr"
             ],
             "properties": {
                 "created_at": {
@@ -1720,9 +1692,6 @@
                     "type": "string"
                 },
                 "name_kr": {
-                    "type": "string"
-                },
-                "name_uz": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -1751,9 +1720,6 @@
                 "role_id": {
                     "type": "string"
                 },
-                "role_uz": {
-                    "type": "string"
-                },
                 "updated_at": {
                     "type": "string"
                 }
@@ -1766,9 +1732,6 @@
                     "type": "string"
                 },
                 "action_ru": {
-                    "type": "string"
-                },
-                "action_uz": {
                     "type": "string"
                 },
                 "id": {
@@ -1787,9 +1750,6 @@
                 },
                 "name_kr": {
                     "type": "string"
-                },
-                "name_uz": {
-                    "type": "string"
                 }
             }
         },
@@ -1798,8 +1758,7 @@
             "required": [
                 "leader_id",
                 "name_en",
-                "name_kr",
-                "name_uz"
+                "name_kr"
             ],
             "properties": {
                 "created_at": {
@@ -1809,9 +1768,6 @@
                     "type": "string"
                 },
                 "description_kr": {
-                    "type": "string"
-                },
-                "description_uz": {
                     "type": "string"
                 },
                 "id": {
@@ -1824,9 +1780,6 @@
                     "type": "string"
                 },
                 "name_kr": {
-                    "type": "string"
-                },
-                "name_uz": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -1846,16 +1799,10 @@
                 "action_ru": {
                     "type": "string"
                 },
-                "action_uz": {
-                    "type": "string"
-                },
                 "description_kr": {
                     "type": "string"
                 },
                 "description_ru": {
-                    "type": "string"
-                },
-                "description_uz": {
                     "type": "string"
                 },
                 "id": {
@@ -1867,8 +1814,7 @@
             "type": "object",
             "required": [
                 "name_en",
-                "name_kr",
-                "name_uz"
+                "name_kr"
             ],
             "properties": {
                 "id": {
@@ -1878,9 +1824,6 @@
                     "type": "string"
                 },
                 "name_kr": {
-                    "type": "string"
-                },
-                "name_uz": {
                     "type": "string"
                 }
             }

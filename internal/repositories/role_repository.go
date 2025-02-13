@@ -39,16 +39,15 @@ func (r *RoleRepository) FindByID(ctx context.Context, id string) (*models.Role,
 }
 
 func (r *RoleRepository) FindAll(ctx context.Context, filter *models.ListRoleRequest) (*models.ListRoleResponse, error) {
-	findOptions := options.Find()
-	filterQuery := bson.M{}
+    findOptions := options.Find()
+    filterQuery := bson.M{}
 
-	if filter.MultiSearch != "" {
-		filterQuery["$or"] = []bson.M{
-			{"name_uz": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
-			{"name_en": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
-			{"name_kr": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
-		}
-	}
+    if filter.MultiSearch != "" {
+        filterQuery["$or"] = []bson.M{
+            {"name_en": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
+            {"name_kr": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
+        }
+    }
 
 	if filter.SortOrder == "asc" {
 		findOptions.SetSort(bson.M{"_id": -1})
@@ -92,17 +91,16 @@ func (r *RoleRepository) Create(ctx context.Context, role *models.Role) error {
 }
 
 func (r *RoleRepository) Update(ctx context.Context, role *models.Role) error {
-	objectID, err := primitive.ObjectIDFromHex(role.ID)
-	if err != nil {
-		return err
-	}
+    objectID, err := primitive.ObjectIDFromHex(role.ID)
+    if err != nil {
+        return err
+    }
 
-	roleMap := bson.M{
-		"name_uz":    role.NameUz,
-		"name_en":    role.NameEn,
-		"name_kr":    role.NameKr,
-		"updated_at": time.Now(),
-	}
+    roleMap := bson.M{
+        "name_en":    role.NameEn,
+        "name_kr":    role.NameKr,
+        "updated_at": time.Now(),
+    }
 
 	res, err := r.collection.UpdateOne(
 		ctx,

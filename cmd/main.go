@@ -21,7 +21,7 @@ import (
 // @description API for KPI system for Wisestone T Company
 // @contact.name Developer Team
 // @contact.email support@wisestonet.com
-// @host localhost:8080
+// @host wisestone-kpi.onrender.com
 // @BasePath /
 
 func main() {

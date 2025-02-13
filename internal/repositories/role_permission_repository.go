@@ -80,8 +80,6 @@ func (r *RolePermissionRepository) FindByID(ctx context.Context, id string) (*mo
 		{
 			"$project": bson.M{
 				"_id":           1,
-				"role_id":       1,
-				"permission_id": 1,
 				"role":          1,
 				"permission":    1,
 				"created_at":    1,
@@ -171,8 +169,6 @@ func (r *RolePermissionRepository) FindAll(ctx context.Context, filter *models.L
 		{
 			"$project": bson.M{
 				"_id":           1,
-				"role_id":       1,
-				"permission_id": 1,
 				"role":          1,
 				"permission":    1,
 				"created_at":    1,

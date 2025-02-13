@@ -57,7 +57,8 @@ func (r *UserRepository) FindAll(ctx context.Context, filter *models.ListUsersRe
 	// Add search functionality
 	if filter.MultiSearch != "" {
 		filterQuery["$or"] = []bson.M{
-			{"full_name": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
+			{"full_name_en": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
+			{"full_name_kr": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
 			{"email": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
 			{"position": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
 		}
@@ -118,7 +119,6 @@ func (r *UserRepository) Update(ctx context.Context, user *models.User) error {
 	userMap := bson.M{
 		"email":        user.Email,
 		"password":     user.Password,
-		"full_name_uz": user.FullNameUz,
 		"full_name_en": user.FullNameEn,
 		"full_name_kr": user.FullNameKr,
 		"role_id":      user.RoleId,

@@ -45,7 +45,6 @@ func (r *TeamRepository) FindAll(ctx context.Context, filter *models.ListTeamsRe
 	// Add search functionality for names
 	if filter.MultiSearch != "" {
 		filterQuery["$or"] = []bson.M{
-			{"name_uz": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
 			{"name_en": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
 			{"name_kr": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
 		}
@@ -101,10 +100,8 @@ func (r *TeamRepository) Update(ctx context.Context, team *models.Team) error {
 	}
 
 	teamMap := bson.M{
-		"name_uz":        team.NameUz,
 		"name_en":        team.NameEn,
 		"name_kr":        team.NameKr,
-		"description_uz": team.DescriptionUz,
 		"description_en": team.DescriptionEn,
 		"description_kr": team.DescriptionKr,
 		"leader_id":      team.LeaderId,
