@@ -278,7 +278,7 @@ definitions:
     - full_name_uz
     - password
     type: object
-host: localhost:8080
+host: wisestone-kpi.onrender.com
 info:
   contact:
     email: support@wisestonet.com
