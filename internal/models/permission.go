@@ -31,7 +31,7 @@ type UpdatePermission struct {
 
 type ListPermissionResponse struct {
 	Count       int           `json:"count"`
-	Items []*Permission `json:"permissions"`
+	Items []*Permission `json:"items"`
 }
 
 type ListPermissionRequest struct {

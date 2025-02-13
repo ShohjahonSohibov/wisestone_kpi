@@ -25,7 +25,7 @@ type UpdateRole struct {
 
 type ListRoleResponse struct {
 	Count int     `json:"count"`
-	Items []*Role `json:"teams"`
+	Items []*Role `json:"items"`
 }
 
 type ListRoleRequest struct {

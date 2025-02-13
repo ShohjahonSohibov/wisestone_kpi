@@ -34,7 +34,7 @@ type UpdateTeam struct {
 
 type ListTeamsResponse struct {
 	Count int     `json:"count"`
-	Items []*Team `json:"teams"`
+	Items []*Team `json:"items"`
 }
 
 type ListTeamsRequest struct {

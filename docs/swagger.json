@@ -1667,7 +1667,7 @@
                 "count": {
                     "type": "integer"
                 },
-                "permissions": {
+                "items": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/models.Permission"
@@ -1681,7 +1681,7 @@
                 "count": {
                     "type": "integer"
                 },
-                "data": {
+                "items": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/models.RolePermission"
@@ -1695,7 +1695,7 @@
                 "count": {
                     "type": "integer"
                 },
-                "teams": {
+                "items": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/models.Team"
@@ -1709,7 +1709,7 @@
                 "count": {
                     "type": "integer"
                 },
-                "users": {
+                "items": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/models.User"

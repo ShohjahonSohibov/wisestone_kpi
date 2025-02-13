@@ -1673,7 +1673,7 @@ const docTemplate = `{
                 "count": {
                     "type": "integer"
                 },
-                "permissions": {
+                "items": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/models.Permission"
@@ -1687,7 +1687,7 @@ const docTemplate = `{
                 "count": {
                     "type": "integer"
                 },
-                "data": {
+                "items": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/models.RolePermission"
@@ -1701,7 +1701,7 @@ const docTemplate = `{
                 "count": {
                     "type": "integer"
                 },
-                "teams": {
+                "items": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/models.Team"
@@ -1715,7 +1715,7 @@ const docTemplate = `{
                 "count": {
                     "type": "integer"
                 },
-                "users": {
+                "items": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/models.User"

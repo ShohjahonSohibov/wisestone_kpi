@@ -69,7 +69,7 @@ definitions:
     properties:
       count:
         type: integer
-      permissions:
+      items:
         items:
           $ref: '#/definitions/models.Permission'
         type: array
@@ -78,7 +78,7 @@ definitions:
     properties:
       count:
         type: integer
-      data:
+      items:
         items:
           $ref: '#/definitions/models.RolePermission'
         type: array
@@ -87,7 +87,7 @@ definitions:
     properties:
       count:
         type: integer
-      teams:
+      items:
         items:
           $ref: '#/definitions/models.Team'
         type: array
@@ -96,7 +96,7 @@ definitions:
     properties:
       count:
         type: integer
-      users:
+      items:
         items:
           $ref: '#/definitions/models.User'
         type: array
