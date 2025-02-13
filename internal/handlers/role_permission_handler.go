@@ -17,6 +17,7 @@ func NewRolePermissionHandler(rolePermissionService *services.RolePermissionServ
 }
 
 // GetRolePermission godoc
+// @Security ApiKeyAuth
 // @Summary Get role-permission by id
 // @Description Get role-permission details by id
 // @Tags RolePermissions
@@ -44,6 +45,7 @@ func (h *RolePermissionHandler) GetRolePermission(c *gin.Context) {
 }
 
 // CreateRolePermission godoc
+// @Security ApiKeyAuth
 // @Summary Create a new role-permission
 // @Description Create a new role-permission with the provided details
 // @Tags RolePermissions
@@ -78,6 +80,7 @@ func (h *RolePermissionHandler) CreateRolePermission(c *gin.Context) {
 }
 
 // UpdateRolePermission godoc
+// @Security ApiKeyAuth
 // @Summary Update existing role-permission
 // @Description Update role-permission details by ID
 // @Tags RolePermissions
@@ -116,6 +119,7 @@ func (h *RolePermissionHandler) UpdateRolePermission(c *gin.Context) {
 }
 
 // DeleteRolePermission godoc
+// @Security ApiKeyAuth
 // @Summary Delete role-permission
 // @Description Delete role-permission by ID
 // @Tags RolePermissions
@@ -150,6 +154,7 @@ func (h *RolePermissionHandler) DeleteRolePermission(c *gin.Context) {
 }
 
 // ListRolePermissions godoc
+// @Security ApiKeyAuth
 // @Summary List all role-permissions
 // @Description Get a list of all role-permissions
 // @Tags RolePermissions

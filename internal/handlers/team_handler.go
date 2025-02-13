@@ -17,6 +17,7 @@ func NewTeamHandler(teamService *services.TeamService) *TeamHandler {
 }
 
 // GetTeam godoc
+// @Security ApiKeyAuth
 // @Summary Get team by id
 // @Description Get team details by id
 // @Tags Teams
@@ -44,6 +45,7 @@ func (h *TeamHandler) GetTeam(c *gin.Context) {
 }
 
 // CreateTeam godoc
+// @Security ApiKeyAuth
 // @Summary Create a new team
 // @Description Create a new team with the provided details
 // @Tags Teams
@@ -78,6 +80,7 @@ func (h *TeamHandler) CreateTeam(c *gin.Context) {
 }
 
 // UpdateTeam godoc
+// @Security ApiKeyAuth
 // @Summary Update existing team
 // @Description Update team details by ID
 // @Tags Teams
@@ -116,6 +119,7 @@ func (h *TeamHandler) UpdateTeam(c *gin.Context) {
 }
 
 // DeleteTeam godoc
+// @Security ApiKeyAuth
 // @Summary Delete team
 // @Description Delete team by ID
 // @Tags Teams
@@ -149,6 +153,7 @@ func (h *TeamHandler) DeleteTeam(c *gin.Context) {
 }
 
 // ListTeams godoc
+// @Security ApiKeyAuth
 // @Summary List all teams
 // @Description Get a list of all teams
 // @Tags Teams

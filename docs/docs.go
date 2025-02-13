@@ -72,6 +72,11 @@ const docTemplate = `{
         },
         "/api/v1/permissions": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a list of all permissions",
                 "consumes": [
                     "application/json"
@@ -142,6 +147,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create a new permission with the provided details",
                 "consumes": [
                     "application/json"
@@ -188,6 +198,11 @@ const docTemplate = `{
         },
         "/api/v1/permissions/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get permission details by id",
                 "consumes": [
                     "application/json"
@@ -236,6 +251,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update permission details by ID",
                 "consumes": [
                     "application/json"
@@ -296,6 +316,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete permission by ID",
                 "consumes": [
                     "application/json"
@@ -340,6 +365,11 @@ const docTemplate = `{
         },
         "/api/v1/role-permissions": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a list of all role-permissions",
                 "consumes": [
                     "application/json"
@@ -420,6 +450,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create a new role-permission with the provided details",
                 "consumes": [
                     "application/json"
@@ -466,6 +501,11 @@ const docTemplate = `{
         },
         "/api/v1/role-permissions/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get role-permission details by id",
                 "consumes": [
                     "application/json"
@@ -514,6 +554,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update role-permission details by ID",
                 "consumes": [
                     "application/json"
@@ -574,6 +619,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete role-permission by ID",
                 "consumes": [
                     "application/json"
@@ -618,6 +668,11 @@ const docTemplate = `{
         },
         "/api/v1/roles": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a list of all roles",
                 "consumes": [
                     "application/json"
@@ -662,32 +717,41 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "status: 200, data: roles",
                         "schema": {
-                            "$ref": "#/definitions/models.ListRoleResponse"
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "400": {
-                        "description": "error: Invalid parameters",
+                        "description": "status: 400, message: Invalid parameters",
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "additionalProperties": true
+                        }
+                    },
+                    "401": {
+                        "description": "status: 401, message: Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "500": {
-                        "description": "error: Internal server error",
+                        "description": "status: 500, message: Internal server error",
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "additionalProperties": true
                         }
                     }
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create a new role with the provided details",
                 "consumes": [
                     "application/json"
@@ -706,7 +770,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.CreateRole"
+                            "$ref": "#/definitions/models.Role"
                         }
                     }
                 ],
@@ -725,6 +789,13 @@ const docTemplate = `{
                             "additionalProperties": true
                         }
                     },
+                    "401": {
+                        "description": "status: 401, message: Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
                     "409": {
                         "description": "status: 409, message: error message",
                         "schema": {
@@ -737,6 +808,11 @@ const docTemplate = `{
         },
         "/api/v1/roles/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get role details by id",
                 "consumes": [
                     "application/json"
@@ -759,32 +835,34 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "status: 200, data: Role",
                         "schema": {
-                            "$ref": "#/definitions/models.Role"
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "401": {
+                        "description": "status: 401, message: Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "404": {
-                        "description": "error: Role not found",
+                        "description": "status: 404, message: Role not found",
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "error: Internal server error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "additionalProperties": true
                         }
                     }
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update role details by ID",
                 "consumes": [
                     "application/json"
@@ -810,41 +888,47 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UpdateRole"
+                            "$ref": "#/definitions/models.Role"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "message: Role updated successfully",
+                        "description": "status: 200, message: role updated successfully",
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "additionalProperties": true
                         }
                     },
                     "400": {
-                        "description": "error: Validation error",
+                        "description": "status: 400, message: error message",
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "additionalProperties": true
+                        }
+                    },
+                    "401": {
+                        "description": "status: 401, message: Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "404": {
-                        "description": "error: Role not found",
+                        "description": "status: 404, message: Role not found",
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "additionalProperties": true
                         }
                     }
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete role by ID",
                 "consumes": [
                     "application/json"
@@ -867,21 +951,24 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "message: Role deleted successfully",
+                        "description": "status: 200, message: role deleted successfully",
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "additionalProperties": true
+                        }
+                    },
+                    "401": {
+                        "description": "status: 401, message: Unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "404": {
-                        "description": "error: Role not found",
+                        "description": "status: 404, message: Role not found",
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "additionalProperties": true
                         }
                     }
                 }
@@ -889,6 +976,11 @@ const docTemplate = `{
         },
         "/api/v1/teams": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a list of all teams",
                 "consumes": [
                     "application/json"
@@ -959,6 +1051,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create a new team with the provided details",
                 "consumes": [
                     "application/json"
@@ -1005,6 +1102,11 @@ const docTemplate = `{
         },
         "/api/v1/teams/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get team details by id",
                 "consumes": [
                     "application/json"
@@ -1053,6 +1155,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update team details by ID",
                 "consumes": [
                     "application/json"
@@ -1113,6 +1220,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete team by ID",
                 "consumes": [
                     "application/json"
@@ -1157,6 +1269,11 @@ const docTemplate = `{
         },
         "/api/v1/users": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a list of all users",
                 "consumes": [
                     "application/json"
@@ -1227,6 +1344,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create a new user with the provided details",
                 "consumes": [
                     "application/json"
@@ -1282,6 +1404,11 @@ const docTemplate = `{
         },
         "/api/v1/users/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get user details by id",
                 "consumes": [
                     "application/json"
@@ -1330,6 +1457,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update user details by ID",
                 "consumes": [
                     "application/json"
@@ -1390,6 +1522,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete user by email",
                 "consumes": [
                     "application/json"
@@ -1450,21 +1587,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "description_ru": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.CreateRole": {
-            "type": "object",
-            "required": [
-                "name_en",
-                "name_kr"
-            ],
-            "properties": {
-                "name_en": {
-                    "type": "string"
-                },
-                "name_kr": {
                     "type": "string"
                 }
             }
@@ -1569,20 +1691,6 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/models.RolePermission"
-                    }
-                }
-            }
-        },
-        "models.ListRoleResponse": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "teams": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.Role"
                     }
                 }
             }
@@ -1819,24 +1927,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.UpdateRole": {
-            "type": "object",
-            "required": [
-                "name_en",
-                "name_kr"
-            ],
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "name_en": {
-                    "type": "string"
-                },
-                "name_kr": {
-                    "type": "string"
-                }
-            }
-        },
         "models.UpdateRolePermission": {
             "type": "object",
             "required": [
@@ -1899,6 +1989,14 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "description": "Enter your bearer token in the format: Bearer \u003ctoken\u003e",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

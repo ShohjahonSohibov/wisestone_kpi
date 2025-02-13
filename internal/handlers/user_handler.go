@@ -17,6 +17,7 @@ func NewUserHandler(userService *services.UserService) *UserHandler {
 }
 
 // GetUser godoc
+// @Security ApiKeyAuth
 // @Summary Get user by id
 // @Description Get user details by id
 // @Tags Users
@@ -44,6 +45,7 @@ func (h *UserHandler) GetUser(c *gin.Context) {
 }
 
 // CreateUser godoc
+// @Security ApiKeyAuth
 // @Summary Create a new user
 // @Description Create a new user with the provided details
 // @Tags Users
@@ -79,6 +81,7 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 }
 
 // UpdateUser godoc
+// @Security ApiKeyAuth
 // @Summary Update existing user
 // @Description Update user details by ID
 // @Tags Users
@@ -117,6 +120,7 @@ func (h *UserHandler) UpdateUser(c *gin.Context) {
 }
 
 // DeleteUser godoc
+// @Security ApiKeyAuth
 // @Summary Delete user
 // @Description Delete user by email
 // @Tags Users
@@ -150,6 +154,7 @@ func (h *UserHandler) DeleteUser(c *gin.Context) {
 }
 
 // ListUsers godoc
+// @Security ApiKeyAuth
 // @Summary List all users
 // @Description Get a list of all users
 // @Tags Users

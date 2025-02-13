@@ -17,6 +17,7 @@ func NewPermissionHandler(permissionService *services.PermissionService) *Permis
 }
 
 // GetPermission godoc
+// @Security ApiKeyAuth
 // @Summary Get permission by id
 // @Description Get permission details by id
 // @Tags Permissions
@@ -44,6 +45,7 @@ func (h *PermissionHandler) GetPermission(c *gin.Context) {
 }
 
 // CreatePermission godoc
+// @Security ApiKeyAuth
 // @Summary Create a new permission
 // @Description Create a new permission with the provided details
 // @Tags Permissions
@@ -77,6 +79,7 @@ func (h *PermissionHandler) CreatePermission(c *gin.Context) {
 }
 
 // UpdatePermission godoc
+// @Security ApiKeyAuth
 // @Summary Update existing permission
 // @Description Update permission details by ID
 // @Tags Permissions
@@ -115,6 +118,7 @@ func (h *PermissionHandler) UpdatePermission(c *gin.Context) {
 }
 
 // DeletePermission godoc
+// @Security ApiKeyAuth
 // @Summary Delete permission
 // @Description Delete permission by ID
 // @Tags Permissions
@@ -140,6 +144,7 @@ func (h *PermissionHandler) DeletePermission(c *gin.Context) {
 }
 
 // ListPermissions godoc
+// @Security ApiKeyAuth
 // @Summary List all permissions
 // @Description Get a list of all permissions
 // @Tags Permissions

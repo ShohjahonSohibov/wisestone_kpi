@@ -23,6 +23,10 @@ import (
 // @contact.email support@wisestonet.com
 // @host wisestone-kpi.onrender.com
 // @BasePath /
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+// @description Enter your bearer token in the format: Bearer <token>
 
 func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)

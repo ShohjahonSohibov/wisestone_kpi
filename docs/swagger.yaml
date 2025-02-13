@@ -13,16 +13,6 @@ definitions:
     required:
     - action_kr
     type: object
-  models.CreateRole:
-    properties:
-      name_en:
-        type: string
-      name_kr:
-        type: string
-    required:
-    - name_en
-    - name_kr
-    type: object
   models.CreateRolePermission:
     properties:
       permission_id:
@@ -91,15 +81,6 @@ definitions:
       data:
         items:
           $ref: '#/definitions/models.RolePermission'
-        type: array
-    type: object
-  models.ListRoleResponse:
-    properties:
-      count:
-        type: integer
-      teams:
-        items:
-          $ref: '#/definitions/models.Role'
         type: array
     type: object
   models.ListTeamsResponse:
@@ -254,18 +235,6 @@ definitions:
     required:
     - action_kr
     type: object
-  models.UpdateRole:
-    properties:
-      id:
-        type: string
-      name_en:
-        type: string
-      name_kr:
-        type: string
-    required:
-    - name_en
-    - name_kr
-    type: object
   models.UpdateRolePermission:
     properties:
       id:
@@ -395,6 +364,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: List all permissions
       tags:
       - Permissions
@@ -424,6 +395,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Create a new permission
       tags:
       - Permissions
@@ -453,6 +426,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Delete permission
       tags:
       - Permissions
@@ -485,6 +460,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Get permission by id
       tags:
       - Permissions
@@ -525,6 +502,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Update existing permission
       tags:
       - Permissions
@@ -577,6 +556,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: List all role-permissions
       tags:
       - RolePermissions
@@ -606,6 +587,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Create a new role-permission
       tags:
       - RolePermissions
@@ -635,6 +618,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Delete role-permission
       tags:
       - RolePermissions
@@ -667,6 +652,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Get role-permission by id
       tags:
       - RolePermissions
@@ -707,6 +694,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Update existing role-permission
       tags:
       - RolePermissions
@@ -738,21 +727,27 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: 'status: 200, data: roles'
           schema:
-            $ref: '#/definitions/models.ListRoleResponse'
+            additionalProperties: true
+            type: object
         "400":
-          description: 'error: Invalid parameters'
+          description: 'status: 400, message: Invalid parameters'
           schema:
-            additionalProperties:
-              type: string
+            additionalProperties: true
+            type: object
+        "401":
+          description: 'status: 401, message: Unauthorized'
+          schema:
+            additionalProperties: true
             type: object
         "500":
-          description: 'error: Internal server error'
+          description: 'status: 500, message: Internal server error'
           schema:
-            additionalProperties:
-              type: string
+            additionalProperties: true
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: List all roles
       tags:
       - Roles
@@ -766,7 +761,7 @@ paths:
         name: role
         required: true
         schema:
-          $ref: '#/definitions/models.CreateRole'
+          $ref: '#/definitions/models.Role'
       produces:
       - application/json
       responses:
@@ -780,11 +775,18 @@ paths:
           schema:
             additionalProperties: true
             type: object
+        "401":
+          description: 'status: 401, message: Unauthorized'
+          schema:
+            additionalProperties: true
+            type: object
         "409":
           description: 'status: 409, message: error message'
           schema:
             additionalProperties: true
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Create a new role
       tags:
       - Roles
@@ -803,17 +805,22 @@ paths:
       - application/json
       responses:
         "200":
-          description: 'message: Role deleted successfully'
+          description: 'status: 200, message: role deleted successfully'
           schema:
-            additionalProperties:
-              type: string
+            additionalProperties: true
+            type: object
+        "401":
+          description: 'status: 401, message: Unauthorized'
+          schema:
+            additionalProperties: true
             type: object
         "404":
-          description: 'error: Role not found'
+          description: 'status: 404, message: Role not found'
           schema:
-            additionalProperties:
-              type: string
+            additionalProperties: true
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Delete role
       tags:
       - Roles
@@ -831,21 +838,22 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: 'status: 200, data: Role'
           schema:
-            $ref: '#/definitions/models.Role'
+            additionalProperties: true
+            type: object
+        "401":
+          description: 'status: 401, message: Unauthorized'
+          schema:
+            additionalProperties: true
+            type: object
         "404":
-          description: 'error: Role not found'
+          description: 'status: 404, message: Role not found'
           schema:
-            additionalProperties:
-              type: string
+            additionalProperties: true
             type: object
-        "500":
-          description: 'error: Internal server error'
-          schema:
-            additionalProperties:
-              type: string
-            type: object
+      security:
+      - ApiKeyAuth: []
       summary: Get role by id
       tags:
       - Roles
@@ -864,28 +872,32 @@ paths:
         name: role
         required: true
         schema:
-          $ref: '#/definitions/models.UpdateRole'
+          $ref: '#/definitions/models.Role'
       produces:
       - application/json
       responses:
         "200":
-          description: 'message: Role updated successfully'
+          description: 'status: 200, message: role updated successfully'
           schema:
-            additionalProperties:
-              type: string
+            additionalProperties: true
             type: object
         "400":
-          description: 'error: Validation error'
+          description: 'status: 400, message: error message'
           schema:
-            additionalProperties:
-              type: string
+            additionalProperties: true
+            type: object
+        "401":
+          description: 'status: 401, message: Unauthorized'
+          schema:
+            additionalProperties: true
             type: object
         "404":
-          description: 'error: Role not found'
+          description: 'status: 404, message: Role not found'
           schema:
-            additionalProperties:
-              type: string
+            additionalProperties: true
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Update existing role
       tags:
       - Roles
@@ -932,6 +944,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: List all teams
       tags:
       - Teams
@@ -961,6 +975,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Create a new team
       tags:
       - Teams
@@ -990,6 +1006,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Delete team
       tags:
       - Teams
@@ -1022,6 +1040,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Get team by id
       tags:
       - Teams
@@ -1062,6 +1082,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Update existing team
       tags:
       - Teams
@@ -1108,6 +1130,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: List all users
       tags:
       - Users
@@ -1143,6 +1167,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Create a new user
       tags:
       - Users
@@ -1172,6 +1198,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Delete user
       tags:
       - Users
@@ -1204,6 +1232,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Get user by id
       tags:
       - Users
@@ -1244,7 +1274,15 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Update existing user
       tags:
       - Users
+securityDefinitions:
+  ApiKeyAuth:
+    description: 'Enter your bearer token in the format: Bearer <token>'
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
