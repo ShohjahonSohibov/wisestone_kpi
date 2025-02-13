@@ -31,10 +31,16 @@ func (h *TeamHandler) GetTeam(c *gin.Context) {
 	id := c.Param("id")
 	team, err := h.teamService.GetById(c.Request.Context(), id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusNotFound, gin.H{
+					"status":  http.StatusNotFound,
+					"message": err.Error(),
+			})
+			return
 	}
-	c.JSON(http.StatusOK, team)
+	c.JSON(http.StatusOK, gin.H{
+			"status": http.StatusOK,
+			"data":   team,
+	})
 }
 
 // CreateTeam godoc
@@ -50,16 +56,25 @@ func (h *TeamHandler) GetTeam(c *gin.Context) {
 func (h *TeamHandler) CreateTeam(c *gin.Context) {
 	var team models.Team
 	if err := c.ShouldBindJSON(&team); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusBadRequest, gin.H{
+					"status":  http.StatusBadRequest,
+					"message": err.Error(),
+			})
+			return
 	}
 
 	if err := h.teamService.Create(c.Request.Context(), &team); err != nil {
-		c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusConflict, gin.H{
+					"status":  http.StatusConflict,
+					"message": err.Error(),
+			})
+			return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "team created successfully"})
+	c.JSON(http.StatusCreated, gin.H{
+			"status":  http.StatusCreated,
+			"message": "team created successfully",
+	})
 }
 
 // UpdateTeam godoc
@@ -78,17 +93,26 @@ func (h *TeamHandler) UpdateTeam(c *gin.Context) {
 	id := c.Param("id")
 	var team models.Team
 	if err := c.ShouldBindJSON(&team); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusBadRequest, gin.H{
+					"status":  http.StatusBadRequest,
+					"message": err.Error(),
+			})
+			return
 	}
 
 	team.ID = id
 	if err := h.teamService.Update(c.Request.Context(), &team); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusNotFound, gin.H{
+					"status":  http.StatusNotFound,
+					"message": err.Error(),
+			})
+			return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "team updated successfully"})
+	c.JSON(http.StatusOK, gin.H{
+			"status":  http.StatusOK,
+			"message": "team updated successfully",
+	})
 }
 
 // DeleteTeam godoc
@@ -103,11 +127,25 @@ func (h *TeamHandler) UpdateTeam(c *gin.Context) {
 // @Router /api/v1/teams/{id} [delete]
 func (h *TeamHandler) DeleteTeam(c *gin.Context) {
 	id := c.Param("id")
-	if err := h.teamService.Delete(c.Request.Context(), id); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
-		return
+	if len(id) != 24 {
+			c.JSON(http.StatusBadRequest, gin.H{
+					"status":  http.StatusBadRequest,
+					"message": "invalid ID format",
+			})
+			return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "team deleted successfully"})
+
+	if err := h.teamService.Delete(c.Request.Context(), id); err != nil {
+			c.JSON(http.StatusNotFound, gin.H{
+					"status":  http.StatusNotFound,
+					"message": err.Error(),
+			})
+			return
+	}
+	c.JSON(http.StatusOK, gin.H{
+			"status":  http.StatusOK,
+			"message": "team deleted successfully",
+	})
 }
 
 // ListTeams godoc
@@ -125,8 +163,11 @@ func (h *TeamHandler) ListTeams(c *gin.Context) {
 	filter := &models.ListTeamsRequest{}
 	offset, limit, err := getPageOffsetLimit(c)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusBadRequest, gin.H{
+					"status":  http.StatusBadRequest,
+					"message": err.Error(),
+			})
+			return
 	}
 
 	filter.Offset = offset
@@ -136,8 +177,14 @@ func (h *TeamHandler) ListTeams(c *gin.Context) {
 
 	teams, err := h.teamService.List(c.Request.Context(), filter)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusInternalServerError, gin.H{
+					"status":  http.StatusInternalServerError,
+					"message": err.Error(),
+			})
+			return
 	}
-	c.JSON(http.StatusOK, teams)
+	c.JSON(http.StatusOK, gin.H{
+			"status": http.StatusOK,
+			"data":   teams,
+	})
 }

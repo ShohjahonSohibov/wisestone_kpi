@@ -31,13 +31,19 @@ func (h *AuthHandler) Login(c *gin.Context) {
     req := &models.LoginRequest{}
 
     if err := c.ShouldBindJSON(req); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        c.JSON(http.StatusBadRequest, gin.H{
+            "status":  http.StatusBadRequest,
+            "message": err.Error(),
+        })
         return
     }
 
     // Validate required fields
     if req.Username == "" || req.Password == "" {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "username and password are required"})
+        c.JSON(http.StatusBadRequest, gin.H{
+            "status":  http.StatusBadRequest,
+            "message": "username and password are required",
+        })
         return
     }
 
@@ -46,17 +52,29 @@ func (h *AuthHandler) Login(c *gin.Context) {
         // Handle different types of errors with appropriate status codes
         switch err.Error() {
         case "user not found", "invalid email or password":
-            c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+            c.JSON(http.StatusUnauthorized, gin.H{
+                "status":  http.StatusUnauthorized,
+                "message": err.Error(),
+            })
         default:
-            c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+            c.JSON(http.StatusInternalServerError, gin.H{
+                "status":  http.StatusInternalServerError,
+                "message": "internal server error",
+            })
         }
         return
     }
 
     if res == nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate login response"})
+        c.JSON(http.StatusInternalServerError, gin.H{
+            "status":  http.StatusInternalServerError,
+            "message": "failed to generate login response",
+        })
         return
     }
 
-    c.JSON(http.StatusOK, res)
+    c.JSON(http.StatusOK, gin.H{
+        "status": http.StatusOK,
+        "data":   res,
+    })
 }

@@ -77,7 +77,7 @@ func (r *RoleRepository) FindAll(ctx context.Context, filter *models.ListRoleReq
 	}
 
 	response := &models.ListRoleResponse{
-		Teams: roles,
+		Items: roles,
 		Count: int(total),
 	}
 

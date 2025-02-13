@@ -96,7 +96,7 @@ func (r *UserRepository) FindAll(ctx context.Context, filter *models.ListUsersRe
 	}
 
 	response := &models.ListUsersResponse{
-		Users: users,
+		Items: users,
 		Count: int(total),
 	}
 

@@ -200,7 +200,7 @@ func (r *RolePermissionRepository) FindAll(ctx context.Context, filter *models.L
 	}
 
 	response := &models.ListRolePermissionResponse{
-		Data:  rolePermissions,
+		Items:  rolePermissions,
 		Count: int(total),
 	}
 

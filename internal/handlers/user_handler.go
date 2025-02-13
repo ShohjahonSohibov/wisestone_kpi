@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"kpi/internal/models"
 	"kpi/internal/services"
 	"net/http"
@@ -11,7 +10,6 @@ import (
 
 type UserHandler struct {
 	userService *services.UserService
-
 }
 
 func NewUserHandler(userService *services.UserService) *UserHandler {
@@ -33,10 +31,16 @@ func (h *UserHandler) GetUser(c *gin.Context) {
 	id := c.Param("id")
 	user, err := h.userService.GetById(c.Request.Context(), id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		c.JSON(http.StatusNotFound, gin.H{
+			"status":  http.StatusNotFound,
+			"message": err.Error(),
+		})
 		return
 	}
-	c.JSON(http.StatusOK, user)
+	c.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data":   user,
+	})
 }
 
 // CreateUser godoc
@@ -53,17 +57,25 @@ func (h *UserHandler) GetUser(c *gin.Context) {
 func (h *UserHandler) CreateUser(c *gin.Context) {
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		fmt.Println("err:", err.Error())
-		return
-	}	
-
-	if err := h.userService.Create(c.Request.Context(), &user); err != nil {
-		c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": err.Error(),
+		})
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "user created successfully"})
+	if err := h.userService.Create(c.Request.Context(), &user); err != nil {
+		c.JSON(http.StatusConflict, gin.H{
+			"status":  http.StatusConflict,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"status":  http.StatusCreated,
+		"message": "user created successfully",
+	})
 }
 
 // UpdateUser godoc
@@ -82,17 +94,26 @@ func (h *UserHandler) UpdateUser(c *gin.Context) {
 	id := c.Param("id")
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": err.Error(),
+		})
 		return
 	}
 
 	user.ID = id
 	if err := h.userService.Update(c.Request.Context(), &user); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		c.JSON(http.StatusNotFound, gin.H{
+			"status":  http.StatusNotFound,
+			"message": err.Error(),
+		})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "user updated successfully"})
+	c.JSON(http.StatusOK, gin.H{
+		"status":  http.StatusOK,
+		"message": "user updated successfully",
+	})
 }
 
 // DeleteUser godoc
@@ -107,11 +128,25 @@ func (h *UserHandler) UpdateUser(c *gin.Context) {
 // @Router /api/v1/users/{id} [delete]
 func (h *UserHandler) DeleteUser(c *gin.Context) {
 	id := c.Param("id")
-	if err := h.userService.Delete(c.Request.Context(), id); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+	if len(id) != 24 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": "invalid ID format",
+		})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "user deleted successfully"})
+
+	if err := h.userService.Delete(c.Request.Context(), id); err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"status":  http.StatusNotFound,
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status":  http.StatusOK,
+		"message": "user deleted successfully",
+	})
 }
 
 // ListUsers godoc
@@ -127,10 +162,13 @@ func (h *UserHandler) DeleteUser(c *gin.Context) {
 // @Router /api/v1/users [get]
 func (h *UserHandler) ListUsers(c *gin.Context) {
 	filter := &models.ListUsersRequest{}
-	
+
 	offset, limit, err := getPageOffsetLimit(c)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": err.Error(),
+		})
 		return
 	}
 	filter.Filter.Offset = offset
@@ -140,8 +178,14 @@ func (h *UserHandler) ListUsers(c *gin.Context) {
 
 	users, err := h.userService.List(c.Request.Context(), filter)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  http.StatusInternalServerError,
+			"message": err.Error(),
+		})
 		return
 	}
-	c.JSON(http.StatusOK, users)
+	c.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data":   users,
+	})
 }

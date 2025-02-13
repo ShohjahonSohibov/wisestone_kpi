@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"kpi/internal/models"
 	"kpi/internal/services"
 	"net/http"
@@ -32,10 +31,16 @@ func (h *RolePermissionHandler) GetRolePermission(c *gin.Context) {
 	id := c.Param("id")
 	rolePermission, err := h.rolePermissionService.GetById(c.Request.Context(), id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		c.JSON(http.StatusNotFound, gin.H{
+			"status":  http.StatusNotFound,
+			"message": err.Error(),
+		})
 		return
 	}
-	c.JSON(http.StatusOK, rolePermission)
+	c.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data":   rolePermission,
+	})
 }
 
 // CreateRolePermission godoc
@@ -51,16 +56,25 @@ func (h *RolePermissionHandler) GetRolePermission(c *gin.Context) {
 func (h *RolePermissionHandler) CreateRolePermission(c *gin.Context) {
 	var rolePermission models.RolePermission
 	if err := c.ShouldBindJSON(&rolePermission); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": err.Error(),
+		})
 		return
 	}
 
 	if err := h.rolePermissionService.Create(c.Request.Context(), &rolePermission); err != nil {
-		c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
+		c.JSON(http.StatusConflict, gin.H{
+			"status":  http.StatusConflict,
+			"message": err.Error(),
+		})
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "role permission created successfully"})
+	c.JSON(http.StatusCreated, gin.H{
+		"status":  http.StatusCreated,
+		"message": "role permission created successfully",
+	})
 }
 
 // UpdateRolePermission godoc
@@ -79,17 +93,26 @@ func (h *RolePermissionHandler) UpdateRolePermission(c *gin.Context) {
 	id := c.Param("id")
 	var rolePermission models.UpdateRolePermission
 	if err := c.ShouldBindJSON(&rolePermission); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": err.Error(),
+		})
 		return
 	}
 
 	rolePermission.ID = id
 	if err := h.rolePermissionService.Update(c.Request.Context(), &rolePermission); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		c.JSON(http.StatusNotFound, gin.H{
+			"status":  http.StatusNotFound,
+			"message": err.Error(),
+		})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "role permission updated successfully"})
+	c.JSON(http.StatusOK, gin.H{
+		"status":  http.StatusOK,
+		"message": "role permission updated successfully",
+	})
 }
 
 // DeleteRolePermission godoc
@@ -104,18 +127,26 @@ func (h *RolePermissionHandler) UpdateRolePermission(c *gin.Context) {
 // @Router /api/v1/role-permissions/{id} [delete]
 func (h *RolePermissionHandler) DeleteRolePermission(c *gin.Context) {
 	id := c.Param("id")
-	fmt.Println("here")
-	// Validate ID format
+
 	if len(id) != 24 {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "invalid ID format"})
-			return
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": "invalid ID format",
+		})
+		return
 	}
 
 	if err := h.rolePermissionService.Delete(c.Request.Context(), id); err != nil {
-			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
-			return
+		c.JSON(http.StatusNotFound, gin.H{
+			"status":  http.StatusNotFound,
+			"message": err.Error(),
+		})
+		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "role permission deleted successfully"})
+	c.JSON(http.StatusOK, gin.H{
+		"status":  http.StatusOK,
+		"message": "role permission deleted successfully",
+	})
 }
 
 // ListRolePermissions godoc
@@ -134,7 +165,10 @@ func (h *RolePermissionHandler) ListRolePermissions(c *gin.Context) {
 
 	offset, limit, err := getPageOffsetLimit(c)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": err.Error(),
+		})
 		return
 	}
 
@@ -145,8 +179,14 @@ func (h *RolePermissionHandler) ListRolePermissions(c *gin.Context) {
 
 	rolePermissions, err := h.rolePermissionService.List(c.Request.Context(), filter)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  http.StatusInternalServerError,
+			"message": err.Error(),
+		})
 		return
 	}
-	c.JSON(http.StatusOK, rolePermissions)
+	c.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data":   rolePermissions,
+	})
 }

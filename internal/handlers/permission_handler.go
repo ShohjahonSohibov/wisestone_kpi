@@ -31,10 +31,16 @@ func (h *PermissionHandler) GetPermission(c *gin.Context) {
 	id := c.Param("id")
 	permission, err := h.permissionService.GetById(c.Request.Context(), id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusNotFound, gin.H{
+					"status":  http.StatusNotFound,
+					"message": err.Error(),
+			})
+			return
 	}
-	c.JSON(http.StatusOK, permission)
+	c.JSON(http.StatusOK, gin.H{
+			"status": http.StatusOK,
+			"data":   permission,
+	})
 }
 
 // CreatePermission godoc
@@ -50,15 +56,24 @@ func (h *PermissionHandler) GetPermission(c *gin.Context) {
 func (h *PermissionHandler) CreatePermission(c *gin.Context) {
 	permission := &models.Permission{}
 	if err := c.ShouldBindJSON(&permission); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusBadRequest, gin.H{
+					"status":  http.StatusBadRequest,
+					"message": err.Error(),
+			})
+			return
 	}
 	if err := h.permissionService.Create(c.Request.Context(), permission); err != nil {
-		c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusConflict, gin.H{
+					"status":  http.StatusConflict,
+					"message": err.Error(),
+			})
+			return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "permission created successfully"})
+	c.JSON(http.StatusCreated, gin.H{
+			"status":  http.StatusCreated,
+			"message": "permission created successfully",
+	})
 }
 
 // UpdatePermission godoc
@@ -77,17 +92,26 @@ func (h *PermissionHandler) UpdatePermission(c *gin.Context) {
 	id := c.Param("id")
 	var permission models.Permission
 	if err := c.ShouldBindJSON(&permission); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusBadRequest, gin.H{
+					"status":  http.StatusBadRequest,
+					"message": err.Error(),
+			})
+			return
 	}
 
 	permission.ID = id
 	if err := h.permissionService.Update(c.Request.Context(), &permission); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusNotFound, gin.H{
+					"status":  http.StatusNotFound,
+					"message": err.Error(),
+			})
+			return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "permission updated successfully"})
+	c.JSON(http.StatusOK, gin.H{
+			"status":  http.StatusOK,
+			"message": "permission updated successfully",
+	})
 }
 
 // DeletePermission godoc
@@ -103,10 +127,16 @@ func (h *PermissionHandler) UpdatePermission(c *gin.Context) {
 func (h *PermissionHandler) DeletePermission(c *gin.Context) {
 	id := c.Param("id")
 	if err := h.permissionService.Delete(c.Request.Context(), id); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusNotFound, gin.H{
+					"status":  http.StatusNotFound,
+					"message": err.Error(),
+			})
+			return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "permission deleted successfully"})
+	c.JSON(http.StatusOK, gin.H{
+			"status":  http.StatusOK,
+			"message": "permission deleted successfully",
+	})
 }
 
 // ListPermissions godoc
@@ -125,8 +155,11 @@ func (h *PermissionHandler) ListPermissions(c *gin.Context) {
 
 	offset, limit, err := getPageOffsetLimit(c)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusBadRequest, gin.H{
+					"status":  http.StatusBadRequest,
+					"message": err.Error(),
+			})
+			return
 	}
 	filter.Filter.Offset = offset
 	filter.Filter.Limit = limit
@@ -135,8 +168,14 @@ func (h *PermissionHandler) ListPermissions(c *gin.Context) {
 
 	permissions, err := h.permissionService.List(c.Request.Context(), filter)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusInternalServerError, gin.H{
+					"status":  http.StatusInternalServerError,
+					"message": err.Error(),
+			})
+			return
 	}
-	c.JSON(http.StatusOK, permissions)
+	c.JSON(http.StatusOK, gin.H{
+			"status": http.StatusOK,
+			"data":   permissions,
+	})
 }

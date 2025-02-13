@@ -80,7 +80,7 @@ func (r *TeamRepository) FindAll(ctx context.Context, filter *models.ListTeamsRe
 	}
 
 	response := &models.ListTeamsResponse{
-		Teams: teams,
+		Items: teams,
 		Count: int(total),
 	}
 
