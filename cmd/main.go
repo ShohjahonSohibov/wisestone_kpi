@@ -28,6 +28,7 @@ import (
 // @name Authorization
 // @description Enter your bearer token in the format: Bearer <token>
 
+
 func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -62,3 +63,4 @@ func main() {
 
 	log.Fatal(router.Run(":8080"))
 }
+
