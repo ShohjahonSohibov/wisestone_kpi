@@ -27,14 +27,21 @@ func NewRoleHandler(roleService *services.RoleService) *RoleHandler {
 // @Failure 404 {object} map[string]string "error: Role not found"
 // @Failure 500 {object} map[string]string "error: Internal server error"
 // @Router /api/v1/roles/{id} [get]
+// GetRole
 func (h *RoleHandler) GetRole(c *gin.Context) {
-	id := c.Param("id")
-	role, err := h.roleService.GetById(c.Request.Context(), id)
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, role)
+    id := c.Param("id")
+    role, err := h.roleService.GetById(c.Request.Context(), id)
+    if err != nil {
+        c.JSON(http.StatusNotFound, gin.H{
+            "status":  http.StatusNotFound,
+            "message": err.Error(),
+        })
+        return
+    }
+    c.JSON(http.StatusOK, gin.H{
+        "status": http.StatusOK,
+        "data":   role,
+    })
 }
 
 // CreateRole godoc
@@ -44,22 +51,32 @@ func (h *RoleHandler) GetRole(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param role body models.CreateRole true "Role Details"
-// @Success 201 {object} map[string]string "message: Role created successfully"
-// @Failure 400 {object} map[string]string "error: Validation error"
+// @Success 201 {object} map[string]interface{} "status: 201, message: role created successfully"
+// @Failure 400 {object} map[string]interface{} "status: 400, message: error message"
+// @Failure 409 {object} map[string]interface{} "status: 409, message: error message"
 // @Router /api/v1/roles [post]
 func (h *RoleHandler) CreateRole(c *gin.Context) {
-	var role models.Role
-	if err := c.ShouldBindJSON(&role); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+    var role models.Role
+    if err := c.ShouldBindJSON(&role); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{
+            "status":  http.StatusBadRequest,
+            "message": err.Error(),
+        })
+        return
+    }
 
-	if err := h.roleService.Create(c.Request.Context(), &role); err != nil {
-		c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
-		return
-	}
+    if err := h.roleService.Create(c.Request.Context(), &role); err != nil {
+        c.JSON(http.StatusConflict, gin.H{
+            "status":  http.StatusConflict,
+            "message": err.Error(),
+        })
+        return
+    }
 
-	c.JSON(http.StatusCreated, gin.H{"message": "role created successfully"})
+    c.JSON(http.StatusCreated, gin.H{
+        "status":  http.StatusCreated,
+        "message": "role created successfully",
+    })
 }
 
 // UpdateRole godoc
@@ -124,22 +141,34 @@ func (h *RoleHandler) DeleteRole(c *gin.Context) {
 func (h *RoleHandler) ListRoles(c *gin.Context) {
 	filter := &models.ListRoleRequest{}
 	if err := c.ShouldBindQuery(filter); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusBadRequest, gin.H{
+					"status":  http.StatusBadRequest,
+					"message": err.Error(),
+			})
+			return
 	}
 
 	offset, limit, err := getPageOffsetLimit(c)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusBadRequest, gin.H{
+					"status":  http.StatusBadRequest,
+					"message": err.Error(),
+			})
+			return
 	}
 	filter.Filter.Offset = offset
 	filter.Filter.Limit = limit
 
 	roles, err := h.roleService.List(c.Request.Context(), filter)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+			c.JSON(http.StatusInternalServerError, gin.H{
+					"status":  http.StatusInternalServerError,
+					"message": err.Error(),
+			})
+			return
 	}
-	c.JSON(http.StatusOK, roles)
+	c.JSON(http.StatusOK, gin.H{
+			"status": http.StatusOK,
+			"data":   roles,
+	})
 }

@@ -712,21 +712,24 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "201": {
-                        "description": "message: Role created successfully",
+                        "description": "status: 201, message: role created successfully",
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "additionalProperties": true
                         }
                     },
                     "400": {
-                        "description": "error: Validation error",
+                        "description": "status: 400, message: error message",
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "additionalProperties": true
+                        }
+                    },
+                    "409": {
+                        "description": "status: 409, message: error message",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     }
                 }

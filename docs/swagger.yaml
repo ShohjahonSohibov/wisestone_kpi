@@ -771,16 +771,19 @@ paths:
       - application/json
       responses:
         "201":
-          description: 'message: Role created successfully'
+          description: 'status: 201, message: role created successfully'
           schema:
-            additionalProperties:
-              type: string
+            additionalProperties: true
             type: object
         "400":
-          description: 'error: Validation error'
+          description: 'status: 400, message: error message'
           schema:
-            additionalProperties:
-              type: string
+            additionalProperties: true
+            type: object
+        "409":
+          description: 'status: 409, message: error message'
+          schema:
+            additionalProperties: true
             type: object
       summary: Create a new role
       tags:
