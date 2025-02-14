@@ -1267,6 +1267,117 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/user-teams/{user_id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Remove a user from their current team",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Remove user from team",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "status: 200, message: User removed from team successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "status: 400, message: error message",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "status: 404, message: User not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user-teams/{user_id}/{team_id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Assign a user to a specific team",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Assign user to a team",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Team ID",
+                        "name": "team_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "status: 200, message: User assigned to team successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "status: 400, message: error message",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "status: 404, message: User not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/users": {
             "get": {
                 "security": [
@@ -1313,6 +1424,11 @@ const docTemplate = `{
                         ],
                         "type": "string",
                         "name": "sort_order",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "team_id",
                         "in": "query"
                     }
                 ],
@@ -1896,6 +2012,20 @@ const docTemplate = `{
                 }
             }
         },
+        "models.TeamShort": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_kr": {
+                    "type": "string"
+                }
+            }
+        },
         "models.UpdatePermission": {
             "type": "object",
             "required": [
@@ -1959,13 +2089,25 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
+                "is_team_leader": {
+                    "type": "boolean"
+                },
                 "password": {
                     "type": "string"
                 },
                 "position": {
                     "type": "string"
                 },
+                "role": {
+                    "$ref": "#/definitions/models.ShortRole"
+                },
                 "role_id": {
+                    "type": "string"
+                },
+                "team": {
+                    "$ref": "#/definitions/models.TeamShort"
+                },
+                "team_id": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -1990,7 +2132,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "wisestone-kpi.onrender.com",
+	Host:             "localhost:8080",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "KPI System API",

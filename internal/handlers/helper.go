@@ -21,29 +21,32 @@ func parseIntParam(val string) (int, error) {
 }
 
 func getPageOffsetLimit(c *gin.Context) (offset, limit int, err error) {
-	// Get limit first since we need it for offset calculation
-	cfg := config.Load()
+    // Get limit first since we need it for offset calculation
+    cfg := config.Load()
 
-	limitStr := c.Query("limit")
-	if limitStr == "*" {
-		limitStr = maxLimit
-	}
-	if limitStr == "" {
-		limitStr = cfg.DefaultLimit
-	} else if limit, err = parseIntParam(limitStr); err != nil {
-		return 0, 0, fmt.Errorf("invalid limit parameter: %w", err)
-	}
+    limitStr := c.Query("limit")
+    if limitStr == "*" {
+        limitStr = maxLimit
+    }
+    if limitStr == "" {
+        limitStr = cfg.DefaultLimit
+    }
 
-	// Get page and offset
-	pageStr := c.Query("page")
-	if pageStr == "" {
-		pageStr = defaultPage
-	}
-	
-	offsetStr := c.Query("offset")
-	if offsetStr == "" {
-		offsetStr = cfg.DefaultOffset
-	}
+    // Parse limit
+    if limit, err = parseIntParam(limitStr); err != nil {
+        return 0, 0, fmt.Errorf("invalid limit parameter: %w", err)
+    }
+
+    // Get page and offset
+    pageStr := c.Query("page")
+    if pageStr == "" {
+        pageStr = defaultPage
+    }
+    
+    offsetStr := c.Query("offset")
+    if offsetStr == "" {
+        offsetStr = cfg.DefaultOffset
+    }
 
 	var page int
 	if page, err = parseIntParam(pageStr); err != nil {

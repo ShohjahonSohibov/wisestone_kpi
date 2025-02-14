@@ -176,10 +176,12 @@ func (h *UserHandler) ListUsers(c *gin.Context) {
 		})
 		return
 	}
+
 	filter.Filter.Offset = offset
 	filter.Filter.Limit = limit
 	filter.MultiSearch = c.Query("multi_search")
 	filter.SortOrder = c.Query("sort_order")
+	filter.TeamId = c.Query("team_id")
 
 	users, err := h.userService.List(c.Request.Context(), filter)
 	if err != nil {
@@ -192,5 +194,65 @@ func (h *UserHandler) ListUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status": http.StatusOK,
 		"data":   users,
+	})
+}
+
+// AssignTeam godoc
+// @Summary Assign user to a team
+// @Description Assign a user to a specific team
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param user_id path string true "User ID"
+// @Param team_id path string true "Team ID"
+// @Success 200 {object} map[string]interface{} "status: 200, message: User assigned to team successfully"
+// @Failure 400 {object} map[string]interface{} "status: 400, message: error message"
+// @Failure 404 {object} map[string]interface{} "status: 404, message: User not found"
+// @Router /api/v1/user-teams/{user_id}/{team_id} [put]
+func (h *UserHandler) AssignTeam(c *gin.Context) {
+	userID := c.Param("user_id")
+	teamID := c.Param("team_id")
+
+	if err := h.userService.AssignTeam(c.Request.Context(), userID, teamID); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":  http.StatusOK,
+		"message": "user assigned to team successfully",
+	})
+}
+
+// RemoveFromTeam godoc
+// @Summary Remove user from team
+// @Description Remove a user from their current team
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param user_id path string true "User ID"
+// @Success 200 {object} map[string]interface{} "status: 200, message: User removed from team successfully"
+// @Failure 400 {object} map[string]interface{} "status: 400, message: error message"
+// @Failure 404 {object} map[string]interface{} "status: 404, message: User not found"
+// @Router /api/v1/user-teams/{user_id} [delete]
+func (h *UserHandler) RemoveFromTeam(c *gin.Context) {
+	userID := c.Param("user_id")
+
+	if err := h.userService.RemoveFromTeam(c.Request.Context(), userID); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":  http.StatusOK,
+		"message": "user removed from team successfully",
 	})
 }

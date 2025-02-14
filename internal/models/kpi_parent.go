@@ -1,55 +1,43 @@
 package models
 
-import (
-	"time"
-)
+import "time"
 
-type Team struct {
+type KPIParent struct {
 	ID            string    `json:"id,omitempty" bson:"_id,omitempty"`
 	NameEn        string    `bson:"name_en" json:"name_en" binding:"required"`
 	NameKr        string    `bson:"name_kr" json:"name_kr" binding:"required"`
 	DescriptionEn string    `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string    `bson:"description_kr" json:"description_kr,omitempty"`
-	LeaderId      string    `bson:"leader_id" json:"leader_id"`
 	CreatedAt     time.Time `json:"created_at,omitempty" bson:"created_at"`
 	UpdatedAt     time.Time `json:"updated_at,omitempty" bson:"updated_at"`
 }
 
-type TeamShort struct {
-	ID            string    `json:"id,omitempty" bson:"_id,omitempty"`
-	NameEn        string    `bson:"name_en,omitempty" json:"name_en,omitempty"`
-	NameKr        string    `bson:"name_kr,omitempty" json:"name_kr,omitempty"`
-}
-
-type CreateTeam struct {
+type CreateKPIParent struct {
 	NameEn        string `bson:"name_en" json:"name_en" binding:"required"`
 	NameKr        string `bson:"name_kr" json:"name_kr" binding:"required"`
 	DescriptionEn string `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string `bson:"description_kr" json:"description_kr,omitempty"`
-	LeaderId      string `bson:"leader_id" json:"leader_id"`
 }
 
-type UpdateTeam struct {
+type UpdateKPIParent struct {
 	ID            string `json:"id,omitempty" bson:"_id,omitempty"`
 	NameEn        string `bson:"name_en" json:"name_en" binding:"required"`
 	NameKr        string `bson:"name_kr" json:"name_kr" binding:"required"`
 	DescriptionEn string `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string `bson:"description_kr" json:"description_kr,omitempty"`
-	LeaderId      string `bson:"leader_id" json:"leader_id"`
 }
 
-type ListTeamsResponse struct {
-	Count int     `json:"count"`
-	Items []*Team `json:"items"`
+type ListKPIParentResponse struct {
+	Count int          `json:"count"`
+	Items []*KPIParent `json:"items"`
 }
 
-type ListTeamsRequest struct {
+type ListKPIParentRequest struct {
 	Filter
 }
 
-// BeforeCreate sets timestamps before creating a record
-func (u *Team) BeforeCreate() {
+func (k *KPIParent) BeforeCreate() {
 	now := time.Now()
-	u.CreatedAt = now
-	u.UpdatedAt = now
+	k.CreatedAt = now
+	k.UpdatedAt = now
 }

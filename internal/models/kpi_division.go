@@ -1,55 +1,48 @@
 package models
 
-import (
-	"time"
-)
+import "time"
 
-type Team struct {
+type KPIDivision struct {
 	ID            string    `json:"id,omitempty" bson:"_id,omitempty"`
+	ParentID      string    `bson:"parent_id" json:"parent_id" binding:"required"`
+	Parent        KPIParent `bson:"parent" json:"parent"`
 	NameEn        string    `bson:"name_en" json:"name_en" binding:"required"`
 	NameKr        string    `bson:"name_kr" json:"name_kr" binding:"required"`
 	DescriptionEn string    `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string    `bson:"description_kr" json:"description_kr,omitempty"`
-	LeaderId      string    `bson:"leader_id" json:"leader_id"`
 	CreatedAt     time.Time `json:"created_at,omitempty" bson:"created_at"`
 	UpdatedAt     time.Time `json:"updated_at,omitempty" bson:"updated_at"`
 }
 
-type TeamShort struct {
-	ID            string    `json:"id,omitempty" bson:"_id,omitempty"`
-	NameEn        string    `bson:"name_en,omitempty" json:"name_en,omitempty"`
-	NameKr        string    `bson:"name_kr,omitempty" json:"name_kr,omitempty"`
-}
-
-type CreateTeam struct {
+type CreateKPIDivision struct {
+	ParentID      string `bson:"parent_id" json:"parent_id" binding:"required"`
 	NameEn        string `bson:"name_en" json:"name_en" binding:"required"`
 	NameKr        string `bson:"name_kr" json:"name_kr" binding:"required"`
 	DescriptionEn string `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string `bson:"description_kr" json:"description_kr,omitempty"`
-	LeaderId      string `bson:"leader_id" json:"leader_id"`
 }
 
-type UpdateTeam struct {
+type UpdateKPIDivision struct {
 	ID            string `json:"id,omitempty" bson:"_id,omitempty"`
+	ParentID      string `bson:"parent_id" json:"parent_id" binding:"required"`
 	NameEn        string `bson:"name_en" json:"name_en" binding:"required"`
 	NameKr        string `bson:"name_kr" json:"name_kr" binding:"required"`
 	DescriptionEn string `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string `bson:"description_kr" json:"description_kr,omitempty"`
-	LeaderId      string `bson:"leader_id" json:"leader_id"`
 }
 
-type ListTeamsResponse struct {
-	Count int     `json:"count"`
-	Items []*Team `json:"items"`
+type ListKPIDivisionResponse struct {
+	Count int            `json:"count"`
+	Items []*KPIDivision `json:"items"`
 }
 
-type ListTeamsRequest struct {
+type ListKPIDivisionRequest struct {
+	ParentID string `json:"parent_id"`
 	Filter
 }
 
-// BeforeCreate sets timestamps before creating a record
-func (u *Team) BeforeCreate() {
+func (k *KPIDivision) BeforeCreate() {
 	now := time.Now()
-	u.CreatedAt = now
-	u.UpdatedAt = now
+	k.CreatedAt = now
+	k.UpdatedAt = now
 }

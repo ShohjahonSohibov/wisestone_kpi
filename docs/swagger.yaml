@@ -213,6 +213,15 @@ definitions:
     - name_en
     - name_kr
     type: object
+  models.TeamShort:
+    properties:
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+    type: object
   models.UpdatePermission:
     properties:
       action_kr:
@@ -252,11 +261,19 @@ definitions:
         type: string
       id:
         type: string
+      is_team_leader:
+        type: boolean
       password:
         type: string
       position:
         type: string
+      role:
+        $ref: '#/definitions/models.ShortRole'
       role_id:
+        type: string
+      team:
+        $ref: '#/definitions/models.TeamShort'
+      team_id:
         type: string
       updated_at:
         type: string
@@ -266,7 +283,7 @@ definitions:
     - password
     - username
     type: object
-host: wisestone-kpi.onrender.com
+host: localhost:8080
 info:
   contact:
     email: support@wisestonet.com
@@ -1075,6 +1092,79 @@ paths:
       summary: Update existing team
       tags:
       - Teams
+  /api/v1/user-teams/{user_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove a user from their current team
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, message: User removed from team successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'status: 404, message: User not found'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Remove user from team
+      tags:
+      - Users
+  /api/v1/user-teams/{user_id}/{team_id}:
+    put:
+      consumes:
+      - application/json
+      description: Assign a user to a specific team
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: Team ID
+        in: path
+        name: team_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, message: User assigned to team successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'status: 404, message: User not found'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Assign user to a team
+      tags:
+      - Users
   /api/v1/users:
     get:
       consumes:
@@ -1098,6 +1188,9 @@ paths:
         - desc
         in: query
         name: sort_order
+        type: string
+      - in: query
+        name: team_id
         type: string
       produces:
       - application/json

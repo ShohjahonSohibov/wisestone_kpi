@@ -47,6 +47,13 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 				users.DELETE("/:id", userHandler.DeleteUser)
 			}
 
+			// User team management routes (separate group to avoid conflicts)
+			userTeams := protected.Group("/user-teams")
+			{
+				userTeams.PUT("/:user_id/:team_id", userHandler.AssignTeam)
+				userTeams.DELETE("/:user_id", userHandler.RemoveFromTeam)
+			}
+
 			// Team routes
 			teams := protected.Group("/teams")
 			{
@@ -87,5 +94,6 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 				rolePermissions.DELETE("/:id", rolePermissionHandler.DeleteRolePermission)
 			}
 		}
+		// Remove duplicate users group here
 	}
 }
