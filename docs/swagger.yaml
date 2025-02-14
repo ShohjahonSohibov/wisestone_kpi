@@ -1122,7 +1122,7 @@ paths:
             additionalProperties: true
             type: object
       security:
-      - BearerAuth: []
+      - ApiKeyAuth: []
       summary: Remove user from team
       tags:
       - Users
@@ -1161,7 +1161,7 @@ paths:
             additionalProperties: true
             type: object
       security:
-      - BearerAuth: []
+      - ApiKeyAuth: []
       summary: Assign user to a team
       tags:
       - Users

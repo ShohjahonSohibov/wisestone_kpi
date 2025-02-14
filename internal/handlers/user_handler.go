@@ -198,12 +198,12 @@ func (h *UserHandler) ListUsers(c *gin.Context) {
 }
 
 // AssignTeam godoc
+// @Security ApiKeyAuth
 // @Summary Assign user to a team
 // @Description Assign a user to a specific team
 // @Tags Users
 // @Accept json
 // @Produce json
-// @Security BearerAuth
 // @Param user_id path string true "User ID"
 // @Param team_id path string true "Team ID"
 // @Success 200 {object} map[string]interface{} "status: 200, message: User assigned to team successfully"
@@ -229,12 +229,12 @@ func (h *UserHandler) AssignTeam(c *gin.Context) {
 }
 
 // RemoveFromTeam godoc
+// @Security ApiKeyAuth
 // @Summary Remove user from team
 // @Description Remove a user from their current team
 // @Tags Users
 // @Accept json
 // @Produce json
-// @Security BearerAuth
 // @Param user_id path string true "User ID"
 // @Success 200 {object} map[string]interface{} "status: 200, message: User removed from team successfully"
 // @Failure 400 {object} map[string]interface{} "status: 400, message: error message"
