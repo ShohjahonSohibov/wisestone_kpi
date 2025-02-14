@@ -1,5 +1,15 @@
 basePath: /
 definitions:
+  models.AssignTeamRequest:
+    properties:
+      team_id:
+        type: string
+      user_id:
+        type: string
+    required:
+    - team_id
+    - user_id
+    type: object
   models.CreatePermission:
     properties:
       action_kr:
@@ -1092,6 +1102,41 @@ paths:
       summary: Update existing team
       tags:
       - Teams
+  /api/v1/user-teams:
+    put:
+      consumes:
+      - application/json
+      description: Assign a user to a specific team
+      parameters:
+      - description: Request body with user_id and team_id
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.AssignTeamRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, message: User assigned to team successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'status: 404, message: User not found'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Assign user to a team
+      tags:
+      - Users
   /api/v1/user-teams/{user_id}:
     delete:
       consumes:
@@ -1124,45 +1169,6 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Remove user from team
-      tags:
-      - Users
-  /api/v1/user-teams/{user_id}/{team_id}:
-    put:
-      consumes:
-      - application/json
-      description: Assign a user to a specific team
-      parameters:
-      - description: User ID
-        in: path
-        name: user_id
-        required: true
-        type: string
-      - description: Team ID
-        in: path
-        name: team_id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 'status: 200, message: User assigned to team successfully'
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: 'status: 400, message: error message'
-          schema:
-            additionalProperties: true
-            type: object
-        "404":
-          description: 'status: 404, message: User not found'
-          schema:
-            additionalProperties: true
-            type: object
-      security:
-      - ApiKeyAuth: []
-      summary: Assign user to a team
       tags:
       - Users
   /api/v1/users:

@@ -1267,6 +1267,60 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/user-teams": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Assign a user to a specific team",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Assign user to a team",
+                "parameters": [
+                    {
+                        "description": "Request body with user_id and team_id",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.AssignTeamRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "status: 200, message: User assigned to team successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "status: 400, message: error message",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "status: 404, message: User not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/user-teams/{user_id}": {
             "delete": {
                 "security": [
@@ -1297,65 +1351,6 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "status: 200, message: User removed from team successfully",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "status: 400, message: error message",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "404": {
-                        "description": "status: 404, message: User not found",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/user-teams/{user_id}/{team_id}": {
-            "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Assign a user to a specific team",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Assign user to a team",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "user_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Team ID",
-                        "name": "team_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "status: 200, message: User assigned to team successfully",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -1687,6 +1682,21 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.AssignTeamRequest": {
+            "type": "object",
+            "required": [
+                "team_id",
+                "user_id"
+            ],
+            "properties": {
+                "team_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
         "models.CreatePermission": {
             "type": "object",
             "required": [

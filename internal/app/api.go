@@ -50,7 +50,7 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 			// User team management routes (separate group to avoid conflicts)
 			userTeams := protected.Group("/user-teams")
 			{
-				userTeams.PUT("/:user_id/:team_id", userHandler.AssignTeam)
+				userTeams.PUT("", userHandler.AssignTeam)
 				userTeams.DELETE("/:user_id", userHandler.RemoveFromTeam)
 			}
 

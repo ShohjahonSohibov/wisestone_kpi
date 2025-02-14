@@ -204,17 +204,23 @@ func (h *UserHandler) ListUsers(c *gin.Context) {
 // @Tags Users
 // @Accept json
 // @Produce json
-// @Param user_id path string true "User ID"
-// @Param team_id path string true "Team ID"
+// @Param request body models.AssignTeamRequest true "Request body with user_id and team_id"
 // @Success 200 {object} map[string]interface{} "status: 200, message: User assigned to team successfully"
 // @Failure 400 {object} map[string]interface{} "status: 400, message: error message"
 // @Failure 404 {object} map[string]interface{} "status: 404, message: User not found"
-// @Router /api/v1/user-teams/{user_id}/{team_id} [put]
+// @Router /api/v1/user-teams [put]
 func (h *UserHandler) AssignTeam(c *gin.Context) {
-	userID := c.Param("user_id")
-	teamID := c.Param("team_id")
+	var request models.AssignTeamRequest
 
-	if err := h.userService.AssignTeam(c.Request.Context(), userID, teamID); err != nil {
+	if err := c.ShouldBindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	if err := h.userService.AssignTeam(c.Request.Context(), request.UserID, request.TeamID); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  http.StatusBadRequest,
 			"message": err.Error(),

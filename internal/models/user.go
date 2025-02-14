@@ -52,6 +52,11 @@ type ListUsersRequest struct {
 	Filter
 }
 
+type AssignTeamRequest struct {
+	UserID string `json:"user_id" binding:"required"`
+	TeamID string `json:"team_id" binding:"required"`
+}
+
 // BeforeCreate sets timestamps before creating a record
 func (u *User) BeforeCreate() {
 	now := time.Now()
