@@ -8,7 +8,11 @@ type RepositoryManager struct {
     RoleRepository *RoleRepository
     PermissionRepository *PermissionRepository
     RolePermissionRepository *RolePermissionRepository
-    KpiParentRepository *KpiParentRepository
+    KPIParentRepository *KpiParentRepository
+    KPICriterionRepository *KPICriterionRepository 
+    KPIDivisionRepository *KPIDivisionRepository
+    KPIFactorRepository *KPIFactorRepository
+    KPIFactorIndicatorRepository *KPIFactorIndicatorRepository
 }
 
 func NewRepositoryManager(db *mongo.Database) *RepositoryManager {
@@ -18,6 +22,10 @@ func NewRepositoryManager(db *mongo.Database) *RepositoryManager {
         RoleRepository: NewRoleRepository(db),
         PermissionRepository: NewPermissionRepository(db),
         RolePermissionRepository: NewRolePermissionRepository(db),
-        KpiParentRepository: NewKPIParentRepository(db),
+        KPIParentRepository: NewKPIParentRepository(db),
+        KPICriterionRepository: NewKPICriterionRepository(db),
+        KPIDivisionRepository: NewKPIDivisionRepository(db),
+        KPIFactorRepository: NewKPIFactorRepository(db),
+        KPIFactorIndicatorRepository: NewKPIFactorIndicatorRepository(db),
     }
 }

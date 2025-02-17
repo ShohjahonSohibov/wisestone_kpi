@@ -10,6 +10,64 @@ definitions:
     - team_id
     - user_id
     type: object
+  models.CreateKPICriterion:
+    properties:
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      division_id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      total_ratio:
+        type: number
+    type: object
+  models.CreateKPIDivision:
+    properties:
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      parent_id:
+        type: string
+    type: object
+  models.CreateKPIFactor:
+    properties:
+      criterion_id:
+        type: string
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      ratio:
+        type: number
+    type: object
+  models.CreateKPIFactorIndicator:
+    properties:
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      factor_id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      progress_range:
+        type: string
+    type: object
   models.CreateKPIParent:
     properties:
       description_en:
@@ -267,6 +325,72 @@ definitions:
       name_kr:
         type: string
     type: object
+  models.UpdateKPICriterion:
+    properties:
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      division_id:
+        type: string
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      total_ratio:
+        type: number
+    type: object
+  models.UpdateKPIDivision:
+    properties:
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      parent_id:
+        type: string
+    type: object
+  models.UpdateKPIFactor:
+    properties:
+      criterion_id:
+        type: string
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      ratio:
+        type: number
+    type: object
+  models.UpdateKPIFactorIndicator:
+    properties:
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      factor_id:
+        type: string
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      progress_range:
+        type: string
+    type: object
   models.UpdateKPIParent:
     properties:
       description_en:
@@ -386,6 +510,744 @@ paths:
       summary: Authenticate an existing user
       tags:
       - Authentication
+  /api/v1/kpi-criterions:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of KPI Criterions with filtering and pagination
+      parameters:
+      - in: query
+        name: division_id
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: multi_search
+        type: string
+      - in: query
+        name: offset
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - enum:
+        - asc
+        - desc
+        in: query
+        name: sort_order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, data: ListKPICriterionResponse'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: List KPI Criterions
+      tags:
+      - KPI Criterions
+    post:
+      consumes:
+      - application/json
+      description: Create a new KPI Criterion
+      parameters:
+      - description: KPI Criterion creation request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateKPICriterion'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 'status: 201, message: KPI Criterion created successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create KPI Criterion
+      tags:
+      - KPI Criterions
+  /api/v1/kpi-criterions/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a KPI Criterion
+      parameters:
+      - description: KPI Criterion ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, message: KPI Criterion deleted successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete KPI Criterion
+      tags:
+      - KPI Criterions
+    get:
+      consumes:
+      - application/json
+      description: Get a KPI Criterion by its ID
+      parameters:
+      - description: KPI Criterion ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, data: KPI Criterion object'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'status: 404, message: kpi criterion not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get KPI Criterion by ID
+      tags:
+      - KPI Criterions
+    put:
+      consumes:
+      - application/json
+      description: Update an existing KPI Criterion
+      parameters:
+      - description: KPI Criterion ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: KPI Criterion update request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateKPICriterion'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, message: KPI Criterion updated successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update KPI Criterion
+      tags:
+      - KPI Criterions
+  /api/v1/kpi-divisions:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of KPI Divisions with filtering and pagination
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Items per page
+        in: query
+        name: limit
+        type: integer
+      - description: Search in name fields
+        in: query
+        name: multi_search
+        type: string
+      - description: Sort order (asc/desc)
+        in: query
+        name: sort_order
+        type: string
+      - description: Filter by parent ID
+        in: query
+        name: parent_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, data: ListKPIDivisionResponse'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: List KPI Divisions
+      tags:
+      - KPI Divisions
+    post:
+      consumes:
+      - application/json
+      description: Create a new KPI Division
+      parameters:
+      - description: KPI Division creation request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateKPIDivision'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 'status: 201, message: KPI Division created successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create KPI Division
+      tags:
+      - KPI Divisions
+  /api/v1/kpi-divisions/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a KPI Division
+      parameters:
+      - description: KPI Division ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, message: KPI Division deleted successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete KPI Division
+      tags:
+      - KPI Divisions
+    get:
+      consumes:
+      - application/json
+      description: Get a KPI Division by its ID
+      parameters:
+      - description: KPI Division ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, data: KPI Division object'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'status: 404, message: kpi division not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get KPI Division by ID
+      tags:
+      - KPI Divisions
+    put:
+      consumes:
+      - application/json
+      description: Update an existing KPI Division
+      parameters:
+      - description: KPI Division ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: KPI Division update request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateKPIDivision'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, message: KPI Division updated successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update KPI Division
+      tags:
+      - KPI Divisions
+  /api/v1/kpi-factor-indicators:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of KPI Factor Indicators with filtering and pagination
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Items per page
+        in: query
+        name: limit
+        type: integer
+      - description: Search in name fields
+        in: query
+        name: multi_search
+        type: string
+      - description: Sort order (asc/desc)
+        in: query
+        name: sort_order
+        type: string
+      - description: Filter by factor ID
+        in: query
+        name: factor_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, data: ListKPIFactorIndicatorResponse'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: List KPI Factor Indicators
+      tags:
+      - KPI Factor Indicators
+    post:
+      consumes:
+      - application/json
+      description: Create a new KPI Factor Indicator
+      parameters:
+      - description: KPI Factor Indicator creation request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateKPIFactorIndicator'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 'status: 201, message: KPI Factor Indicator created successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create KPI Factor Indicator
+      tags:
+      - KPI Factor Indicators
+  /api/v1/kpi-factor-indicators/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a KPI Factor Indicator
+      parameters:
+      - description: KPI Factor Indicator ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, message: KPI Factor Indicator deleted successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete KPI Factor Indicator
+      tags:
+      - KPI Factor Indicators
+    get:
+      consumes:
+      - application/json
+      description: Get a KPI Factor Indicator by its ID
+      parameters:
+      - description: KPI Factor Indicator ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, data: KPI Factor Indicator object'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'status: 404, message: kpi factor indicator not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get KPI Factor Indicator by ID
+      tags:
+      - KPI Factor Indicators
+    put:
+      consumes:
+      - application/json
+      description: Update an existing KPI Factor Indicator
+      parameters:
+      - description: KPI Factor Indicator ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: KPI Factor Indicator update request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateKPIFactorIndicator'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, message: KPI Factor Indicator updated successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update KPI Factor Indicator
+      tags:
+      - KPI Factor Indicators
+  /api/v1/kpi-factors:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of KPI Factors with filtering and pagination
+      parameters:
+      - in: query
+        name: criterion_id
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: multi_search
+        type: string
+      - in: query
+        name: offset
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - enum:
+        - asc
+        - desc
+        in: query
+        name: sort_order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, data: ListKPIFactorResponse'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: List KPI Factors
+      tags:
+      - KPI Factors
+    post:
+      consumes:
+      - application/json
+      description: Create a new KPI Factor
+      parameters:
+      - description: KPI Factor creation request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateKPIFactor'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 'status: 201, message: KPI Factor created successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create KPI Factor
+      tags:
+      - KPI Factors
+  /api/v1/kpi-factors/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a KPI Factor
+      parameters:
+      - description: KPI Factor ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, message: KPI Factor deleted successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete KPI Factor
+      tags:
+      - KPI Factors
+    get:
+      consumes:
+      - application/json
+      description: Get a KPI Factor by its ID
+      parameters:
+      - description: KPI Factor ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, data: KPI Factor object'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'status: 404, message: kpi factor not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get KPI Factor by ID
+      tags:
+      - KPI Factors
+    put:
+      consumes:
+      - application/json
+      description: Update an existing KPI Factor
+      parameters:
+      - description: KPI Factor ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: KPI Factor update request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateKPIFactor'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, message: KPI Factor updated successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update KPI Factor
+      tags:
+      - KPI Factors
   /api/v1/kpi-parents:
     get:
       description: Get a list of KPI Parents with filtering and pagination

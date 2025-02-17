@@ -9,7 +9,11 @@ type ServiceManager struct {
 	RoleService           *RoleService
 	PermissionService     *PermissionService
 	RolePermissionService *RolePermissionService
-	KpiParentService *KpiParentService
+	KPIParentService      *KPIParentService
+	KPICriterionService   *KPICriterionService
+	KPIDivisionService    *KPIDivisionService
+	KPIFactorService      *KPIFactorService
+	KPIFactorIndicatorService *KPIFactorIndicatorService
 }
 
 func NewServiceManager(repoManager *repositories.RepositoryManager) *ServiceManager {
@@ -20,6 +24,10 @@ func NewServiceManager(repoManager *repositories.RepositoryManager) *ServiceMana
 		RoleService:           NewRoleService(repoManager.RoleRepository),
 		PermissionService:     NewPermissionService(repoManager.PermissionRepository),
 		RolePermissionService: NewRolePermissionService(repoManager.RolePermissionRepository),
-		KpiParentService:      NewKPIParentService(repoManager.KpiParentRepository),
+		KPIParentService:      NewKPIParentService(repoManager.KPIParentRepository),
+		KPICriterionService:   NewKPICriterionService(repoManager.KPICriterionRepository),
+		KPIDivisionService:    NewKPIDivisionService(repoManager.KPIDivisionRepository),
+		KPIFactorService:      NewKPIFactorService(repoManager.KPIFactorRepository),
+		KPIFactorIndicatorService: NewKPIFactorIndicatorService(repoManager.KPIFactorIndicatorRepository),
 	}
 }

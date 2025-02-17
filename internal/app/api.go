@@ -23,7 +23,11 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 	roleHandler := handlers.NewRoleHandler(serviceManager.RoleService)
 	permissionHandler := handlers.NewPermissionHandler(serviceManager.PermissionService)
 	rolePermissionHandler := handlers.NewRolePermissionHandler(serviceManager.RolePermissionService)
-	kpiParentHandler := handlers.NewKPIParentHandler(serviceManager.KpiParentService)
+	kpiParentHandler := handlers.NewKPIParentHandler(serviceManager.KPIParentService)
+	kpiDivisionHandler := handlers.NewKPIDivisionHandler(serviceManager.KPIDivisionService)
+	kpiCriterionHandler := handlers.NewKPICriterionHandler(serviceManager.KPICriterionService)
+	kpiFactorHandler := handlers.NewKPIFactorHandler(serviceManager.KPIFactorService)
+	kpiFactorIndicatorHandler := handlers.NewKPIFactorIndicatorHandler(serviceManager.KPIFactorIndicatorService)
 
 	// API routes
 	api := router.Group("/api/v1")
@@ -95,6 +99,7 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 				rolePermissions.DELETE("/:id", rolePermissionHandler.DeleteRolePermission)
 			}
 
+			// KPI-Parent routes
 			kpiParentGroup := protected.Group("/kpi-parents")
 			{
 				kpiParentGroup.POST("", kpiParentHandler.Create)
@@ -103,7 +108,46 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 				kpiParentGroup.GET("/:id", kpiParentHandler.GetByID)
 				kpiParentGroup.GET("", kpiParentHandler.List)
 			}
+
+			// Kpi-Division routes
+			kpiDivisionGroup := protected.Group("/kpi-divisions")
+			{
+				kpiDivisionGroup.POST("", kpiDivisionHandler.Create)
+				kpiDivisionGroup.PUT("/:id", kpiDivisionHandler.Update)
+				kpiDivisionGroup.DELETE("/:id", kpiDivisionHandler.Delete)
+				kpiDivisionGroup.GET("/:id", kpiDivisionHandler.GetByID)
+				kpiDivisionGroup.GET("", kpiDivisionHandler.List)
+			}
+
+			// Kpi-Criterion routes
+			kpiCriterionGroup := protected.Group("/kpi-criterions")
+			{
+				kpiCriterionGroup.POST("", kpiCriterionHandler.Create)
+				kpiCriterionGroup.PUT("/:id", kpiCriterionHandler.Update)
+				kpiCriterionGroup.DELETE("/:id", kpiCriterionHandler.Delete)
+				kpiCriterionGroup.GET("/:id", kpiCriterionHandler.GetByID)
+				kpiCriterionGroup.GET("", kpiCriterionHandler.List)
+			}
+
+			// Kpi-Factor routes
+			kpiFactorGroup := protected.Group("/kpi-factors")
+			{
+				kpiFactorGroup.POST("", kpiFactorHandler.Create)
+				kpiFactorGroup.PUT("/:id", kpiFactorHandler.Update)
+				kpiFactorGroup.DELETE("/:id", kpiFactorHandler.Delete)
+				kpiFactorGroup.GET("/:id", kpiFactorHandler.GetByID)
+				kpiFactorGroup.GET("", kpiFactorHandler.List)
+			}
+
+			// Kpi-Factor-Indicator routes
+			kpiFactorIndicatorGroup := protected.Group("/kpi-factor-indicators")
+			{
+				kpiFactorIndicatorGroup.POST("", kpiFactorIndicatorHandler.Create)
+				kpiFactorIndicatorGroup.PUT("/:id", kpiFactorIndicatorHandler.Update)
+				kpiFactorIndicatorGroup.DELETE("/:id", kpiFactorIndicatorHandler.Delete)
+				kpiFactorIndicatorGroup.GET("/:id", kpiFactorIndicatorHandler.GetByID)
+				kpiFactorIndicatorGroup.GET("", kpiFactorIndicatorHandler.List)
+			}
 		}
-		// Remove duplicate users group here
 	}
 }
