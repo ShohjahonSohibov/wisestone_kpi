@@ -64,6 +64,269 @@
                 }
             }
         },
+        "/api/v1/kpi-parents": {
+            "get": {
+                "description": "Get a list of KPI Parents with filtering and pagination",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Parents"
+                ],
+                "summary": "List KPI Parents",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "multi_search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "asc",
+                            "desc"
+                        ],
+                        "type": "string",
+                        "name": "sort_order",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ListKPIParentResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new KPI Parent",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Parents"
+                ],
+                "summary": "Create KPI Parent",
+                "parameters": [
+                    {
+                        "description": "KPI Parent creation request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CreateKPIParent"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.KPIParent"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/kpi-parents/{id}": {
+            "get": {
+                "description": "Get a KPI Parent by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Parents"
+                ],
+                "summary": "Get KPI Parent by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "KPI Parent ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.KPIParent"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing KPI Parent by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Parents"
+                ],
+                "summary": "Update KPI Parent",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "KPI Parent ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "KPI Parent update request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateKPIParent"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.KPIParent"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a KPI Parent by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Parents"
+                ],
+                "summary": "Delete KPI Parent",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "KPI Parent ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/permissions": {
             "get": {
                 "security": [
@@ -1507,7 +1770,7 @@
                 }
             }
         },
-        "/api/v1/users/{id}": {
+        "/api/v1/users/single": {
             "get": {
                 "security": [
                     {
@@ -1560,7 +1823,9 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/api/v1/users/{id}": {
             "put": {
                 "security": [
                     {
@@ -1691,6 +1956,23 @@
                 }
             }
         },
+        "models.CreateKPIParent": {
+            "type": "object",
+            "properties": {
+                "description_en": {
+                    "type": "string"
+                },
+                "description_kr": {
+                    "type": "string"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_kr": {
+                    "type": "string"
+                }
+            }
+        },
         "models.CreatePermission": {
             "type": "object",
             "required": [
@@ -1773,6 +2055,46 @@
                 },
                 "username": {
                     "type": "string"
+                }
+            }
+        },
+        "models.KPIParent": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description_en": {
+                    "type": "string"
+                },
+                "description_kr": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_kr": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ListKPIParentResponse": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.KPIParent"
+                    }
                 }
             }
         },
@@ -2011,6 +2333,26 @@
         "models.TeamShort": {
             "type": "object",
             "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_kr": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UpdateKPIParent": {
+            "type": "object",
+            "properties": {
+                "description_en": {
+                    "type": "string"
+                },
+                "description_kr": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },

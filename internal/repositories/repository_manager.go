@@ -8,6 +8,7 @@ type RepositoryManager struct {
     RoleRepository *RoleRepository
     PermissionRepository *PermissionRepository
     RolePermissionRepository *RolePermissionRepository
+    KpiParentRepository *KpiParentRepository
 }
 
 func NewRepositoryManager(db *mongo.Database) *RepositoryManager {
@@ -17,5 +18,6 @@ func NewRepositoryManager(db *mongo.Database) *RepositoryManager {
         RoleRepository: NewRoleRepository(db),
         PermissionRepository: NewPermissionRepository(db),
         RolePermissionRepository: NewRolePermissionRepository(db),
+        KpiParentRepository: NewKPIParentRepository(db),
     }
 }

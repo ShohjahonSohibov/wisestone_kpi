@@ -4,10 +4,10 @@ import "time"
 
 type KPIDivision struct {
 	ID            string    `json:"id,omitempty" bson:"_id,omitempty"`
-	ParentID      string    `bson:"parent_id" json:"parent_id" binding:"required"`
+	ParentID      string    `bson:"parent_id" json:"parent_id"`
 	Parent        KPIParent `bson:"parent" json:"parent"`
-	NameEn        string    `bson:"name_en" json:"name_en" binding:"required"`
-	NameKr        string    `bson:"name_kr" json:"name_kr" binding:"required"`
+	NameEn        string    `bson:"name_en" json:"name_en"`
+	NameKr        string    `bson:"name_kr" json:"name_kr"`
 	DescriptionEn string    `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string    `bson:"description_kr" json:"description_kr,omitempty"`
 	CreatedAt     time.Time `json:"created_at,omitempty" bson:"created_at"`
@@ -15,18 +15,18 @@ type KPIDivision struct {
 }
 
 type CreateKPIDivision struct {
-	ParentID      string `bson:"parent_id" json:"parent_id" binding:"required"`
-	NameEn        string `bson:"name_en" json:"name_en" binding:"required"`
-	NameKr        string `bson:"name_kr" json:"name_kr" binding:"required"`
+	ParentID      string `bson:"parent_id" json:"parent_id"`
+	NameEn        string `bson:"name_en" json:"name_en"`
+	NameKr        string `bson:"name_kr" json:"name_kr"`
 	DescriptionEn string `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string `bson:"description_kr" json:"description_kr,omitempty"`
 }
 
 type UpdateKPIDivision struct {
 	ID            string `json:"id,omitempty" bson:"_id,omitempty"`
-	ParentID      string `bson:"parent_id" json:"parent_id" binding:"required"`
-	NameEn        string `bson:"name_en" json:"name_en" binding:"required"`
-	NameKr        string `bson:"name_kr" json:"name_kr" binding:"required"`
+	ParentID      string `bson:"parent_id" json:"parent_id"`
+	NameEn        string `bson:"name_en" json:"name_en"`
+	NameKr        string `bson:"name_kr" json:"name_kr"`
 	DescriptionEn string `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string `bson:"description_kr" json:"description_kr,omitempty"`
 }

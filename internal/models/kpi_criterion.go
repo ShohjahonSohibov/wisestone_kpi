@@ -4,11 +4,11 @@ import "time"
 
 type KPICriterion struct {
 	ID            string      `json:"id,omitempty" bson:"_id,omitempty"`
-	DivisionID    string      `bson:"division_id" json:"division_id" binding:"required"`
+	DivisionID    string      `bson:"division_id" json:"division_id"`
 	Division      KPIDivision `bson:"division" json:"division"`
-	NameEn        string      `bson:"name_en" json:"name_en" binding:"required"`
-	NameKr        string      `bson:"name_kr" json:"name_kr" binding:"required"`
-	TotalRatio    float64     `bson:"total_ratio" json:"total_ratio" binding:"required"`
+	NameEn        string      `bson:"name_en" json:"name_en"`
+	NameKr        string      `bson:"name_kr" json:"name_kr"`
+	TotalRatio    float64     `bson:"total_ratio" json:"total_ratio"`
 	DescriptionEn string      `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string      `bson:"description_kr" json:"description_kr,omitempty"`
 	CreatedAt     time.Time   `json:"created_at,omitempty" bson:"created_at"`
@@ -16,20 +16,20 @@ type KPICriterion struct {
 }
 
 type CreateKPICriterion struct {
-	DivisionID    string  `bson:"division_id" json:"division_id" binding:"required"`
-	NameEn        string  `bson:"name_en" json:"name_en" binding:"required"`
-	NameKr        string  `bson:"name_kr" json:"name_kr" binding:"required"`
-	TotalRatio    float64 `bson:"total_ratio" json:"total_ratio" binding:"required"`
+	DivisionID    string  `bson:"division_id" json:"division_id"`
+	NameEn        string  `bson:"name_en" json:"name_en"`
+	NameKr        string  `bson:"name_kr" json:"name_kr"`
+	TotalRatio    float64 `bson:"total_ratio" json:"total_ratio"`
 	DescriptionEn string  `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string  `bson:"description_kr" json:"description_kr,omitempty"`
 }
 
 type UpdateKPICriterion struct {
 	ID            string  `json:"id,omitempty" bson:"_id,omitempty"`
-	DivisionID    string  `bson:"division_id" json:"division_id" binding:"required"`
-	NameEn        string  `bson:"name_en" json:"name_en" binding:"required"`
-	NameKr        string  `bson:"name_kr" json:"name_kr" binding:"required"`
-	TotalRatio    float64 `bson:"total_ratio" json:"total_ratio" binding:"required"`
+	DivisionID    string  `bson:"division_id" json:"division_id"`
+	NameEn        string  `bson:"name_en" json:"name_en"`
+	NameKr        string  `bson:"name_kr" json:"name_kr"`
+	TotalRatio    float64 `bson:"total_ratio" json:"total_ratio"`
 	DescriptionEn string  `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string  `bson:"description_kr" json:"description_kr,omitempty"`
 }

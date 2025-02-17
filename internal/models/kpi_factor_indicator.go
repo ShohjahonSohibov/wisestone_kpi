@@ -4,11 +4,11 @@ import "time"
 
 type KPIFactorIndicator struct {
 	ID             string    `json:"id,omitempty" bson:"_id,omitempty"`
-	FactorID       string    `bson:"factor_id" json:"factor_id" binding:"required"`
+	FactorID       string    `bson:"factor_id" json:"factor_id"`
 	Factor         KPIFactor `bson:"factor" json:"factor"`
-	NameEn         string    `bson:"name_en" json:"name_en" binding:"required"`
-	NameKr         string    `bson:"name_kr" json:"name_kr" binding:"required"`
-	ProgressRange  string    `bson:"progress_range" json:"progress_range" binding:"required"`
+	NameEn         string    `bson:"name_en" json:"name_en"`
+	NameKr         string    `bson:"name_kr" json:"name_kr"`
+	ProgressRange  string    `bson:"progress_range" json:"progress_range"`
 	DescriptionEn  string    `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr  string    `bson:"description_kr" json:"description_kr,omitempty"`
 	CreatedAt      time.Time `json:"created_at,omitempty" bson:"created_at"`
@@ -16,20 +16,20 @@ type KPIFactorIndicator struct {
 }
 
 type CreateKPIFactorIndicator struct {
-	FactorID      string `bson:"factor_id" json:"factor_id" binding:"required"`
-	NameEn        string `bson:"name_en" json:"name_en" binding:"required"`
-	NameKr        string `bson:"name_kr" json:"name_kr" binding:"required"`
-	ProgressRange string `bson:"progress_range" json:"progress_range" binding:"required"`
+	FactorID      string `bson:"factor_id" json:"factor_id"`
+	NameEn        string `bson:"name_en" json:"name_en"`
+	NameKr        string `bson:"name_kr" json:"name_kr"`
+	ProgressRange string `bson:"progress_range" json:"progress_range"`
 	DescriptionEn string `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string `bson:"description_kr" json:"description_kr,omitempty"`
 }
 
 type UpdateKPIFactorIndicator struct {
 	ID            string `json:"id,omitempty" bson:"_id,omitempty"`
-	FactorID      string `bson:"factor_id" json:"factor_id" binding:"required"`
-	NameEn        string `bson:"name_en" json:"name_en" binding:"required"`
-	NameKr        string `bson:"name_kr" json:"name_kr" binding:"required"`
-	ProgressRange string `bson:"progress_range" json:"progress_range" binding:"required"`
+	FactorID      string `bson:"factor_id" json:"factor_id"`
+	NameEn        string `bson:"name_en" json:"name_en"`
+	NameKr        string `bson:"name_kr" json:"name_kr"`
+	ProgressRange string `bson:"progress_range" json:"progress_range"`
 	DescriptionEn string `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string `bson:"description_kr" json:"description_kr,omitempty"`
 }

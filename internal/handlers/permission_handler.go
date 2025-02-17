@@ -168,6 +168,7 @@ func (h *PermissionHandler) ListPermissions(c *gin.Context) {
 	}
 	filter.Filter.Offset = offset
 	filter.Filter.Limit = limit
+	
 	filter.MultiSearch = c.Query("multi_search")
 	filter.SortOrder = c.Query("sort_order")
 

@@ -23,6 +23,7 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 	roleHandler := handlers.NewRoleHandler(serviceManager.RoleService)
 	permissionHandler := handlers.NewPermissionHandler(serviceManager.PermissionService)
 	rolePermissionHandler := handlers.NewRolePermissionHandler(serviceManager.RolePermissionService)
+	kpiParentHandler := handlers.NewKPIParentHandler(serviceManager.KpiParentService)
 
 	// API routes
 	api := router.Group("/api/v1")
@@ -41,7 +42,7 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 			users := protected.Group("/users")
 			{
 				users.GET("", userHandler.ListUsers)
-				users.GET("/:email", userHandler.GetUser)
+				users.GET("/single", userHandler.GetUser)
 				users.POST("", userHandler.CreateUser)
 				users.PUT("/:id", userHandler.UpdateUser)
 				users.DELETE("/:id", userHandler.DeleteUser)
@@ -92,6 +93,15 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 				rolePermissions.POST("", rolePermissionHandler.CreateRolePermission)
 				rolePermissions.PUT("/:id", rolePermissionHandler.UpdateRolePermission)
 				rolePermissions.DELETE("/:id", rolePermissionHandler.DeleteRolePermission)
+			}
+
+			kpiParentGroup := protected.Group("/api/v1/kpi-parents")
+			{
+				kpiParentGroup.POST("", kpiParentHandler.Create)
+				kpiParentGroup.PUT("/:id", kpiParentHandler.Update)
+				kpiParentGroup.DELETE("/:id", kpiParentHandler.Delete)
+				kpiParentGroup.GET("/:id", kpiParentHandler.GetByID)
+				kpiParentGroup.GET("", kpiParentHandler.List)
 			}
 		}
 		// Remove duplicate users group here

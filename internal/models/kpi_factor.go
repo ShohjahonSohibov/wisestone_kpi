@@ -4,11 +4,11 @@ import "time"
 
 type KPIFactor struct {
 	ID            string       `json:"id,omitempty" bson:"_id,omitempty"`
-	CriterionID   string       `bson:"criterion_id" json:"criterion_id" binding:"required"`
+	CriterionID   string       `bson:"criterion_id" json:"criterion_id"`
 	Criterion     KPICriterion `bson:"criterion" json:"criterion"`
-	NameEn        string       `bson:"name_en" json:"name_en" binding:"required"`
-	NameKr        string       `bson:"name_kr" json:"name_kr" binding:"required"`
-	Ratio         float64      `bson:"ratio" json:"ratio" binding:"required"`
+	NameEn        string       `bson:"name_en" json:"name_en"`
+	NameKr        string       `bson:"name_kr" json:"name_kr"`
+	Ratio         float64      `bson:"ratio" json:"ratio"`
 	DescriptionEn string       `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string       `bson:"description_kr" json:"description_kr,omitempty"`
 	CreatedAt     time.Time    `json:"created_at,omitempty" bson:"created_at"`
@@ -16,20 +16,20 @@ type KPIFactor struct {
 }
 
 type CreateKPIFactor struct {
-	CriterionID   string  `bson:"criterion_id" json:"criterion_id" binding:"required"`
-	NameEn        string  `bson:"name_en" json:"name_en" binding:"required"`
-	NameKr        string  `bson:"name_kr" json:"name_kr" binding:"required"`
-	Ratio         float64 `bson:"ratio" json:"ratio" binding:"required"`
+	CriterionID   string  `bson:"criterion_id" json:"criterion_id"`
+	NameEn        string  `bson:"name_en" json:"name_en"`
+	NameKr        string  `bson:"name_kr" json:"name_kr"`
+	Ratio         float64 `bson:"ratio" json:"ratio"`
 	DescriptionEn string  `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string  `bson:"description_kr" json:"description_kr,omitempty"`
 }
 
 type UpdateKPIFactor struct {
 	ID            string  `json:"id,omitempty" bson:"_id,omitempty"`
-	CriterionID   string  `bson:"criterion_id" json:"criterion_id" binding:"required"`
-	NameEn        string  `bson:"name_en" json:"name_en" binding:"required"`
-	NameKr        string  `bson:"name_kr" json:"name_kr" binding:"required"`
-	Ratio         float64 `bson:"ratio" json:"ratio" binding:"required"`
+	CriterionID   string  `bson:"criterion_id" json:"criterion_id"`
+	NameEn        string  `bson:"name_en" json:"name_en"`
+	NameKr        string  `bson:"name_kr" json:"name_kr"`
+	Ratio         float64 `bson:"ratio" json:"ratio"`
 	DescriptionEn string  `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string  `bson:"description_kr" json:"description_kr,omitempty"`
 }

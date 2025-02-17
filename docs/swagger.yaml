@@ -10,6 +10,17 @@ definitions:
     - team_id
     - user_id
     type: object
+  models.CreateKPIParent:
+    properties:
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+    type: object
   models.CreatePermission:
     properties:
       action_kr:
@@ -65,6 +76,32 @@ definitions:
     required:
     - password
     - username
+    type: object
+  models.KPIParent:
+    properties:
+      created_at:
+        type: string
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.ListKPIParentResponse:
+    properties:
+      count:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/models.KPIParent'
+        type: array
     type: object
   models.ListPermissionResponse:
     properties:
@@ -226,6 +263,19 @@ definitions:
       name_kr:
         type: string
     type: object
+  models.UpdateKPIParent:
+    properties:
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+    type: object
   models.UpdatePermission:
     properties:
       action_kr:
@@ -330,6 +380,176 @@ paths:
       summary: Authenticate an existing user
       tags:
       - Authentication
+  /api/v1/kpi-parents:
+    get:
+      description: Get a list of KPI Parents with filtering and pagination
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: multi_search
+        type: string
+      - in: query
+        name: offset
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - enum:
+        - asc
+        - desc
+        in: query
+        name: sort_order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListKPIParentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      summary: List KPI Parents
+      tags:
+      - KPI Parents
+    post:
+      consumes:
+      - application/json
+      description: Create a new KPI Parent
+      parameters:
+      - description: KPI Parent creation request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateKPIParent'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.KPIParent'
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      summary: Create KPI Parent
+      tags:
+      - KPI Parents
+  /api/v1/kpi-parents/{id}:
+    delete:
+      description: Delete a KPI Parent by ID
+      parameters:
+      - description: KPI Parent ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "500":
+          description: Internal Server Error
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      summary: Delete KPI Parent
+      tags:
+      - KPI Parents
+    get:
+      description: Get a KPI Parent by its ID
+      parameters:
+      - description: KPI Parent ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.KPIParent'
+        "500":
+          description: Internal Server Error
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      summary: Get KPI Parent by ID
+      tags:
+      - KPI Parents
+    put:
+      consumes:
+      - application/json
+      description: Update an existing KPI Parent by ID
+      parameters:
+      - description: KPI Parent ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: KPI Parent update request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateKPIParent'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.KPIParent'
+        "400":
+          description: Bad Request
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      summary: Update KPI Parent
+      tags:
+      - KPI Parents
   /api/v1/permissions:
     get:
       consumes:
@@ -1284,40 +1504,6 @@ paths:
       summary: Delete user
       tags:
       - Users
-    get:
-      consumes:
-      - application/json
-      description: Get user details by id
-      parameters:
-      - description: User Id
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.User'
-        "404":
-          description: 'error: User not found'
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: 'error: Internal server error'
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      security:
-      - ApiKeyAuth: []
-      summary: Get user by id
-      tags:
-      - Users
     put:
       consumes:
       - application/json
@@ -1358,6 +1544,41 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Update existing user
+      tags:
+      - Users
+  /api/v1/users/single:
+    get:
+      consumes:
+      - application/json
+      description: Get user details by id
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "404":
+          description: 'error: User not found'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: 'error: Internal server error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get user by id
       tags:
       - Users
 securityDefinitions:

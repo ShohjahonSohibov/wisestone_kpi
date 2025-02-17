@@ -4,8 +4,8 @@ import "time"
 
 type KPIParent struct {
 	ID            string    `json:"id,omitempty" bson:"_id,omitempty"`
-	NameEn        string    `bson:"name_en" json:"name_en" binding:"required"`
-	NameKr        string    `bson:"name_kr" json:"name_kr" binding:"required"`
+	NameEn        string    `bson:"name_en" json:"name_en"`
+	NameKr        string    `bson:"name_kr" json:"name_kr"`
 	DescriptionEn string    `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string    `bson:"description_kr" json:"description_kr,omitempty"`
 	CreatedAt     time.Time `json:"created_at,omitempty" bson:"created_at"`
@@ -13,16 +13,16 @@ type KPIParent struct {
 }
 
 type CreateKPIParent struct {
-	NameEn        string `bson:"name_en" json:"name_en" binding:"required"`
-	NameKr        string `bson:"name_kr" json:"name_kr" binding:"required"`
+	NameEn        string `bson:"name_en" json:"name_en"`
+	NameKr        string `bson:"name_kr" json:"name_kr"`
 	DescriptionEn string `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string `bson:"description_kr" json:"description_kr,omitempty"`
 }
 
 type UpdateKPIParent struct {
 	ID            string `json:"id,omitempty" bson:"_id,omitempty"`
-	NameEn        string `bson:"name_en" json:"name_en" binding:"required"`
-	NameKr        string `bson:"name_kr" json:"name_kr" binding:"required"`
+	NameEn        string `bson:"name_en" json:"name_en"`
+	NameKr        string `bson:"name_kr" json:"name_kr"`
 	DescriptionEn string `bson:"description_en" json:"description_en,omitempty"`
 	DescriptionKr string `bson:"description_kr" json:"description_kr,omitempty"`
 }

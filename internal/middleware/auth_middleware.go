@@ -31,7 +31,7 @@ func AuthMiddleware(secret string) gin.HandlerFunc {
 		}
 
 		tokenString := bearerToken[1]
-		_, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 			return []byte(secret), nil
 		})
 
@@ -42,6 +42,12 @@ func AuthMiddleware(secret string) gin.HandlerFunc {
 			})
 			c.Abort()
 			return
+		}
+
+		if claims, ok := token.Claims.(jwt.MapClaims); ok {
+			if userID, exists := claims["id"].(string); exists {
+				c.Set("user_id", userID)
+			}
 		}
 
 		c.Next()

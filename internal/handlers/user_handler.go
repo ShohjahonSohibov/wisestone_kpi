@@ -27,9 +27,18 @@ func NewUserHandler(userService *services.UserService) *UserHandler {
 // @Success 200 {object} models.User
 // @Failure 404 {object} map[string]string "error: User not found"
 // @Failure 500 {object} map[string]string "error: Internal server error"
-// @Router /api/v1/users/{id} [get]
+// @Router /api/v1/users/single [get]
 func (h *UserHandler) GetUser(c *gin.Context) {
-	id := c.Param("id")
+	userID, _ := c.Get("user_id")
+	id, ok := userID.(string)
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  http.StatusBadRequest,
+			"message": "invalid user id format",
+		})
+		return
+	}
+	
 	user, err := h.userService.GetById(c.Request.Context(), id)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
