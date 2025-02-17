@@ -38,15 +38,84 @@ func (r *UserRepository) FindByID(ctx context.Context, id string) (*models.User,
 		return nil, err
 	}
 
-	var user models.User
-	err = r.collection.FindOne(ctx, bson.M{"_id": objectID}).Decode(&user)
+	pipeline := []bson.M{
+		{
+			"$match": bson.M{
+				"_id": objectID,
+			},
+		},
+		{
+			"$addFields": bson.M{
+				"role_id_obj": bson.M{
+					"$convert": bson.M{
+						"input":   "$role_id",
+						"to":      "objectId",
+						"onError": nil,
+					},
+				},
+				"team_id_obj": bson.M{
+					"$convert": bson.M{
+						"input":   "$team_id",
+						"to":      "objectId",
+						"onError": nil,
+					},
+				},
+			},
+		},
+		{
+			"$lookup": bson.M{
+				"from":         "roles",
+				"localField":   "role_id_obj",
+				"foreignField": "_id",
+				"as":           "role",
+			},
+		},
+		{
+			"$unwind": bson.M{
+				"path":                       "$role",
+				"preserveNullAndEmptyArrays": true,
+			},
+		},
+		{
+			"$lookup": bson.M{
+				"from":         "teams",
+				"localField":   "team_id_obj",
+				"foreignField": "_id",
+				"as":           "team",
+			},
+		},
+		{
+			"$unwind": bson.M{
+				"path":                       "$team",
+				"preserveNullAndEmptyArrays": true,
+			},
+		},
+		{
+			"$project": bson.M{
+				"role_id":     0,
+				"team_id":     0,
+				"role_id_obj": 0,
+				"team_id_obj": 0,
+			},
+		},
+	}
+
+	cursor, err := r.collection.Aggregate(ctx, pipeline)
 	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			return nil, nil
-		}
 		return nil, err
 	}
-	return &user, nil
+	defer cursor.Close(ctx)
+
+	var results []models.User
+	if err := cursor.All(ctx, &results); err != nil {
+		return nil, err
+	}
+
+	if len(results) == 0 {
+		return nil, nil
+	}
+
+	return &results[0], nil
 }
 
 func (r *UserRepository) FindAll(ctx context.Context, filter *models.ListUsersRequest) (*models.ListUsersResponse, error) {
