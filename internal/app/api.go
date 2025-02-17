@@ -95,7 +95,7 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 				rolePermissions.DELETE("/:id", rolePermissionHandler.DeleteRolePermission)
 			}
 
-			kpiParentGroup := protected.Group("/api/v1/kpi-parents")
+			kpiParentGroup := protected.Group("/kpi-parents")
 			{
 				kpiParentGroup.POST("", kpiParentHandler.Create)
 				kpiParentGroup.PUT("/:id", kpiParentHandler.Update)

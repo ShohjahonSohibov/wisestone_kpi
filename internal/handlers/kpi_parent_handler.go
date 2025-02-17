@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/mongo"
 
 	"kpi/internal/models"
 	"kpi/internal/services"
@@ -135,6 +136,13 @@ func (h *KpiParentHandler) GetByID(c *gin.Context) {
 
 	result, err := h.kpiParentService.GetByID(c.Request.Context(), id)
 	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			c.JSON(http.StatusNotFound, gin.H{
+				"status":  http.StatusNotFound,
+				"message": err.Error(),
+			})
+			return
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  http.StatusInternalServerError,
 			"message": err.Error(),
