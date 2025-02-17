@@ -1734,10 +1734,6 @@ const docTemplate = `{
         },
         "models.CreateTeam": {
             "type": "object",
-            "required": [
-                "name_en",
-                "name_kr"
-            ],
             "properties": {
                 "description_en": {
                     "type": "string"
@@ -1991,10 +1987,6 @@ const docTemplate = `{
         },
         "models.Team": {
             "type": "object",
-            "required": [
-                "name_en",
-                "name_kr"
-            ],
             "properties": {
                 "created_at": {
                     "type": "string"
@@ -2142,7 +2134,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "wisestone-kpi.onrender.com",
+	Host:             "localhost:8080",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "KPI System API",

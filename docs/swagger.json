@@ -9,7 +9,7 @@
         },
         "version": "1.0"
     },
-    "host": "wisestone-kpi.onrender.com",
+    "host": "localhost:8080",
     "basePath": "/",
     "paths": {
         "/api/v1/auth/login": {
@@ -1728,10 +1728,6 @@
         },
         "models.CreateTeam": {
             "type": "object",
-            "required": [
-                "name_en",
-                "name_kr"
-            ],
             "properties": {
                 "description_en": {
                     "type": "string"
@@ -1985,10 +1981,6 @@
         },
         "models.Team": {
             "type": "object",
-            "required": [
-                "name_en",
-                "name_kr"
-            ],
             "properties": {
                 "created_at": {
                     "type": "string"

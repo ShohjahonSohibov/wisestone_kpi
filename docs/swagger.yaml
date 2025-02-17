@@ -45,9 +45,6 @@ definitions:
         type: string
       name_kr:
         type: string
-    required:
-    - name_en
-    - name_kr
     type: object
   models.CreateUser:
     properties:
@@ -219,9 +216,6 @@ definitions:
         type: string
       updated_at:
         type: string
-    required:
-    - name_en
-    - name_kr
     type: object
   models.TeamShort:
     properties:
@@ -293,7 +287,7 @@ definitions:
     - password
     - username
     type: object
-host: wisestone-kpi.onrender.com
+host: localhost:8080
 info:
   contact:
     email: support@wisestonet.com
