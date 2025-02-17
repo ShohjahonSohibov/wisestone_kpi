@@ -1794,15 +1794,6 @@ const docTemplate = `{
                     "Users"
                 ],
                 "summary": "Get user by id",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User Id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",

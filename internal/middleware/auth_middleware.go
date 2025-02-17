@@ -45,7 +45,7 @@ func AuthMiddleware(secret string) gin.HandlerFunc {
 		}
 
 		if claims, ok := token.Claims.(jwt.MapClaims); ok {
-			if userID, exists := claims["id"].(string); exists {
+			if userID, exists := claims["sub"].(string); exists {
 				c.Set("user_id", userID)
 			}
 		}

@@ -23,7 +23,6 @@ func NewUserHandler(userService *services.UserService) *UserHandler {
 // @Tags Users
 // @Accept json
 // @Produce json
-// @Param id path string true "User Id"
 // @Success 200 {object} models.User
 // @Failure 404 {object} map[string]string "error: User not found"
 // @Failure 500 {object} map[string]string "error: Internal server error"
@@ -38,7 +37,7 @@ func (h *UserHandler) GetUser(c *gin.Context) {
 		})
 		return
 	}
-	
+
 	user, err := h.userService.GetById(c.Request.Context(), id)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
