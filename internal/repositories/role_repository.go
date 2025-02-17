@@ -96,16 +96,21 @@ func (r *RoleRepository) Update(ctx context.Context, role *models.Role) error {
         return err
     }
 
-    roleMap := bson.M{
-        "name_en":    role.NameEn,
-        "name_kr":    role.NameKr,
-        "updated_at": time.Now(),
-    }
-
+		updateFields := bson.M{
+			"updated_at": time.Now(),
+		}
+	
+		if role.NameEn != "" {
+			updateFields["name_en"] = role.NameEn
+		}
+		if role.NameKr != "" {
+			updateFields["name_kr"] = role.NameKr
+		}
+	
 	res, err := r.collection.UpdateOne(
 		ctx,
 		bson.M{"_id": objectID},
-		bson.M{"$set": roleMap},
+		bson.M{"$set": updateFields},
 	)
 	if err != nil {
 		return err

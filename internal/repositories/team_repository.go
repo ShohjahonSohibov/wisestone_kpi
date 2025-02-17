@@ -99,19 +99,30 @@ func (r *TeamRepository) Update(ctx context.Context, team *models.Team) error {
 		return err
 	}
 
-	teamMap := bson.M{
-		"name_en":        team.NameEn,
-		"name_kr":        team.NameKr,
-		"description_en": team.DescriptionEn,
-		"description_kr": team.DescriptionKr,
-		"leader_id":      team.LeaderId,
-		"updated_at":     time.Now(),
+	updateFields := bson.M{
+		"updated_at": time.Now(),
+	}
+
+	if team.NameEn != "" {
+		updateFields["name_en"] = team.NameEn
+	}
+	if team.NameKr != "" {
+		updateFields["name_kr"] = team.NameKr
+	}
+	if team.DescriptionEn != "" {
+		updateFields["description_en"] = team.DescriptionEn
+	}
+	if team.DescriptionKr != "" {
+		updateFields["description_kr"] = team.DescriptionKr
+	}
+	if team.LeaderId != "" {
+		updateFields["leader_id"] = team.LeaderId
 	}
 
 	res, err := r.collection.UpdateOne(
 		ctx,
 		bson.M{"_id": objectID},
-		bson.M{"$set": teamMap},
+		bson.M{"$set": updateFields},
 	)
 	if err != nil {
 		return err

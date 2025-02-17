@@ -113,18 +113,27 @@ func (r *PermissionRepository) Update(ctx context.Context, permission *models.Pe
 		return err
 	}
 
-	permissionMap := bson.M{
-		"action_kr":      permission.ActionKr,
-		"action_ru":      permission.ActionRu,
-		"description_kr": permission.DescriptionKr,
-		"description_ru": permission.DescriptionRu,
-		"updated_at":     time.Now(),
+	updateFields := bson.M{
+		"updated_at": time.Now(),
+	}
+
+	if permission.ActionKr != "" {
+		updateFields["action_kr"] = permission.ActionKr
+	}
+	if permission.ActionEn != "" {
+		updateFields["action_en"] = permission.ActionEn
+	}
+	if permission.DescriptionKr != "" {
+		updateFields["description_kr"] = permission.DescriptionKr
+	}
+	if permission.DescriptionEn != "" {
+		updateFields["description_en"] = permission.DescriptionEn
 	}
 
 	res, err := r.collection.UpdateOne(
 		ctx,
 		bson.M{"_id": objectID},
-		bson.M{"$set": permissionMap},
+		bson.M{"$set": updateFields},
 	)
 	if err != nil {
 		return err

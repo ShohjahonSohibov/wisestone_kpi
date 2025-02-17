@@ -72,6 +72,11 @@ const docTemplate = `{
         },
         "/api/v1/kpi-parents": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a list of KPI Parents with filtering and pagination",
                 "produces": [
                     "application/json"
@@ -109,6 +114,11 @@ const docTemplate = `{
                         "type": "string",
                         "name": "sort_order",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "year",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -143,6 +153,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create a new KPI Parent",
                 "consumes": [
                     "application/json"
@@ -167,31 +182,24 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created",
+                        "description": "status: 201, message: KPI Parent created successfully",
                         "schema": {
-                            "$ref": "#/definitions/models.KPIParent"
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "status: 400, message: error message",
                         "schema": {
                             "type": "object",
-                            "properties": {
-                                "error": {
-                                    "type": "string"
-                                }
-                            }
+                            "additionalProperties": true
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "status: 500, message: error message",
                         "schema": {
                             "type": "object",
-                            "properties": {
-                                "error": {
-                                    "type": "string"
-                                }
-                            }
+                            "additionalProperties": true
                         }
                     }
                 }
@@ -199,6 +207,11 @@ const docTemplate = `{
         },
         "/api/v1/kpi-parents/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get a KPI Parent by its ID",
                 "produces": [
                     "application/json"
@@ -218,25 +231,27 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "status: 200, data: KPI Parent object",
                         "schema": {
-                            "$ref": "#/definitions/models.KPIParent"
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "status: 500, message: error message",
                         "schema": {
                             "type": "object",
-                            "properties": {
-                                "error": {
-                                    "type": "string"
-                                }
-                            }
+                            "additionalProperties": true
                         }
                     }
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update an existing KPI Parent by ID",
                 "consumes": [
                     "application/json"
@@ -268,36 +283,34 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "status: 200, message: KPI Parent updated successfully",
                         "schema": {
-                            "$ref": "#/definitions/models.KPIParent"
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "status: 400, message: error message",
                         "schema": {
                             "type": "object",
-                            "properties": {
-                                "error": {
-                                    "type": "string"
-                                }
-                            }
+                            "additionalProperties": true
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "status: 500, message: error message",
                         "schema": {
                             "type": "object",
-                            "properties": {
-                                "error": {
-                                    "type": "string"
-                                }
-                            }
+                            "additionalProperties": true
                         }
                     }
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete a KPI Parent by ID",
                 "produces": [
                     "application/json"
@@ -316,18 +329,18 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
+                    "200": {
+                        "description": "status: 200, message: KPI Parent deleted successfully",
                         "schema": {
                             "type": "object",
-                            "properties": {
-                                "error": {
-                                    "type": "string"
-                                }
-                            }
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "status: 500, message: error message",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     }
                 }
@@ -1967,6 +1980,9 @@ const docTemplate = `{
                 },
                 "name_kr": {
                     "type": "string"
+                },
+                "year": {
+                    "type": "string"
                 }
             }
         },
@@ -1976,16 +1992,16 @@ const docTemplate = `{
                 "action_kr"
             ],
             "properties": {
+                "action_en": {
+                    "type": "string"
+                },
                 "action_kr": {
                     "type": "string"
                 },
-                "action_ru": {
+                "description_en": {
                     "type": "string"
                 },
                 "description_kr": {
-                    "type": "string"
-                },
-                "description_ru": {
                     "type": "string"
                 }
             }
@@ -2077,6 +2093,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_at": {
+                    "type": "string"
+                },
+                "year": {
                     "type": "string"
                 }
             }
@@ -2197,19 +2216,19 @@ const docTemplate = `{
                 "action_kr"
             ],
             "properties": {
-                "action_kr": {
+                "action_en": {
                     "type": "string"
                 },
-                "action_ru": {
+                "action_kr": {
                     "type": "string"
                 },
                 "created_at": {
                     "type": "string"
                 },
-                "description_kr": {
+                "description_en": {
                     "type": "string"
                 },
-                "description_ru": {
+                "description_kr": {
                     "type": "string"
                 },
                 "id": {
@@ -2358,6 +2377,9 @@ const docTemplate = `{
                 },
                 "name_kr": {
                     "type": "string"
+                },
+                "year": {
+                    "type": "string"
                 }
             }
         },
@@ -2367,16 +2389,16 @@ const docTemplate = `{
                 "action_kr"
             ],
             "properties": {
+                "action_en": {
+                    "type": "string"
+                },
                 "action_kr": {
                     "type": "string"
                 },
-                "action_ru": {
+                "description_en": {
                     "type": "string"
                 },
                 "description_kr": {
-                    "type": "string"
-                },
-                "description_ru": {
                     "type": "string"
                 },
                 "id": {

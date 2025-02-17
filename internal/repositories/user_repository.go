@@ -296,20 +296,30 @@ func (r *UserRepository) Update(ctx context.Context, user *models.User) error {
 		return err
 	}
 
-	// Convert user struct to map to avoid issues with bson tags
-	userMap := bson.M{
-		"email":        user.Email,
-		"password":     user.Password,
-		"full_name_en": user.FullNameEn,
-		"full_name_kr": user.FullNameKr,
-		"role_id":      user.RoleId,
-		"updated_at":   time.Now(),
+	updateFields := bson.M{
+		"updated_at": time.Now(),
+	}
+
+	if user.Email != "" {
+		updateFields["email"] = user.Email
+	}
+	if user.Password != "" {
+		updateFields["password"] = user.Password
+	}
+	if user.FullNameEn != "" {
+		updateFields["full_name_en"] = user.FullNameEn
+	}
+	if user.FullNameKr != "" {
+		updateFields["full_name_kr"] = user.FullNameKr
+	}
+	if user.RoleId != "" {
+		updateFields["role_id"] = user.RoleId
 	}
 
 	res, err := r.collection.UpdateOne(
 		ctx,
 		bson.M{"_id": objectID},
-		bson.M{"$set": userMap},
+		bson.M{"$set": updateFields},
 	)
 	if err != nil {
 		return err

@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -41,17 +42,36 @@ func (r *KpiParentRepository) Update(ctx context.Context, kpiParent *models.KPIP
 		return err
 	}
 
-	update := bson.M{
-		"$set": bson.M{
-			"name_en":        kpiParent.NameEn,
-			"name_kr":        kpiParent.NameKr,
-			"description_en": kpiParent.DescriptionEn,
-			"description_kr": kpiParent.DescriptionKr,
-			"updated_at":     time.Now(),
-		},
+	updateFields := bson.M{
+		"updated_at": time.Now(),
 	}
 
-	_, err = r.collection.UpdateOne(ctx, bson.M{"_id": objID}, update)
+	if kpiParent.NameKr != "" {
+		updateFields["name_kr"] = kpiParent.NameKr
+	}
+	if kpiParent.NameEn != "" {
+		updateFields["name_en"] = kpiParent.NameEn
+	}
+	if kpiParent.DescriptionKr != "" {
+		updateFields["description_kr"] = kpiParent.DescriptionKr
+	}
+	if kpiParent.DescriptionEn != "" {
+		updateFields["description_en"] = kpiParent.DescriptionEn
+	}
+	if kpiParent.Year != "" {
+		updateFields["year"] = kpiParent.Year
+	}
+
+	res, err := r.collection.UpdateOne(
+		ctx,
+		bson.M{"_id": objID},
+		bson.M{"$set": updateFields},
+	)
+
+	if res.MatchedCount == 0 {
+		return fmt.Errorf("no document found with ID: %s", kpiParent.ID)
+	}
+
 	return err
 }
 
@@ -87,6 +107,10 @@ func (r *KpiParentRepository) List(ctx context.Context, req *models.ListKPIParen
 			{"name_en": bson.M{"$regex": req.MultiSearch, "$options": "i"}},
 			{"name_kr": bson.M{"$regex": req.MultiSearch, "$options": "i"}},
 		}
+	}
+
+	if req.Year != "" {
+		filter["year"] = req.Year
 	}
 
 	opts := options.Find()

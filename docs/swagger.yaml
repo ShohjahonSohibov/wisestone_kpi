@@ -20,16 +20,18 @@ definitions:
         type: string
       name_kr:
         type: string
+      year:
+        type: string
     type: object
   models.CreatePermission:
     properties:
+      action_en:
+        type: string
       action_kr:
         type: string
-      action_ru:
+      description_en:
         type: string
       description_kr:
-        type: string
-      description_ru:
         type: string
     required:
     - action_kr
@@ -92,6 +94,8 @@ definitions:
       name_kr:
         type: string
       updated_at:
+        type: string
+      year:
         type: string
     type: object
   models.ListKPIParentResponse:
@@ -167,15 +171,15 @@ definitions:
     type: object
   models.Permission:
     properties:
-      action_kr:
+      action_en:
         type: string
-      action_ru:
+      action_kr:
         type: string
       created_at:
         type: string
-      description_kr:
+      description_en:
         type: string
-      description_ru:
+      description_kr:
         type: string
       id:
         type: string
@@ -275,16 +279,18 @@ definitions:
         type: string
       name_kr:
         type: string
+      year:
+        type: string
     type: object
   models.UpdatePermission:
     properties:
+      action_en:
+        type: string
       action_kr:
         type: string
-      action_ru:
+      description_en:
         type: string
       description_kr:
-        type: string
-      description_ru:
         type: string
       id:
         type: string
@@ -402,6 +408,9 @@ paths:
         in: query
         name: sort_order
         type: string
+      - in: query
+        name: year
+        type: string
       produces:
       - application/json
       responses:
@@ -423,6 +432,8 @@ paths:
               error:
                 type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: List KPI Parents
       tags:
       - KPI Parents
@@ -441,23 +452,22 @@ paths:
       - application/json
       responses:
         "201":
-          description: Created
+          description: 'status: 201, message: KPI Parent created successfully'
           schema:
-            $ref: '#/definitions/models.KPIParent'
+            additionalProperties: true
+            type: object
         "400":
-          description: Bad Request
+          description: 'status: 400, message: error message'
           schema:
-            properties:
-              error:
-                type: string
+            additionalProperties: true
             type: object
         "500":
-          description: Internal Server Error
+          description: 'status: 500, message: error message'
           schema:
-            properties:
-              error:
-                type: string
+            additionalProperties: true
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Create KPI Parent
       tags:
       - KPI Parents
@@ -473,15 +483,18 @@ paths:
       produces:
       - application/json
       responses:
-        "204":
-          description: No Content
-        "500":
-          description: Internal Server Error
+        "200":
+          description: 'status: 200, message: KPI Parent deleted successfully'
           schema:
-            properties:
-              error:
-                type: string
+            additionalProperties: true
             type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
       summary: Delete KPI Parent
       tags:
       - KPI Parents
@@ -497,16 +510,17 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: 'status: 200, data: KPI Parent object'
           schema:
-            $ref: '#/definitions/models.KPIParent'
-        "500":
-          description: Internal Server Error
-          schema:
-            properties:
-              error:
-                type: string
+            additionalProperties: true
             type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
       summary: Get KPI Parent by ID
       tags:
       - KPI Parents
@@ -530,23 +544,22 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: 'status: 200, message: KPI Parent updated successfully'
           schema:
-            $ref: '#/definitions/models.KPIParent'
+            additionalProperties: true
+            type: object
         "400":
-          description: Bad Request
+          description: 'status: 400, message: error message'
           schema:
-            properties:
-              error:
-                type: string
+            additionalProperties: true
             type: object
         "500":
-          description: Internal Server Error
+          description: 'status: 500, message: error message'
           schema:
-            properties:
-              error:
-                type: string
+            additionalProperties: true
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Update KPI Parent
       tags:
       - KPI Parents

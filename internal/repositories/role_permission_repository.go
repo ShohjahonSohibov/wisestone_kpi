@@ -219,16 +219,21 @@ func (r *RolePermissionRepository) Update(ctx context.Context, rolePermission *m
 		return err
 	}
 
-	rolePermissionMap := bson.M{
-		"role_id":       rolePermission.RoleId,
-		"permission_id": rolePermission.PermissionId,
-		"updated_at":    time.Now(),
+	updateFields := bson.M{
+		"updated_at": time.Now(),
+	}
+
+	if rolePermission.RoleId != "" {
+		updateFields["role_id"] = rolePermission.RoleId
+	}
+	if rolePermission.PermissionId != "" {
+		updateFields["permission_id"] = rolePermission.PermissionId
 	}
 
 	res, err := r.collection.UpdateOne(
 		ctx,
 		bson.M{"_id": objectID},
-		bson.M{"$set": rolePermissionMap},
+		bson.M{"$set": updateFields},
 	)
 	if err != nil {
 		return err

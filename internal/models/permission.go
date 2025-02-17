@@ -7,26 +7,26 @@ import (
 type Permission struct {
 	ID            string    `json:"id,omitempty" bson:"_id,omitempty"`
 	ActionKr      string    `bson:"action_kr" json:"action_kr" binding:"required"`
-	ActionRu      string    `bson:"action_ru" json:"action_ru"`
+	ActionEn      string    `bson:"action_en" json:"action_en"`
 	DescriptionKr string    `bson:"description_kr" json:"description_kr"`
-	DescriptionRu string    `bson:"description_ru" json:"description_ru"`
+	DescriptionEn string    `bson:"description_en" json:"description_en"`
 	CreatedAt     time.Time `json:"created_at,omitempty" bson:"created_at"`
 	UpdatedAt     time.Time `json:"updated_at,omitempty" bson:"updated_at"`
 }
 
 type CreatePermission struct {
 	ActionKr      string `bson:"action_kr" json:"action_kr" binding:"required"`
-	ActionRu      string `bson:"action_ru" json:"action_ru"`
+	ActionEn      string `bson:"action_en" json:"action_en"`
 	DescriptionKr string `bson:"description_kr" json:"description_kr"`
-	DescriptionRu string `bson:"description_ru" json:"description_ru"`
+	DescriptionEn string `bson:"description_en" json:"description_en"`
 }
 
 type UpdatePermission struct {
 	ID            string `json:"id,omitempty" bson:"_id,omitempty"`
 	ActionKr      string `bson:"action_kr" json:"action_kr" binding:"required"`
-	ActionRu      string `bson:"action_ru" json:"action_ru"`
+	ActionEn      string `bson:"action_en" json:"action_en"`
 	DescriptionKr string `bson:"description_kr" json:"description_kr"`
-	DescriptionRu string `bson:"description_ru" json:"description_ru"`
+	DescriptionEn string `bson:"description_en" json:"description_en"`
 }
 
 type ListPermissionResponse struct {

@@ -38,7 +38,7 @@ func (s *TeamService) Update(ctx context.Context, team *models.Team) error {
 	if existingTeam == nil {
 		return errors.New("team not found")
 	}
-	return s.teamRepo.Update(ctx, team)
+	return s.teamRepo.Update(ctx, existingTeam)
 }
 
 func (s *TeamService) Delete(ctx context.Context, id string) error {
