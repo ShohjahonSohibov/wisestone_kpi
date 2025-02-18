@@ -4,43 +4,43 @@ import "time"
 
 type KPIFactorIndicator struct {
 	ID             string    `json:"id,omitempty" bson:"_id,omitempty"`
-	FactorID       string    `bson:"factor_id" json:"factor_id"`
-	Factor         KPIFactor `bson:"factor" json:"factor"`
-	NameEn         string    `bson:"name_en" json:"name_en"`
-	NameKr         string    `bson:"name_kr" json:"name_kr"`
-	ProgressRange  string    `bson:"progress_range" json:"progress_range"`
-	DescriptionEn  string    `bson:"description_en" json:"description_en,omitempty"`
-	DescriptionKr  string    `bson:"description_kr" json:"description_kr,omitempty"`
-	CreatedAt      time.Time `json:"created_at,omitempty" bson:"created_at"`
-	UpdatedAt      time.Time `json:"updated_at,omitempty" bson:"updated_at"`
+	FactorID       string    `bson:"factor_id,omitempty" json:"factor_id,omitempty"`
+	Factor         KPIFactor `bson:"factor,omitempty" json:"factor,omitempty"`
+	NameEn         string    `bson:"name_en,omitempty" json:"name_en,omitempty"`
+	NameKr         string    `bson:"name_kr,omitempty" json:"name_kr,omitempty"`
+	ProgressRange  string    `bson:"progress_range,omitempty" json:"progress_range,omitempty"`
+	DescriptionEn  string    `bson:"description_en,omitempty" json:"description_en,omitempty"`
+	DescriptionKr  string    `bson:"description_kr,omitempty" json:"description_kr,omitempty"`
+	CreatedAt      time.Time `json:"created_at,omitempty" bson:"created_at,omitempty"`
+	UpdatedAt      time.Time `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
 }
 
 type CreateKPIFactorIndicator struct {
-	FactorID      string `bson:"factor_id" json:"factor_id"`
-	NameEn        string `bson:"name_en" json:"name_en"`
-	NameKr        string `bson:"name_kr" json:"name_kr"`
-	ProgressRange string `bson:"progress_range" json:"progress_range"`
-	DescriptionEn string `bson:"description_en" json:"description_en,omitempty"`
-	DescriptionKr string `bson:"description_kr" json:"description_kr,omitempty"`
+	FactorID      string `bson:"factor_id,omitempty" json:"factor_id,omitempty"`
+	NameEn        string `bson:"name_en,omitempty" json:"name_en,omitempty"`
+	NameKr        string `bson:"name_kr,omitempty" json:"name_kr,omitempty"`
+	ProgressRange string `bson:"progress_range,omitempty" json:"progress_range,omitempty"`
+	DescriptionEn string `bson:"description_en,omitempty" json:"description_en,omitempty"`
+	DescriptionKr string `bson:"description_kr,omitempty" json:"description_kr,omitempty"`
 }
 
 type UpdateKPIFactorIndicator struct {
 	ID            string `json:"id,omitempty" bson:"_id,omitempty"`
-	FactorID      string `bson:"factor_id" json:"factor_id"`
-	NameEn        string `bson:"name_en" json:"name_en"`
-	NameKr        string `bson:"name_kr" json:"name_kr"`
-	ProgressRange string `bson:"progress_range" json:"progress_range"`
-	DescriptionEn string `bson:"description_en" json:"description_en,omitempty"`
-	DescriptionKr string `bson:"description_kr" json:"description_kr,omitempty"`
+	FactorID      string `bson:"factor_id,omitempty" json:"factor_id,omitempty"`
+	NameEn        string `bson:"name_en,omitempty" json:"name_en,omitempty"`
+	NameKr        string `bson:"name_kr,omitempty" json:"name_kr,omitempty"`
+	ProgressRange string `bson:"progress_range,omitempty" json:"progress_range,omitempty"`
+	DescriptionEn string `bson:"description_en,omitempty" json:"description_en,omitempty"`
+	DescriptionKr string `bson:"description_kr,omitempty" json:"description_kr,omitempty"`
 }
 
 type ListKPIFactorIndicatorResponse struct {
-	Count int                   `json:"count"`
-	Items []*KPIFactorIndicator `json:"items"`
+	Count int                   `json:"count,omitempty"`
+	Items []*KPIFactorIndicator `json:"items,omitempty"`
 }
 
 type ListKPIFactorIndicatorRequest struct {
-	FactorID string `json:"factor_id"`
+	FactorID string `json:"factor_id,omitempty"`
 	Filter
 }
 

@@ -78,8 +78,6 @@ definitions:
         type: string
       name_kr:
         type: string
-      year:
-        type: string
     type: object
   models.CreatePermission:
     properties:
@@ -402,8 +400,6 @@ definitions:
       name_en:
         type: string
       name_kr:
-        type: string
-      year:
         type: string
     type: object
   models.UpdatePermission:

@@ -3201,9 +3201,6 @@ const docTemplate = `{
                 },
                 "name_kr": {
                     "type": "string"
-                },
-                "year": {
-                    "type": "string"
                 }
             }
         },
@@ -3698,9 +3695,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name_kr": {
-                    "type": "string"
-                },
-                "year": {
                     "type": "string"
                 }
             }

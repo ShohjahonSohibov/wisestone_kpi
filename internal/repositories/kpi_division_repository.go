@@ -10,7 +10,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type KPIDivisionRepository struct {
@@ -40,35 +39,70 @@ func (r *KPIDivisionRepository) FindByID(ctx context.Context, id string) (*model
 }
 
 func (r *KPIDivisionRepository) FindAll(ctx context.Context, filter *models.ListKPIDivisionRequest) (*models.ListKPIDivisionResponse, error) {
-	findOptions := options.Find()
+	pipeline := []bson.M{}
 
-	// Build filter
-	filterQuery := bson.M{}
+	matchStage := bson.M{}
 	if filter.MultiSearch != "" {
-		filterQuery["$or"] = []bson.M{
+		matchStage["$or"] = []bson.M{
 			{"name_en": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
 			{"name_kr": bson.M{"$regex": filter.MultiSearch, "$options": "i"}},
 		}
 	}
 	if filter.ParentID != "" {
-		filterQuery["parent_id"] = filter.ParentID
+		matchStage["parent_id"] = filter.ParentID
 	}
 
-	// Set sort order
+	if len(matchStage) > 0 {
+		pipeline = append(pipeline, bson.M{"$match": matchStage})
+	}
+
+	pipeline = append(pipeline, []bson.M{
+		{
+			"$addFields": bson.M{
+				"parent_id_obj": bson.M{
+					"$convert": bson.M{
+						"input":   "$parent_id",
+						"to":      "objectId",
+						"onError": nil,
+					},
+				},
+			},
+		},
+		{
+			"$lookup": bson.M{
+				"from":         "kpi_parents",
+				"localField":   "parent_id_obj",
+				"foreignField": "_id",
+				"as":           "parent",
+			},
+		},
+		{
+			"$unwind": bson.M{
+				"path":                       "$parent",
+				"preserveNullAndEmptyArrays": true,
+			},
+		},
+		{
+			"$project": bson.M{
+				"parent_id_obj": 0,
+			},
+		},
+	}...)
+
+	sortOrder := 1
 	if filter.SortOrder == "desc" {
-		findOptions.SetSort(bson.M{"_id": -1})
-	} else {
-		findOptions.SetSort(bson.M{"_id": 1})
+		sortOrder = -1
 	}
+	pipeline = append(pipeline, bson.M{
+		"$sort": bson.M{"_id": sortOrder},
+	})
 
-	// Set pagination
 	if filter.Limit > 0 {
-		findOptions.SetSkip(int64(filter.Offset))
-		findOptions.SetLimit(int64(filter.Limit))
+		pipeline = append(pipeline, bson.M{"$skip": filter.Offset})
+		pipeline = append(pipeline, bson.M{"$limit": filter.Limit})
 	}
 
-	// Execute find
-	cursor, err := r.collection.Find(ctx, filterQuery, findOptions)
+	cursor, err := r.collection.Aggregate(ctx, pipeline)
 	if err != nil {
 		return nil, err
 	}

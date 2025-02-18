@@ -3195,9 +3195,6 @@
                 },
                 "name_kr": {
                     "type": "string"
-                },
-                "year": {
-                    "type": "string"
                 }
             }
         },
@@ -3692,9 +3689,6 @@
                     "type": "string"
                 },
                 "name_kr": {
-                    "type": "string"
-                },
-                "year": {
                     "type": "string"
                 }
             }
