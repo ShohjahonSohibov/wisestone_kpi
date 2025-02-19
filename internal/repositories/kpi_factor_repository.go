@@ -1,4 +1,4 @@
-	package repositories
+package repositories
 
 import (
 	"context"
@@ -140,4 +140,37 @@ func (r *KPIFactorRepository) Delete(ctx context.Context, id string) error {
 	}
 	_, err = r.collection.DeleteOne(ctx, bson.M{"_id": objectID})
 	return err
+}
+
+func (r *KPIFactorRepository) GetSumRatioByCriterionID(ctx context.Context, criterionID string) (float64, error) {
+	pipeline := []bson.M{
+		{
+			"$match": bson.M{
+				"criterion_id": criterionID,
+			},
+		},
+		{
+			"$group": bson.M{
+				"_id": nil,
+				"total": bson.M{"$sum": "$ratio"},
+			},
+		},
+	}
+
+	cursor, err := r.collection.Aggregate(ctx, pipeline)
+	if err != nil {
+		return 0, err
+	}
+	defer cursor.Close(ctx)
+
+	var result []bson.M
+	if err := cursor.All(ctx, &result); err != nil {
+		return 0, err
+	}
+
+	if len(result) == 0 {
+		return 0, nil
+	}
+
+	return result[0]["total"].(float64), nil
 }

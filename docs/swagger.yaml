@@ -66,7 +66,7 @@ definitions:
       name_kr:
         type: string
       progress_range:
-        type: string
+        type: integer
     type: object
   models.CreateKPIParent:
     properties:
@@ -143,6 +143,10 @@ definitions:
         type: string
       description_kr:
         type: string
+      divisions:
+        items:
+          $ref: '#/definitions/models.ShortKPIDivision'
+        type: array
       id:
         type: string
       name_en:
@@ -277,6 +281,76 @@ definitions:
       updated_at:
         type: string
     type: object
+  models.ShortKPICriterion:
+    properties:
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      factors:
+        items:
+          $ref: '#/definitions/models.ShortKPIFactor'
+        type: array
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      total_ratio:
+        type: number
+    type: object
+  models.ShortKPIDivision:
+    properties:
+      criterions:
+        items:
+          $ref: '#/definitions/models.ShortKPICriterion'
+        type: array
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+    type: object
+  models.ShortKPIFactor:
+    properties:
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      factor_indicators:
+        items:
+          $ref: '#/definitions/models.ShortKPIFactorIndicator'
+        type: array
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      ratio:
+        type: number
+    type: object
+  models.ShortKPIFactorIndicator:
+    properties:
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      progress_range:
+        type: string
+    type: object
   models.ShortPermission:
     properties:
       action_kr:
@@ -387,7 +461,7 @@ definitions:
       name_kr:
         type: string
       progress_range:
-        type: string
+        type: integer
     type: object
   models.UpdateKPIParent:
     properties:

@@ -3183,7 +3183,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "progress_range": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },
@@ -3300,6 +3300,12 @@ const docTemplate = `{
                 },
                 "description_kr": {
                     "type": "string"
+                },
+                "divisions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ShortKPIDivision"
+                    }
                 },
                 "id": {
                     "type": "string"
@@ -3507,6 +3513,113 @@ const docTemplate = `{
                 }
             }
         },
+        "models.ShortKPICriterion": {
+            "type": "object",
+            "properties": {
+                "description_en": {
+                    "type": "string"
+                },
+                "description_kr": {
+                    "type": "string"
+                },
+                "factors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ShortKPIFactor"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_kr": {
+                    "type": "string"
+                },
+                "total_ratio": {
+                    "type": "number"
+                }
+            }
+        },
+        "models.ShortKPIDivision": {
+            "type": "object",
+            "properties": {
+                "criterions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ShortKPICriterion"
+                    }
+                },
+                "description_en": {
+                    "type": "string"
+                },
+                "description_kr": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_kr": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ShortKPIFactor": {
+            "type": "object",
+            "properties": {
+                "description_en": {
+                    "type": "string"
+                },
+                "description_kr": {
+                    "type": "string"
+                },
+                "factor_indicators": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ShortKPIFactorIndicator"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_kr": {
+                    "type": "string"
+                },
+                "ratio": {
+                    "type": "number"
+                }
+            }
+        },
+        "models.ShortKPIFactorIndicator": {
+            "type": "object",
+            "properties": {
+                "description_en": {
+                    "type": "string"
+                },
+                "description_kr": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_kr": {
+                    "type": "string"
+                },
+                "progress_range": {
+                    "type": "string"
+                }
+            }
+        },
         "models.ShortPermission": {
             "type": "object",
             "properties": {
@@ -3675,7 +3788,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "progress_range": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },

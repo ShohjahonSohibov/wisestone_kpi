@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"fmt"
 
 	"kpi/internal/models"
 	"kpi/internal/repositories"
@@ -9,15 +10,31 @@ import (
 
 type KPIFactorIndicatorService struct {
 	kpiFactorIndicatorRepo *repositories.KPIFactorIndicatorRepository
+	kpiFactorRepo          *repositories.KPIFactorRepository
 }
 
-func NewKPIFactorIndicatorService(kpiFactorIndicatorRepo *repositories.KPIFactorIndicatorRepository) *KPIFactorIndicatorService {
+func NewKPIFactorIndicatorService(
+	kpiFactorIndicatorRepo *repositories.KPIFactorIndicatorRepository,
+	kpiFactorRepo *repositories.KPIFactorRepository,
+) *KPIFactorIndicatorService {
 	return &KPIFactorIndicatorService{
 		kpiFactorIndicatorRepo: kpiFactorIndicatorRepo,
+		kpiFactorRepo:          kpiFactorRepo,
 	}
 }
 
 func (s *KPIFactorIndicatorService) Create(ctx context.Context, indicator *models.KPIFactorIndicator) error {
+	// Get the factor to check its ratio
+	factor, err := s.kpiFactorRepo.FindByID(ctx, indicator.FactorID)
+	if err != nil {
+		return err
+	}
+
+	// Check if progress range exceeds factor's ratio
+	if float64(indicator.ProgressRange) > factor.Ratio {
+		return fmt.Errorf("progress range cannot exceed factor ratio of %v", factor.Ratio)
+	}
+
 	return s.kpiFactorIndicatorRepo.Create(ctx, indicator)
 }
 

@@ -88,17 +88,126 @@ func (r *KpiParentRepository) Delete(ctx context.Context, id string) error {
 func (r *KpiParentRepository) GetByID(ctx context.Context, id string) (*models.KPIParent, error) {
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("invalid ID format: %v", err)
 	}
-
-	var kpiParent models.KPIParent
-	err = r.collection.FindOne(ctx, bson.M{"_id": objID}).Decode(&kpiParent)
+	pipeline := []bson.M{
+		{
+			"$match": bson.M{"_id": objID},
+		},
+		{
+			"$lookup": bson.M{
+				"from": "kpi_divisions",
+				"let":  bson.M{"parent_id": bson.M{"$toString": "$_id"}},
+				"pipeline": []bson.M{
+					{
+						"$match": bson.M{
+							"$expr": bson.M{
+								"$eq": []string{"$parent_id", "$$parent_id"},
+							},
+						},
+					},
+					{
+						"$lookup": bson.M{
+							"from": "kpi_criterions",
+							"let":  bson.M{"division_id": bson.M{"$toString": "$_id"}},
+							"pipeline": []bson.M{
+								{
+									"$match": bson.M{
+										"$expr": bson.M{
+											"$eq": []string{"$division_id", "$$division_id"},
+										},
+									},
+								},
+								{
+									"$lookup": bson.M{
+										"from": "kpi_factors",
+										"let":  bson.M{"criterion_id": bson.M{"$toString": "$_id"}},
+										"pipeline": []bson.M{
+											{
+												"$match": bson.M{
+													"$expr": bson.M{
+														"$eq": []string{"$criterion_id", "$$criterion_id"},
+													},
+												},
+											},
+											{
+												"$lookup": bson.M{
+													"from": "kpi_factor_indicators",
+													"let":  bson.M{"factor_id": bson.M{"$toString": "$_id"}},
+													"pipeline": []bson.M{
+														{
+															"$match": bson.M{
+																"$expr": bson.M{
+																	"$eq": []string{"$factor_id", "$$factor_id"},
+																},
+															},
+														},
+													},
+													"as": "factor_indicators",
+												},
+											},
+										},
+										"as": "factors",
+									},
+								},
+							},
+							"as": "criterions",
+						},
+					},
+				},
+				"as": "divisions",
+			},
+		},
+		{
+			"$group": bson.M{
+				"_id":          "$_id",
+				"name_en":      bson.M{"$first": "$name_en"},
+				"name_kr":      bson.M{"$first": "$name_kr"},
+				"description_en": bson.M{"$first": "$description_en"},
+				"description_kr": bson.M{"$first": "$description_kr"},
+				"year":         bson.M{"$first": "$year"},
+				"created_at":   bson.M{"$first": "$created_at"},
+				"updated_at":   bson.M{"$first": "$updated_at"},
+				"divisions":     bson.M{"$first": "$divisions"},
+			},
+		},
+		{
+			"$project": bson.M{
+				"_id":           1,
+				"name_en":       1,
+				"name_kr":       1,
+				"description_en": 1,
+				"description_kr": 1,
+				"year":          1,
+				"created_at":    1,
+				"updated_at":    1,
+				"divisions":      1,
+			},
+		},
+	}
+	cursor, err := r.collection.Aggregate(ctx, pipeline)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error executing aggregation: %v", err)
+	}
+	defer cursor.Close(ctx)
+
+	// Check if cursor has any data
+	if !cursor.Next(ctx) {
+		return nil, mongo.ErrNoDocuments
 	}
 
-	return &kpiParent, nil
+	// Decode results one by one to avoid struct mismatches
+	var result []models.KPIParent
+	if err := cursor.All(ctx, &result); err != nil {
+		return nil, fmt.Errorf("error decoding result: %v", err)
+	}
+
+	// Debugging: Print the final result
+	fmt.Printf("Fetched KPI Parent: %+v\n", result)
+
+	return &result[0], nil
 }
+
 
 func (r *KpiParentRepository) List(ctx context.Context, req *models.ListKPIParentRequest) (*models.ListKPIParentResponse, error) {
 	filter := bson.M{}

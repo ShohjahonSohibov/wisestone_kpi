@@ -107,7 +107,7 @@ func (r *KPIFactorIndicatorRepository) Update(ctx context.Context, indicator *mo
 	if indicator.NameKr != "" {
 		updateFields["name_kr"] = indicator.NameKr
 	}
-	if indicator.ProgressRange != "" {
+	if indicator.ProgressRange != 0 {
 		updateFields["progress_range"] = indicator.ProgressRange
 	}
 	if indicator.DescriptionEn != "" {
