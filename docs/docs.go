@@ -1249,6 +1249,11 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "year",
                         "in": "query"
                     }
@@ -1315,6 +1320,67 @@ const docTemplate = `{
                 "responses": {
                     "201": {
                         "description": "status: 201, message: KPI Parent created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "status: 400, message: error message",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "status: 500, message: error message",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/kpi-parents/status/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Update an existing KPI Parent Status by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Parents"
+                ],
+                "summary": "Update KPI Parent Status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "KPI Parent ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "KPI Parent status update request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateKPIParentStatus"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "status: 200, message: KPI Parent status updated successfully",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -3316,6 +3382,12 @@ const docTemplate = `{
                 "name_kr": {
                     "type": "string"
                 },
+                "rejection_count": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
                 "updated_at": {
                     "type": "string"
                 },
@@ -3808,6 +3880,17 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name_kr": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UpdateKPIParentStatus": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "status": {
                     "type": "string"
                 }
             }

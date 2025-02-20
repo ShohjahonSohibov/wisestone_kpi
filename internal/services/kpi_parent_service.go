@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"fmt"
 
 	"kpi/internal/models"
 	"kpi/internal/repositories"
@@ -30,6 +31,19 @@ func (s *KPIParentService) Update(ctx context.Context, req *models.KPIParent) er
 	}
 
 	return nil
+}
+
+func (s *KPIParentService) UpdateStatus(ctx context.Context, req *models.UpdateKPIParentStatus) error {
+	// Validate status
+	switch models.KPIStatus(req.Status) {
+	case models.KPIStatusDraft, models.KPIStatusPending, models.KPIStatusApproved,
+		models.KPIStatusRejected, models.KPIStatusCancelled:
+		// Valid status
+	default:
+		return fmt.Errorf("invalid status: %s", req.Status)
+	}
+
+	return s.kpiParentRepo.UpdateStatus(ctx, req.ID, req.Status)
 }
 
 func (s *KPIParentService) Delete(ctx context.Context, id string) error {

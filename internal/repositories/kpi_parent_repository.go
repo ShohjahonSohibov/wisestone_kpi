@@ -222,6 +222,10 @@ func (r *KpiParentRepository) List(ctx context.Context, req *models.ListKPIParen
 		filter["year"] = req.Year
 	}
 
+	if req.Status != "" {
+		filter["status"] = req.Status
+	}
+
 	opts := options.Find()
 
 	opts.SetSkip(int64(req.Offset))
@@ -247,4 +251,32 @@ func (r *KpiParentRepository) List(ctx context.Context, req *models.ListKPIParen
 		Count: int(count),
 		Items: items,
 	}, nil
+}
+
+func (r *KpiParentRepository) UpdateStatus(ctx context.Context, id string, status string) error {
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return err
+	}
+
+	updateFields := bson.M{
+		"status":     status,
+		"updated_at": time.Now(),
+	}
+
+	if status == string(models.KPIStatusRejected) {
+		updateFields["$inc"] = bson.M{"rejection_count": 1}
+	}
+
+	res, err := r.collection.UpdateOne(
+		ctx,
+		bson.M{"_id": objID},
+		bson.M{"$set": updateFields},
+	)
+
+	if res.MatchedCount == 0 {
+		return fmt.Errorf("no document found with ID: %s", id)
+	}
+
+	return err
 }

@@ -153,6 +153,10 @@ definitions:
         type: string
       name_kr:
         type: string
+      rejection_count:
+        type: integer
+      status:
+        type: string
       updated_at:
         type: string
       year:
@@ -474,6 +478,13 @@ definitions:
       name_en:
         type: string
       name_kr:
+        type: string
+    type: object
+  models.UpdateKPIParentStatus:
+    properties:
+      id:
+        type: string
+      status:
         type: string
     type: object
   models.UpdatePermission:
@@ -1341,6 +1352,9 @@ paths:
         name: sort_order
         type: string
       - in: query
+        name: status
+        type: string
+      - in: query
         name: year
         type: string
       produces:
@@ -1493,6 +1507,46 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Update KPI Parent
+      tags:
+      - KPI Parents
+  /api/v1/kpi-parents/status/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update an existing KPI Parent Status by ID
+      parameters:
+      - description: KPI Parent ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: KPI Parent status update request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateKPIParentStatus'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, message: KPI Parent status updated successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update KPI Parent Status
       tags:
       - KPI Parents
   /api/v1/permissions:

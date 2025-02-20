@@ -95,6 +95,40 @@ func (h *KpiParentHandler) Update(c *gin.Context) {
 	})
 }
 
+
+// @Security ApiKeyAuth
+// @Summary Update KPI Parent Status
+// @Description Update an existing KPI Parent Status by ID
+// @Tags KPI Parents
+// @Accept json
+// @Produce json
+// @Param id path string true "KPI Parent ID"
+// @Param request body models.UpdateKPIParentStatus true "KPI Parent status update request"
+// @Success 200 {object} map[string]interface{} "status: 200, message: KPI Parent status updated successfully"
+// @Failure 400 {object} map[string]interface{} "status: 400, message: error message"
+// @Failure 500 {object} map[string]interface{} "status: 500, message: error message"
+// @Router /api/v1/kpi-parents/status/{id} [put]
+func (h *KpiParentHandler) UpdateStatus(c *gin.Context) {
+	var req models.UpdateKPIParentStatus
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	req.ID = c.Param("id")
+	if req.ID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "id is required"})
+		return
+	}
+
+	if err := h.kpiParentService.UpdateStatus(c, &req); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "status updated successfully"})
+}
+
 // @Security ApiKeyAuth
 // @Summary Delete KPI Parent
 // @Description Delete a KPI Parent by ID
@@ -183,6 +217,7 @@ func (h *KpiParentHandler) List(c *gin.Context) {
 	filter.MultiSearch = c.Query("multi_search")
 	filter.SortOrder = c.Query("sort_order")
 	filter.Year = c.Query("year")
+	filter.Status = c.Query("status")
 
 	result, err := h.kpiParentService.List(c.Request.Context(), &filter)
 	if err != nil {

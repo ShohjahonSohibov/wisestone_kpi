@@ -104,6 +104,7 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 			{
 				kpiParentGroup.POST("", kpiParentHandler.Create)
 				kpiParentGroup.PUT("/:id", kpiParentHandler.Update)
+				kpiParentGroup.PUT("/status/:id", kpiParentHandler.Update)
 				kpiParentGroup.DELETE("/:id", kpiParentHandler.Delete)
 				kpiParentGroup.GET("/:id", kpiParentHandler.GetByID)
 				kpiParentGroup.GET("", kpiParentHandler.List)
