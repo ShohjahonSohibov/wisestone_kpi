@@ -78,6 +78,25 @@ definitions:
         type: string
       name_kr:
         type: string
+      type:
+        type: string
+    type: object
+  models.CreateKPIProgress:
+    properties:
+      created_by_id:
+        type: string
+      date:
+        type: string
+      employee_id:
+        type: string
+      factor_id:
+        type: string
+      factor_indicator_id:
+        type: string
+      ratio:
+        type: integer
+      team_id:
+        type: string
     type: object
   models.CreatePermission:
     properties:
@@ -157,9 +176,63 @@ definitions:
         type: integer
       status:
         type: string
+      type:
+        type: string
       updated_at:
         type: string
       year:
+        type: string
+    type: object
+  models.KPIPrgParent:
+    properties:
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      divisions:
+        items:
+          $ref: '#/definitions/models.ShortKPIPrgDivision'
+        type: array
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      status:
+        type: string
+      total_ratio:
+        type: number
+      type:
+        type: string
+      year:
+        type: string
+    type: object
+  models.KPIProgress:
+    properties:
+      created_at:
+        type: string
+      created_by_id:
+        type: string
+      date:
+        type: string
+      employee_id:
+        type: string
+      factor_id:
+        type: string
+      factor_indicator_id:
+        type: string
+      id:
+        type: string
+      kpi:
+        items:
+          $ref: '#/definitions/models.KPIPrgParent'
+        type: array
+      ratio:
+        type: integer
+      team_id:
+        type: string
+      updated_at:
         type: string
     type: object
   models.ListKPIParentResponse:
@@ -169,6 +242,15 @@ definitions:
       items:
         items:
           $ref: '#/definitions/models.KPIParent'
+        type: array
+    type: object
+  models.ListKPIProgressResponse:
+    properties:
+      count:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/models.KPIProgress'
         type: array
     type: object
   models.ListPermissionResponse:
@@ -353,6 +435,80 @@ definitions:
       name_kr:
         type: string
       progress_range:
+        type: integer
+    type: object
+  models.ShortKPIPrgCriterion:
+    properties:
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      factors:
+        items:
+          $ref: '#/definitions/models.ShortKPIPrgFactor'
+        type: array
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      total_ratio:
+        type: number
+    type: object
+  models.ShortKPIPrgDivision:
+    properties:
+      criterions:
+        items:
+          $ref: '#/definitions/models.ShortKPIPrgCriterion'
+        type: array
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      total_ratio:
+        type: number
+    type: object
+  models.ShortKPIPrgFactor:
+    properties:
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      factor_indicators:
+        items:
+          $ref: '#/definitions/models.ShortKPIPrgFactorIndicator'
+        type: array
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      ratio:
+        type: number
+      total_ratio:
+        type: number
+    type: object
+  models.ShortKPIPrgFactorIndicator:
+    properties:
+      description_en:
+        type: string
+      description_kr:
+        type: string
+      id:
+        type: string
+      name_en:
+        type: string
+      name_kr:
+        type: string
+      progress_range:
         type: string
     type: object
   models.ShortPermission:
@@ -478,6 +634,8 @@ definitions:
       name_en:
         type: string
       name_kr:
+        type: string
+      type:
         type: string
     type: object
   models.UpdateKPIParentStatus:
@@ -1353,6 +1511,9 @@ paths:
         type: string
       - in: query
         name: status
+        type: string
+      - in: query
+        name: type
         type: string
       - in: query
         name: year
@@ -2574,6 +2735,112 @@ paths:
       summary: Get user by id
       tags:
       - Users
+  /kpi-progresses:
+    get:
+      description: Get a list of KPI progress records with pagination and filtering
+      parameters:
+      - description: Filter by date
+        in: query
+        name: date
+        type: string
+      - description: Filter by user ID
+        in: query
+        name: user_id
+        type: string
+      - description: Filter by team ID
+        in: query
+        name: team_id
+        type: string
+      - description: Offset for pagination
+        in: query
+        name: offset
+        type: integer
+      - description: Limit for pagination
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListKPIProgressResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List KPI Progress
+      tags:
+      - KPI Progress
+    post:
+      consumes:
+      - application/json
+      description: Create a new KPI progress record
+      parameters:
+      - description: KPI Progress details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateKPIProgress'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.KPIProgress'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create KPI Progress
+      tags:
+      - KPI Progress
+  /kpi-progresses/{id}:
+    delete:
+      description: Delete a KPI progress record
+      parameters:
+      - description: Progress ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete KPI Progress
+      tags:
+      - KPI Progress
 securityDefinitions:
   ApiKeyAuth:
     description: 'Enter your bearer token in the format: Bearer <token>'

@@ -12,6 +12,7 @@ type KPIParent struct {
 	DescriptionKr  string             `bson:"description_kr,omitempty" json:"description_kr,omitempty"`
 	Year           string             `bson:"year,omitempty" json:"year,omitempty"`
 	Status         string             `bson:"status,omitempty" json:"status,omitempty"`
+	Type           string             `bson:"type,omitempty" json:"type,omitempty"`
 	RejectionCount int                `bson:"rejection_count,omitempty" json:"rejection_count,omitempty"`
 	CreatedAt      time.Time          `json:"created_at,omitempty" bson:"created_at,omitempty"`
 	UpdatedAt      time.Time          `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
@@ -23,6 +24,7 @@ type CreateKPIParent struct {
 	NameKr        string `bson:"name_kr,omitempty" json:"name_kr,omitempty"`
 	DescriptionEn string `bson:"description_en,omitempty" json:"description_en,omitempty"`
 	DescriptionKr string `bson:"description_kr,omitempty" json:"description_kr,omitempty"`
+	Type          string `bson:"type,omitempty" json:"type,omitempty"`
 }
 
 type UpdateKPIParent struct {
@@ -31,11 +33,12 @@ type UpdateKPIParent struct {
 	NameKr        string `bson:"name_kr,omitempty" json:"name_kr,omitempty"`
 	DescriptionEn string `bson:"description_en,omitempty" json:"description_en,omitempty"`
 	DescriptionKr string `bson:"description_kr,omitempty" json:"description_kr,omitempty"`
+	Type          string `bson:"type,omitempty" json:"type,omitempty"`
 }
 
 type UpdateKPIParentStatus struct {
-	ID            string `json:"id,omitempty" bson:"_id,omitempty"`
-	Status        string `bson:"status,omitempty" json:"status,omitempty"`
+	ID     string `json:"id,omitempty" bson:"_id,omitempty"`
+	Status string `bson:"status,omitempty" json:"status,omitempty"`
 }
 
 type ListKPIParentResponse struct {
@@ -45,8 +48,9 @@ type ListKPIParentResponse struct {
 
 type ListKPIParentRequest struct {
 	Filter
-	Year string `json:"year"`
+	Year   string `json:"year"`
 	Status string `json:"status"`
+	Type   string `json:"type"`
 }
 
 type ShortKPIDivision struct {
@@ -82,7 +86,7 @@ type ShortKPIFactorIndicator struct {
 	ID            string `json:"id,omitempty" bson:"_id,omitempty"`
 	NameEn        string `bson:"name_en,omitempty" json:"name_en,omitempty"`
 	NameKr        string `bson:"name_kr,omitempty" json:"name_kr,omitempty"`
-	ProgressRange string `bson:"progress_range,omitempty" json:"progress_range,omitempty"`
+	ProgressRange int32  `bson:"progress_range,omitempty" json:"progress_range,omitempty"`
 	DescriptionEn string `bson:"description_en,omitempty" json:"description_en,omitempty"`
 	DescriptionKr string `bson:"description_kr,omitempty" json:"description_kr,omitempty"`
 }

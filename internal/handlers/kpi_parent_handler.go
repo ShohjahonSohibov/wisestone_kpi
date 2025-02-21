@@ -218,6 +218,7 @@ func (h *KpiParentHandler) List(c *gin.Context) {
 	filter.SortOrder = c.Query("sort_order")
 	filter.Year = c.Query("year")
 	filter.Status = c.Query("status")
+	filter.Status = c.Query("type")
 
 	result, err := h.kpiParentService.List(c.Request.Context(), &filter)
 	if err != nil {

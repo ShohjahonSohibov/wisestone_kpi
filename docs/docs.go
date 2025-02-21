@@ -1254,6 +1254,11 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "year",
                         "in": "query"
                     }
@@ -3146,6 +3151,167 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/kpi-progresses": {
+            "get": {
+                "description": "Get a list of KPI progress records with pagination and filtering",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Progress"
+                ],
+                "summary": "List KPI Progress",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter by date",
+                        "name": "date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by user ID",
+                        "name": "user_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by team ID",
+                        "name": "team_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset for pagination",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit for pagination",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ListKPIProgressResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new KPI progress record",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Progress"
+                ],
+                "summary": "Create KPI Progress",
+                "parameters": [
+                    {
+                        "description": "KPI Progress details",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CreateKPIProgress"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.KPIProgress"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/kpi-progresses/{id}": {
+            "delete": {
+                "description": "Delete a KPI progress record",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Progress"
+                ],
+                "summary": "Delete KPI Progress",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Progress ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -3266,6 +3432,35 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name_kr": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.CreateKPIProgress": {
+            "type": "object",
+            "properties": {
+                "created_by_id": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "string"
+                },
+                "factor_id": {
+                    "type": "string"
+                },
+                "factor_indicator_id": {
+                    "type": "string"
+                },
+                "ratio": {
+                    "type": "integer"
+                },
+                "team_id": {
                     "type": "string"
                 }
             }
@@ -3388,10 +3583,92 @@ const docTemplate = `{
                 "status": {
                     "type": "string"
                 },
+                "type": {
+                    "type": "string"
+                },
                 "updated_at": {
                     "type": "string"
                 },
                 "year": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.KPIPrgParent": {
+            "type": "object",
+            "properties": {
+                "description_en": {
+                    "type": "string"
+                },
+                "description_kr": {
+                    "type": "string"
+                },
+                "divisions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ShortKPIPrgDivision"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_kr": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "total_ratio": {
+                    "type": "number"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.KPIProgress": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by_id": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "string"
+                },
+                "factor_id": {
+                    "type": "string"
+                },
+                "factor_indicator_id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "kpi": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.KPIPrgParent"
+                    }
+                },
+                "ratio": {
+                    "type": "integer"
+                },
+                "team_id": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -3406,6 +3683,20 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/models.KPIParent"
+                    }
+                }
+            }
+        },
+        "models.ListKPIProgressResponse": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.KPIProgress"
                     }
                 }
             }
@@ -3688,6 +3979,119 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "progress_range": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.ShortKPIPrgCriterion": {
+            "type": "object",
+            "properties": {
+                "description_en": {
+                    "type": "string"
+                },
+                "description_kr": {
+                    "type": "string"
+                },
+                "factors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ShortKPIPrgFactor"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_kr": {
+                    "type": "string"
+                },
+                "total_ratio": {
+                    "type": "number"
+                }
+            }
+        },
+        "models.ShortKPIPrgDivision": {
+            "type": "object",
+            "properties": {
+                "criterions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ShortKPIPrgCriterion"
+                    }
+                },
+                "description_en": {
+                    "type": "string"
+                },
+                "description_kr": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_kr": {
+                    "type": "string"
+                },
+                "total_ratio": {
+                    "type": "number"
+                }
+            }
+        },
+        "models.ShortKPIPrgFactor": {
+            "type": "object",
+            "properties": {
+                "description_en": {
+                    "type": "string"
+                },
+                "description_kr": {
+                    "type": "string"
+                },
+                "factor_indicators": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ShortKPIPrgFactorIndicator"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_kr": {
+                    "type": "string"
+                },
+                "ratio": {
+                    "type": "number"
+                },
+                "total_ratio": {
+                    "type": "number"
+                }
+            }
+        },
+        "models.ShortKPIPrgFactorIndicator": {
+            "type": "object",
+            "properties": {
+                "description_en": {
+                    "type": "string"
+                },
+                "description_kr": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name_en": {
+                    "type": "string"
+                },
+                "name_kr": {
+                    "type": "string"
+                },
+                "progress_range": {
                     "type": "string"
                 }
             }
@@ -3880,6 +4284,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "name_kr": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }

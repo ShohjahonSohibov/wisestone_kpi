@@ -8,36 +8,33 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 
 	"kpi/internal/models"
 )
 
-type KpiParentRepository struct {
+type KPIProgressRepository struct {
 	collection *mongo.Collection
 }
 
-func NewKPIParentRepository(db *mongo.Database) *KpiParentRepository {
-	return &KpiParentRepository{collection: db.Collection("kpi_parents")}
+func NewKPIProgressRepository(db *mongo.Database) *KPIProgressRepository {
+	return &KPIProgressRepository{collection: db.Collection("kpi_progresses")}
 }
 
-func (r *KpiParentRepository) Create(ctx context.Context, kpiParent *models.KPIParent) error {
-	kpiParent.BeforeCreate()
-
-	result, err := r.collection.InsertOne(ctx, kpiParent)
+func (r *KPIProgressRepository) Create(ctx context.Context, progress *models.KPIProgress) error {
+	progress.BeforeCreate()
+	result, err := r.collection.InsertOne(ctx, progress)
 	if err != nil {
 		return err
 	}
 
 	if oid, ok := result.InsertedID.(primitive.ObjectID); ok {
-		kpiParent.ID = oid.Hex()
+		progress.ID = oid.Hex()
 	}
-
 	return nil
 }
 
-func (r *KpiParentRepository) Update(ctx context.Context, kpiParent *models.KPIParent) error {
-	objID, err := primitive.ObjectIDFromHex(kpiParent.ID)
+func (r *KPIProgressRepository) Update(ctx context.Context, progress *models.KPIProgress) error {
+	objID, err := primitive.ObjectIDFromHex(progress.ID)
 	if err != nil {
 		return err
 	}
@@ -46,23 +43,17 @@ func (r *KpiParentRepository) Update(ctx context.Context, kpiParent *models.KPIP
 		"updated_at": time.Now(),
 	}
 
-	if kpiParent.NameKr != "" {
-		updateFields["name_kr"] = kpiParent.NameKr
+	if progress.FactorId != "" {
+		updateFields["factor_id"] = progress.FactorId
 	}
-	if kpiParent.NameEn != "" {
-		updateFields["name_en"] = kpiParent.NameEn
+	if progress.FactorIndicatorId != "" {
+		updateFields["factor_indicator_id"] = progress.FactorIndicatorId
 	}
-	if kpiParent.DescriptionKr != "" {
-		updateFields["description_kr"] = kpiParent.DescriptionKr
+	if progress.Ratio != 0 {
+		updateFields["ratio"] = progress.Ratio
 	}
-	if kpiParent.DescriptionEn != "" {
-		updateFields["description_en"] = kpiParent.DescriptionEn
-	}
-	if kpiParent.Year != "" {
-		updateFields["year"] = kpiParent.Year
-	}
-	if kpiParent.Type != "" {
-		updateFields["type"] = kpiParent.Type
+	if !progress.Date.IsZero() {
+		updateFields["date"] = progress.Date
 	}
 
 	res, err := r.collection.UpdateOne(
@@ -72,13 +63,13 @@ func (r *KpiParentRepository) Update(ctx context.Context, kpiParent *models.KPIP
 	)
 
 	if res.MatchedCount == 0 {
-		return fmt.Errorf("no document found with ID: %s", kpiParent.ID)
+		return fmt.Errorf("no document found with ID: %s", progress.ID)
 	}
 
 	return err
 }
 
-func (r *KpiParentRepository) Delete(ctx context.Context, id string) error {
+func (r *KPIProgressRepository) Delete(ctx context.Context, id string) error {
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return err
@@ -88,14 +79,85 @@ func (r *KpiParentRepository) Delete(ctx context.Context, id string) error {
 	return err
 }
 
-func (r *KpiParentRepository) GetByID(ctx context.Context, id string) (*models.KPIParent, error) {
+func (r *KPIProgressRepository) GetByID(ctx context.Context, id string) (*models.KPIProgress, error) {
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, fmt.Errorf("invalid ID format: %v", err)
 	}
+
 	pipeline := []bson.M{
 		{
 			"$match": bson.M{"_id": objID},
+		},
+		{
+			"$lookup": bson.M{
+				"from": "kpi_factors",
+				"let":  bson.M{"factor_id": bson.M{"$toString": "$factor_id"}},
+				"pipeline": []bson.M{
+					{
+						"$match": bson.M{
+							"$expr": bson.M{
+								"$eq": []string{"$_id", "$$factor_id"},
+							},
+						},
+					},
+				},
+				"as": "factor",
+			},
+		},
+		{
+			"$lookup": bson.M{
+				"from": "kpi_factor_indicators",
+				"let":  bson.M{"indicator_id": bson.M{"$toString": "$factor_indicator_id"}},
+				"pipeline": []bson.M{
+					{
+						"$match": bson.M{
+							"$expr": bson.M{
+								"$eq": []string{"$_id", "$$indicator_id"},
+							},
+						},
+					},
+				},
+				"as": "factor_indicator",
+			},
+		},
+		{
+			"$unwind": bson.M{
+				"path":                       "$factor",
+				"preserveNullAndEmptyArrays": true,
+			},
+		},
+		{
+			"$unwind": bson.M{
+				"path":                       "$factor_indicator",
+				"preserveNullAndEmptyArrays": true,
+			},
+		},
+	}
+
+	cursor, err := r.collection.Aggregate(ctx, pipeline)
+	if err != nil {
+		return nil, fmt.Errorf("error executing aggregation: %v", err)
+	}
+	defer cursor.Close(ctx)
+
+	var result []models.KPIProgress
+	if err := cursor.All(ctx, &result); err != nil {
+		return nil, fmt.Errorf("error decoding result: %v", err)
+	}
+
+	if len(result) == 0 {
+		return nil, mongo.ErrNoDocuments
+	}
+
+	return &result[0], nil
+}
+
+func (r *KPIProgressRepository) TeamProgress(ctx context.Context, req *models.KPIProgressTeamFilter) (*models.ListKPIProgressResponse, error) {
+
+	pipeline := []bson.M{
+		{
+			"$match": bson.M{"team_id": req.TeamId},
 		},
 		{
 			"$lookup": bson.M{
@@ -174,7 +236,7 @@ func (r *KpiParentRepository) GetByID(ctx context.Context, id string) (*models.K
 				"rejection_count": bson.M{"$first": "$rejection_count"},
 				"created_at":      bson.M{"$first": "$created_at"},
 				"updated_at":      bson.M{"$first": "$updated_at"},
-				"divisions":       bson.M{"$first": "$divisions"},
+				"kpi":             bson.M{"$first": "$divisions"},
 			},
 		},
 		{
@@ -190,103 +252,24 @@ func (r *KpiParentRepository) GetByID(ctx context.Context, id string) (*models.K
 				"rejection_count": 1,
 				"created_at":      1,
 				"updated_at":      1,
-				"divisions":       1,
+				"kpi":             1,
 			},
 		},
 	}
+
 	cursor, err := r.collection.Aggregate(ctx, pipeline)
-	if err != nil {
-		return nil, fmt.Errorf("error executing aggregation: %v", err)
-	}
-	defer cursor.Close(ctx)
-
-	// Check if cursor has any data
-	if !cursor.Next(ctx) {
-		return nil, mongo.ErrNoDocuments
-	}
-
-	// Decode results one by one to avoid struct mismatches
-	var result []models.KPIParent
-	if err := cursor.All(ctx, &result); err != nil {
-		return nil, fmt.Errorf("error decoding result: %v", err)
-	}
-
-	// Debugging: Print the final result
-	fmt.Printf("Fetched KPI Parent: %+v\n", result)
-
-	return &result[0], nil
-}
-
-func (r *KpiParentRepository) List(ctx context.Context, req *models.ListKPIParentRequest) (*models.ListKPIParentResponse, error) {
-	filter := bson.M{}
-	if req.MultiSearch != "" {
-		filter["$or"] = []bson.M{
-			{"name_en": bson.M{"$regex": req.MultiSearch, "$options": "i"}},
-			{"name_kr": bson.M{"$regex": req.MultiSearch, "$options": "i"}},
-		}
-	}
-
-	if req.Year != "" {
-		filter["year"] = req.Year
-	}
-	if req.Status != "" {
-		filter["status"] = req.Status
-	}
-	if req.Type != "" {
-		filter["type"] = req.Type
-	}
-
-	opts := options.Find()
-
-	opts.SetSkip(int64(req.Offset))
-	opts.SetLimit(int64(req.Limit))
-
-	cursor, err := r.collection.Find(ctx, filter, opts)
 	if err != nil {
 		return nil, err
 	}
 	defer cursor.Close(ctx)
 
-	var items []*models.KPIParent
+	var items []*models.KPIProgress
 	if err = cursor.All(ctx, &items); err != nil {
 		return nil, err
 	}
 
-	count, err := r.collection.CountDocuments(ctx, filter)
-	if err != nil {
-		return nil, err
-	}
-
-	return &models.ListKPIParentResponse{
-		Count: int(count),
+	return &models.ListKPIProgressResponse{
+		Count: len(items),
 		Items: items,
 	}, nil
-}
-
-func (r *KpiParentRepository) UpdateStatus(ctx context.Context, id string, status string) error {
-	objID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return err
-	}
-
-	updateFields := bson.M{
-		"status":     status,
-		"updated_at": time.Now(),
-	}
-
-	if status == string(models.KPIStatusRejected) {
-		updateFields["$inc"] = bson.M{"rejection_count": 1}
-	}
-
-	res, err := r.collection.UpdateOne(
-		ctx,
-		bson.M{"_id": objID},
-		bson.M{"$set": updateFields},
-	)
-
-	if res.MatchedCount == 0 {
-		return fmt.Errorf("no document found with ID: %s", id)
-	}
-
-	return err
 }
