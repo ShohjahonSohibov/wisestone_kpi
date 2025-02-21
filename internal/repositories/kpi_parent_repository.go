@@ -162,22 +162,6 @@ func (r *KpiParentRepository) GetByID(ctx context.Context, id string) (*models.K
 			},
 		},
 		{
-			"$group": bson.M{
-				"_id":             "$_id",
-				"name_en":         bson.M{"$first": "$name_en"},
-				"name_kr":         bson.M{"$first": "$name_kr"},
-				"description_en":  bson.M{"$first": "$description_en"},
-				"description_kr":  bson.M{"$first": "$description_kr"},
-				"year":            bson.M{"$first": "$year"},
-				"type":            bson.M{"$first": "$type"},
-				"status":          bson.M{"$first": "$status"},
-				"rejection_count": bson.M{"$first": "$rejection_count"},
-				"created_at":      bson.M{"$first": "$created_at"},
-				"updated_at":      bson.M{"$first": "$updated_at"},
-				"divisions":       bson.M{"$first": "$divisions"},
-			},
-		},
-		{
 			"$project": bson.M{
 				"_id":             1,
 				"name_en":         1,

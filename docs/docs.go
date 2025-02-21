@@ -1549,6 +1549,182 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/kpi-progresses": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get a list of KPI progress records with pagination and filtering",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Progress"
+                ],
+                "summary": "List KPI Progress",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter by date",
+                        "name": "date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by user ID",
+                        "name": "user_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by team ID",
+                        "name": "team_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset for pagination",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit for pagination",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ListKPIProgressResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Create a new KPI progress record",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Progress"
+                ],
+                "summary": "Create KPI Progress",
+                "parameters": [
+                    {
+                        "description": "KPI Progress details",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CreateKPIProgress"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.KPIProgress"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/kpi-progresses/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Delete a KPI progress record",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Progress"
+                ],
+                "summary": "Delete KPI Progress",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Progress ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/permissions": {
             "get": {
                 "security": [
@@ -3151,167 +3327,6 @@ const docTemplate = `{
                     }
                 }
             }
-        },
-        "/kpi-progresses": {
-            "get": {
-                "description": "Get a list of KPI progress records with pagination and filtering",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "KPI Progress"
-                ],
-                "summary": "List KPI Progress",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Filter by date",
-                        "name": "date",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Filter by user ID",
-                        "name": "user_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Filter by team ID",
-                        "name": "team_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Offset for pagination",
-                        "name": "offset",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Limit for pagination",
-                        "name": "limit",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ListKPIProgressResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create a new KPI progress record",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "KPI Progress"
-                ],
-                "summary": "Create KPI Progress",
-                "parameters": [
-                    {
-                        "description": "KPI Progress details",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.CreateKPIProgress"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/models.KPIProgress"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/kpi-progresses/{id}": {
-            "delete": {
-                "description": "Delete a KPI progress record",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "KPI Progress"
-                ],
-                "summary": "Delete KPI Progress",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Progress ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
-            }
         }
     },
     "definitions": {
@@ -3657,10 +3672,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "kpi": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.KPIPrgParent"
-                    }
+                    "$ref": "#/definitions/models.KPIPrgParent"
                 },
                 "ratio": {
                     "type": "integer"
@@ -3698,6 +3710,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/models.KPIProgress"
                     }
+                },
+                "progress": {
+                    "$ref": "#/definitions/models.KPIProgress"
                 }
             }
         },
@@ -4092,7 +4107,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "progress_range": {
-                    "type": "string"
+                    "type": "integer"
+                },
+                "ratio": {
+                    "type": "integer"
                 }
             }
         },

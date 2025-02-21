@@ -225,9 +225,7 @@ definitions:
       id:
         type: string
       kpi:
-        items:
-          $ref: '#/definitions/models.KPIPrgParent'
-        type: array
+        $ref: '#/definitions/models.KPIPrgParent'
       ratio:
         type: integer
       team_id:
@@ -252,6 +250,8 @@ definitions:
         items:
           $ref: '#/definitions/models.KPIProgress'
         type: array
+      progress:
+        $ref: '#/definitions/models.KPIProgress'
     type: object
   models.ListPermissionResponse:
     properties:
@@ -509,7 +509,9 @@ definitions:
       name_kr:
         type: string
       progress_range:
-        type: string
+        type: integer
+      ratio:
+        type: integer
     type: object
   models.ShortPermission:
     properties:
@@ -1710,6 +1712,118 @@ paths:
       summary: Update KPI Parent Status
       tags:
       - KPI Parents
+  /api/v1/kpi-progresses:
+    get:
+      description: Get a list of KPI progress records with pagination and filtering
+      parameters:
+      - description: Filter by date
+        in: query
+        name: date
+        type: string
+      - description: Filter by user ID
+        in: query
+        name: user_id
+        type: string
+      - description: Filter by team ID
+        in: query
+        name: team_id
+        type: string
+      - description: Offset for pagination
+        in: query
+        name: offset
+        type: integer
+      - description: Limit for pagination
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListKPIProgressResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: List KPI Progress
+      tags:
+      - KPI Progress
+    post:
+      consumes:
+      - application/json
+      description: Create a new KPI progress record
+      parameters:
+      - description: KPI Progress details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateKPIProgress'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.KPIProgress'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create KPI Progress
+      tags:
+      - KPI Progress
+  /api/v1/kpi-progresses/{id}:
+    delete:
+      description: Delete a KPI progress record
+      parameters:
+      - description: Progress ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete KPI Progress
+      tags:
+      - KPI Progress
   /api/v1/permissions:
     get:
       consumes:
@@ -2735,112 +2849,6 @@ paths:
       summary: Get user by id
       tags:
       - Users
-  /kpi-progresses:
-    get:
-      description: Get a list of KPI progress records with pagination and filtering
-      parameters:
-      - description: Filter by date
-        in: query
-        name: date
-        type: string
-      - description: Filter by user ID
-        in: query
-        name: user_id
-        type: string
-      - description: Filter by team ID
-        in: query
-        name: team_id
-        type: string
-      - description: Offset for pagination
-        in: query
-        name: offset
-        type: integer
-      - description: Limit for pagination
-        in: query
-        name: limit
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.ListKPIProgressResponse'
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: List KPI Progress
-      tags:
-      - KPI Progress
-    post:
-      consumes:
-      - application/json
-      description: Create a new KPI progress record
-      parameters:
-      - description: KPI Progress details
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/models.CreateKPIProgress'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/models.KPIProgress'
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Create KPI Progress
-      tags:
-      - KPI Progress
-  /kpi-progresses/{id}:
-    delete:
-      description: Delete a KPI progress record
-      parameters:
-      - description: Progress ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Delete KPI Progress
-      tags:
-      - KPI Progress
 securityDefinitions:
   ApiKeyAuth:
     description: 'Enter your bearer token in the format: Bearer <token>'
