@@ -1570,14 +1570,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Team ID",
-                        "name": "team_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Employee ID",
-                        "name": "employee_id",
+                        "description": "Type: team/employee",
+                        "name": "type",
                         "in": "query"
                     },
                     {

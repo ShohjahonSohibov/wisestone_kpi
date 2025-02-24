@@ -63,11 +63,11 @@ func (r *KPIProgressStatusRepository) Delete(ctx context.Context, id string) err
 func (r *KPIProgressStatusRepository) List(ctx context.Context, req *models.ListKPIProgressStatusRequest) (*models.ListKPIProgressStatusResponse, error) {
 	// Define the base match filter
 	matchFilter := bson.M{}
-	if req.TeamId != "" {
-		matchFilter["team_id"] = req.TeamId
+	if req.Type == "team" {
+		matchFilter["team_id"] = bson.M{"$ne": nil}
 	}
-	if req.EmployeeId != "" {
-		matchFilter["employee_id"] = req.EmployeeId
+	if req.Type != "employee" {
+		matchFilter["employee_id"] = bson.M{"$ne": nil}
 	}
 	if req.Date != "" {
 		matchFilter["date"] = req.Date

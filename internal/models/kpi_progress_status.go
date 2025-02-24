@@ -34,13 +34,12 @@ type ListKPIProgressStatusResponse struct {
 }
 
 type ListKPIProgressStatusRequest struct {
-	Limit      int    `json:"limit"`
-	Offset     int    `json:"offset"`
-	Page       int    `json:"page"`
-	Date       string `json:"date"`
-	EmployeeId string `json:"employee_id"`
-	TeamId     string `json:"team_id"`
-	Status     string `son:"status"`
+	Limit  int    `json:"limit"`
+	Offset int    `json:"offset"`
+	Page   int    `json:"page"`
+	Date   string `json:"date"`
+	Type   string `json:"type"`
+	Status string `son:"status"`
 }
 
 func (k *KPIProgressStatus) BeforeCreate() {

@@ -131,8 +131,7 @@ func (h *KPIProgressStatusHandler) Delete(c *gin.Context) {
 // @Tags KPI Progress Status
 // @Accept json
 // @Produce json
-// @Param team_id query string false "Team ID"
-// @Param employee_id query string false "Employee ID"
+// @Param type query string false "Type: team/employee"
 // @Param date query string false "Date (YYYY-MM)"
 // @Param status query string false "Status"
 // @Param limit query integer false "Limit"
@@ -155,8 +154,7 @@ func (h *KPIProgressStatusHandler) List(c *gin.Context) {
 
 	filter.Offset = offset
 	filter.Limit = limit
-	filter.TeamId = c.Query("team_id")
-	filter.EmployeeId = c.Query("employee_id")
+	filter.Type = c.Query("type")
 	filter.Date = c.Query("date")
 	filter.Status = c.Query("status")
 

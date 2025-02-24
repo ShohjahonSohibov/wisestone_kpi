@@ -1773,13 +1773,9 @@ paths:
       - application/json
       description: Get a list of KPI progress statuses with optional filtering
       parameters:
-      - description: Team ID
+      - description: 'Type: team/employee'
         in: query
-        name: team_id
-        type: string
-      - description: Employee ID
-        in: query
-        name: employee_id
+        name: type
         type: string
       - description: Date (YYYY-MM)
         in: query
