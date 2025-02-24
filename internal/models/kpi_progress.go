@@ -30,7 +30,6 @@ type CreateKPIProgress struct {
 
 type ListKPIProgressResponse struct {
 	Count    int            `json:"count,omitempty"`
-	Items    []*KPIProgress `json:"items,omitempty"`
 	Progress *KPIProgress   `json:"progress,omitempty"`
 }
 

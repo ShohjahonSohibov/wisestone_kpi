@@ -278,10 +278,6 @@ definitions:
     properties:
       count:
         type: integer
-      items:
-        items:
-          $ref: '#/definitions/models.KPIProgress'
-        type: array
       progress:
         $ref: '#/definitions/models.KPIProgress'
     type: object

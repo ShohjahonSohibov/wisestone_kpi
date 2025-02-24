@@ -4010,12 +4010,6 @@ const docTemplate = `{
                 "count": {
                     "type": "integer"
                 },
-                "items": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.KPIProgress"
-                    }
-                },
                 "progress": {
                     "$ref": "#/definitions/models.KPIProgress"
                 }
