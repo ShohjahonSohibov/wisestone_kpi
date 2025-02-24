@@ -1832,18 +1832,6 @@ const docTemplate = `{
                         "description": "Filter by team ID",
                         "name": "team_id",
                         "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Offset for pagination",
-                        "name": "offset",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Limit for pagination",
-                        "name": "limit",
-                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -4001,9 +3989,6 @@ const docTemplate = `{
         "models.ListKPIProgressResponse": {
             "type": "object",
             "properties": {
-                "count": {
-                    "type": "integer"
-                },
                 "progress": {
                     "$ref": "#/definitions/models.KPIProgress"
                 }

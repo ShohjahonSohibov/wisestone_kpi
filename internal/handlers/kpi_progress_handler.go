@@ -84,8 +84,6 @@ func (h *KPIProgressHandler) Delete(c *gin.Context) {
 // @Param date query string false "Filter by date"
 // @Param employee_id query string false "Filter by employee ID"
 // @Param team_id query string false "Filter by team ID"
-// @Param offset query int false "Offset for pagination"
-// @Param limit query int false "Limit for pagination"
 // @Success 200 {object} models.ListKPIProgressResponse
 // @Failure 400 {object} map[string]string
 // @Failure 500 {object} map[string]string
@@ -93,17 +91,6 @@ func (h *KPIProgressHandler) Delete(c *gin.Context) {
 func (h *KPIProgressHandler) List(c *gin.Context) {
 	var filter models.ListKPIProgressRequest
 
-	offset, limit, err := getPageOffsetLimit(c)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"status":  http.StatusBadRequest,
-			"message": err.Error(),
-		})
-		return
-	}
-
-	filter.Offset = offset
-	filter.Limit = limit
 	filter.TeamId = c.Query("team_id")
 	filter.EmployeeId = c.Query("employee_id")
 	filter.Date = c.Query("date")

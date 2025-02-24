@@ -32,8 +32,6 @@ func (s *KPIProgressService) List(ctx context.Context, req *models.ListKPIProgre
 	)
 	if req.TeamId != "" {
 		filter := models.KPIProgressTeamFilter{
-			Limit:  req.Limit,
-			Offset: req.Offset,
 			Date:   req.Date,
 			TeamId: req.TeamId,
 		}
@@ -43,17 +41,15 @@ func (s *KPIProgressService) List(ctx context.Context, req *models.ListKPIProgre
 			return nil, err
 		}
 	} else if req.EmployeeId != "" {
-		// filter := models.KPIProgressEmployeeFilter{
-		// 	Limit: req.Limit,
-		// 	Offset: req.Offset,
-		// 	Date: req.Date,
-		// 	EmployeeId: req.EmployeeId,
-		// }
+		filter := models.KPIProgressEmployeeFilter{
+			Date:       req.Date,
+			EmployeeId: req.EmployeeId,
+		}
 
-		// res, err := s.kpiProgressRepo.List(ctx, &filter)
-		// if err != nil {
-		// 	return nil, err
-		// }
+		res, err = s.kpiProgressRepo.EmployeeProgress(ctx, &filter)
+		if err != nil {
+			return nil, err
+		}
 	}
 	return res, nil
 }

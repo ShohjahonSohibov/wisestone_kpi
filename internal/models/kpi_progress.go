@@ -29,29 +29,21 @@ type CreateKPIProgress struct {
 }
 
 type ListKPIProgressResponse struct {
-	Count    int            `json:"count,omitempty"`
-	Progress *KPIProgress   `json:"progress,omitempty"`
+	Progress *KPIProgress `json:"progress,omitempty"`
 }
 
 type ListKPIProgressRequest struct {
-	Limit      int    `json:"limit"`
-	Offset     int    `json:"offset"`
-	Page       int    `json:"page"`
 	Date       string `json:"date"`
 	EmployeeId string `json:"employee_id"`
 	TeamId     string `json:"team_id"`
 }
 
 type KPIProgressTeamFilter struct {
-	Limit  int    `json:"limit"`
-	Offset int    `json:"offset"`
 	Date   string `json:"date"`
 	TeamId string `json:"team_id"`
 }
 
 type KPIProgressEmployeeFilter struct {
-	Limit      int    `json:"limit"`
-	Offset     int    `json:"offset"`
 	Date       string `json:"date"`
 	EmployeeId string `json:"employee_id"`
 }

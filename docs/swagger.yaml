@@ -276,8 +276,6 @@ definitions:
     type: object
   models.ListKPIProgressResponse:
     properties:
-      count:
-        type: integer
       progress:
         $ref: '#/definitions/models.KPIProgress'
     type: object
@@ -1943,14 +1941,6 @@ paths:
         in: query
         name: team_id
         type: string
-      - description: Offset for pagination
-        in: query
-        name: offset
-        type: integer
-      - description: Limit for pagination
-        in: query
-        name: limit
-        type: integer
       produces:
       - application/json
       responses:
