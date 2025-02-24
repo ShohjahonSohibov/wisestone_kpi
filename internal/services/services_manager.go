@@ -15,6 +15,7 @@ type ServiceManager struct {
 	KPIFactorService          *KPIFactorService
 	KPIFactorIndicatorService *KPIFactorIndicatorService
 	KPIProgressService        *KPIProgressService
+	KPIProgressStatusService  *KPIProgressStatusService
 }
 
 func NewServiceManager(repoManager *repositories.RepositoryManager) *ServiceManager {
@@ -31,5 +32,6 @@ func NewServiceManager(repoManager *repositories.RepositoryManager) *ServiceMana
 		KPIFactorService:          NewKPIFactorService(repoManager.KPIFactorRepository, repoManager.KPICriterionRepository),
 		KPIFactorIndicatorService: NewKPIFactorIndicatorService(repoManager.KPIFactorIndicatorRepository, repoManager.KPIFactorRepository),
 		KPIProgressService:        NewKPIProgressService(repoManager.KPIProgressRepository),
+		KPIProgressStatusService:  NewKPIProgressStatusService(repoManager.KPIProgressStatusRepository),
 	}
 }

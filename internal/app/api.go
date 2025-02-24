@@ -29,6 +29,7 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 	kpiFactorHandler := handlers.NewKPIFactorHandler(serviceManager.KPIFactorService)
 	kpiFactorIndicatorHandler := handlers.NewKPIFactorIndicatorHandler(serviceManager.KPIFactorIndicatorService)
 	kpiProgressHandler := handlers.NewKPIProgressHandler(serviceManager.KPIProgressService)
+	kpiProgressStatusHandler := handlers.NewKPIProgressStatusHandler(serviceManager.KPIProgressStatusService)
 
 	// API routes
 	api := router.Group("/api/v1")
@@ -158,6 +159,14 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 				// kpiProgress.GET("/:id", kpiProgressHandler.GetByID)
 				// kpiProgress.PUT("/:id", kpiProgressHandler.Update)
 				kpiProgress.DELETE("/:id", kpiProgressHandler.Delete)
+			}
+
+			kpiProgressStatus := protected.Group("/kpi-progress-status")
+			{
+				kpiProgressStatus.POST("", kpiProgressStatusHandler.Create)
+				kpiProgressStatus.GET("", kpiProgressStatusHandler.List)
+				kpiProgressStatus.PUT("/:id", kpiProgressStatusHandler.Update)
+				kpiProgressStatus.DELETE("/:id", kpiProgressStatusHandler.Delete)
 			}
 		}
 	}

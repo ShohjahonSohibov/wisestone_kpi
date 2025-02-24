@@ -21,6 +21,13 @@ type User struct {
 	UpdatedAt    time.Time `json:"updated_at,omitempty" bson:"updated_at"`
 }
 
+type ShortUser struct {
+	ID           string `json:"id,omitempty" bson:"_id,omitempty"`
+	FullNameEn   string `bson:"full_name_en,omitempty" json:"full_name_en,omitempty"`
+	FullNameKr   string `bson:"full_name_kr,omitempty" json:"full_name_kr,omitempty"`
+	IsTeamLeader bool   `bson:"is_team_leader,omitempty" json:"is_team_leader,omitempty"`
+}
+
 type CreateUser struct {
 	FullNameEn string `bson:"full_name_en" json:"full_name_en"`
 	FullNameKr string `bson:"full_name_kr" json:"full_name_kr"`

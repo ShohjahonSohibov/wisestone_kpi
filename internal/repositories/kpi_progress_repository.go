@@ -181,13 +181,6 @@ func (r *KPIProgressRepository) TeamProgress(ctx context.Context, req *models.KP
 		return nil, err
 	}
 
-	// prettyJSON, err := json.MarshalIndent(factorProgress, "", "    ")
-	// if err != nil {
-	// 	fmt.Printf("Error marshaling JSON: %v\n", err)
-	// 	return nil, err
-	// }
-	// fmt.Printf("factorProgress: %s\n", string(prettyJSON))
-
 	if len(items) > 0 {
 		progress := &items[0]
 

@@ -1549,6 +1549,262 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/kpi-progress-status": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get a list of KPI progress statuses with optional filtering",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Progress Status"
+                ],
+                "summary": "List KPI progress statuses",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Team ID",
+                        "name": "team_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Employee ID",
+                        "name": "employee_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Date (YYYY-MM)",
+                        "name": "date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ListKPIProgressStatusResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Create a new KPI progress status",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Progress Status"
+                ],
+                "summary": "Create KPI progress status",
+                "parameters": [
+                    {
+                        "description": "Create KPI progress status request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CreateKPIProgressStatus"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.KPIProgressStatus"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/kpi-progress-status/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Update an existing KPI progress status",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Progress Status"
+                ],
+                "summary": "Update KPI progress status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "KPI Progress Status ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update KPI progress status request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateKPIProgressStatus"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.KPIProgressStatus"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Delete a KPI progress status record",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Progress Status"
+                ],
+                "summary": "Delete KPI Progress Status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Progress ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/kpi-progresses": {
             "get": {
                 "security": [
@@ -3480,6 +3736,23 @@ const docTemplate = `{
                 }
             }
         },
+        "models.CreateKPIProgressStatus": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "employee_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "team_id": {
+                    "type": "string"
+                }
+            }
+        },
         "models.CreatePermission": {
             "type": "object",
             "required": [
@@ -3685,6 +3958,38 @@ const docTemplate = `{
                 }
             }
         },
+        "models.KPIProgressStatus": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "employee": {
+                    "$ref": "#/definitions/models.ShortUser"
+                },
+                "employee_id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "team": {
+                    "$ref": "#/definitions/models.TeamShort"
+                },
+                "team_id": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "models.ListKPIParentResponse": {
             "type": "object",
             "properties": {
@@ -3713,6 +4018,20 @@ const docTemplate = `{
                 },
                 "progress": {
                     "$ref": "#/definitions/models.KPIProgress"
+                }
+            }
+        },
+        "models.ListKPIProgressStatusResponse": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.KPIProgressStatus"
+                    }
                 }
             }
         },
@@ -4142,6 +4461,23 @@ const docTemplate = `{
                 }
             }
         },
+        "models.ShortUser": {
+            "type": "object",
+            "properties": {
+                "full_name_en": {
+                    "type": "string"
+                },
+                "full_name_kr": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_team_leader": {
+                    "type": "boolean"
+                }
+            }
+        },
         "models.Team": {
             "type": "object",
             "properties": {
@@ -4310,6 +4646,17 @@ const docTemplate = `{
             }
         },
         "models.UpdateKPIParentStatus": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UpdateKPIProgressStatus": {
             "type": "object",
             "properties": {
                 "id": {

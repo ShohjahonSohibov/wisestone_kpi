@@ -70,7 +70,10 @@ func (h *KPIProgressHandler) Delete(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Progress deleted successfully"})
+	c.JSON(http.StatusOK, gin.H{
+		"status":  http.StatusNoContent,
+		"message": "Progress deleted successfully",
+	})
 }
 
 // @Security ApiKeyAuth

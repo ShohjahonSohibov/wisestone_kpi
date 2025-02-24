@@ -14,6 +14,7 @@ type RepositoryManager struct {
 	KPIFactorRepository          *KPIFactorRepository
 	KPIFactorIndicatorRepository *KPIFactorIndicatorRepository
 	KPIProgressRepository        *KPIProgressRepository
+	KPIProgressStatusRepository  *KPIProgressStatusRepository
 }
 
 func NewRepositoryManager(db *mongo.Database) *RepositoryManager {
@@ -29,5 +30,6 @@ func NewRepositoryManager(db *mongo.Database) *RepositoryManager {
 		KPIFactorRepository:          NewKPIFactorRepository(db),
 		KPIFactorIndicatorRepository: NewKPIFactorIndicatorRepository(db),
 		KPIProgressRepository:        NewKPIProgressRepository(db),
+		KPIProgressStatusRepository:  NewKPIProgressStatusRepository(db),
 	}
 }

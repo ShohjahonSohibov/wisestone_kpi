@@ -98,6 +98,17 @@ definitions:
       team_id:
         type: string
     type: object
+  models.CreateKPIProgressStatus:
+    properties:
+      date:
+        type: string
+      employee_id:
+        type: string
+      status:
+        type: string
+      team_id:
+        type: string
+    type: object
   models.CreatePermission:
     properties:
       action_en:
@@ -233,6 +244,27 @@ definitions:
       updated_at:
         type: string
     type: object
+  models.KPIProgressStatus:
+    properties:
+      created_at:
+        type: string
+      date:
+        type: string
+      employee:
+        $ref: '#/definitions/models.ShortUser'
+      employee_id:
+        type: string
+      id:
+        type: string
+      status:
+        type: string
+      team:
+        $ref: '#/definitions/models.TeamShort'
+      team_id:
+        type: string
+      updated_at:
+        type: string
+    type: object
   models.ListKPIParentResponse:
     properties:
       count:
@@ -252,6 +284,15 @@ definitions:
         type: array
       progress:
         $ref: '#/definitions/models.KPIProgress'
+    type: object
+  models.ListKPIProgressStatusResponse:
+    properties:
+      count:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/models.KPIProgressStatus'
+        type: array
     type: object
   models.ListPermissionResponse:
     properties:
@@ -531,6 +572,17 @@ definitions:
       name_kr:
         type: string
     type: object
+  models.ShortUser:
+    properties:
+      full_name_en:
+        type: string
+      full_name_kr:
+        type: string
+      id:
+        type: string
+      is_team_leader:
+        type: boolean
+    type: object
   models.Team:
     properties:
       created_at:
@@ -641,6 +693,13 @@ definitions:
         type: string
     type: object
   models.UpdateKPIParentStatus:
+    properties:
+      id:
+        type: string
+      status:
+        type: string
+    type: object
+  models.UpdateKPIProgressStatus:
     properties:
       id:
         type: string
@@ -1712,6 +1771,170 @@ paths:
       summary: Update KPI Parent Status
       tags:
       - KPI Parents
+  /api/v1/kpi-progress-status:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of KPI progress statuses with optional filtering
+      parameters:
+      - description: Team ID
+        in: query
+        name: team_id
+        type: string
+      - description: Employee ID
+        in: query
+        name: employee_id
+        type: string
+      - description: Date (YYYY-MM)
+        in: query
+        name: date
+        type: string
+      - description: Status
+        in: query
+        name: status
+        type: string
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListKPIProgressStatusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: List KPI progress statuses
+      tags:
+      - KPI Progress Status
+    post:
+      consumes:
+      - application/json
+      description: Create a new KPI progress status
+      parameters:
+      - description: Create KPI progress status request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateKPIProgressStatus'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.KPIProgressStatus'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create KPI progress status
+      tags:
+      - KPI Progress Status
+  /api/v1/kpi-progress-status/{id}:
+    delete:
+      description: Delete a KPI progress status record
+      parameters:
+      - description: Progress ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete KPI Progress Status
+      tags:
+      - KPI Progress Status
+    put:
+      consumes:
+      - application/json
+      description: Update an existing KPI progress status
+      parameters:
+      - description: KPI Progress Status ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update KPI progress status request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateKPIProgressStatus'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.KPIProgressStatus'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update KPI progress status
+      tags:
+      - KPI Progress Status
   /api/v1/kpi-progresses:
     get:
       description: Get a list of KPI progress records with pagination and filtering
