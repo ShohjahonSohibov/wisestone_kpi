@@ -1823,8 +1823,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Filter by user ID",
-                        "name": "user_id",
+                        "description": "Filter by employee ID",
+                        "name": "employee_id",
                         "in": "query"
                     },
                     {

@@ -1935,9 +1935,9 @@ paths:
         in: query
         name: date
         type: string
-      - description: Filter by user ID
+      - description: Filter by employee ID
         in: query
-        name: user_id
+        name: employee_id
         type: string
       - description: Filter by team ID
         in: query

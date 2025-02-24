@@ -82,7 +82,7 @@ func (h *KPIProgressHandler) Delete(c *gin.Context) {
 // @Tags KPI Progress
 // @Produce json
 // @Param date query string false "Filter by date"
-// @Param user_id query string false "Filter by user ID"
+// @Param employee_id query string false "Filter by employee ID"
 // @Param team_id query string false "Filter by team ID"
 // @Param offset query int false "Offset for pagination"
 // @Param limit query int false "Limit for pagination"
