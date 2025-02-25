@@ -1924,7 +1924,64 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/kpi-progresses/{id}": {
+        "/api/v1/kpi-progresses/bulk": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Create multiple KPI progress records at once",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Progress"
+                ],
+                "summary": "Create multiple KPI progresses",
+                "parameters": [
+                    {
+                        "description": "Array of KPI progress creation requests",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.KPIProgress"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "status: 201, message: KPI progresses created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "status: 400, message: error message",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "status: 500, message: error message",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/kpi-progresses/delete": {
             "delete": {
                 "security": [
                     {
@@ -1943,8 +2000,22 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Progress ID",
-                        "name": "id",
-                        "in": "path",
+                        "name": "date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Progress ID",
+                        "name": "team_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Progress ID",
+                        "name": "employee_id",
+                        "in": "query",
                         "required": true
                     }
                 ],

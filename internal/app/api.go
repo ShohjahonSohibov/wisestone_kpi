@@ -158,7 +158,7 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 				kpiProgress.GET("", kpiProgressHandler.List)
 				// kpiProgress.GET("/:id", kpiProgressHandler.GetByID)
 				// kpiProgress.PUT("/:id", kpiProgressHandler.Update)
-				kpiProgress.DELETE("/:id", kpiProgressHandler.Delete)
+				kpiProgress.DELETE("/delete", kpiProgressHandler.Delete)
 			}
 
 			kpiProgressStatus := protected.Group("/kpi-progress-status")

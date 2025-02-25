@@ -21,8 +21,12 @@ func (s *KPIProgressService) Create(ctx context.Context, req *models.KPIProgress
 	return s.kpiProgressRepo.Create(ctx, req)
 }
 
-func (s *KPIProgressService) Delete(ctx context.Context, id string) error {
-	return s.kpiProgressRepo.Delete(ctx, id)
+func (s *KPIProgressService) CreateMany(ctx context.Context, progresses []*models.KPIProgress) error {
+    return s.kpiProgressRepo.CreateMany(ctx, progresses)
+}
+
+func (s *KPIProgressService) Delete(ctx context.Context, date, teamId, employeeId string) error {
+	return s.kpiProgressRepo.Delete(ctx, date, teamId, employeeId)
 }
 
 func (s *KPIProgressService) List(ctx context.Context, req *models.ListKPIProgressRequest) (*models.ListKPIProgressResponse, error) {

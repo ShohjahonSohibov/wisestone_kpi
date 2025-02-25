@@ -2004,13 +2004,60 @@ paths:
       summary: Create KPI Progress
       tags:
       - KPI Progress
-  /api/v1/kpi-progresses/{id}:
+  /api/v1/kpi-progresses/bulk:
+    post:
+      consumes:
+      - application/json
+      description: Create multiple KPI progress records at once
+      parameters:
+      - description: Array of KPI progress creation requests
+        in: body
+        name: request
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/models.KPIProgress'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 'status: 201, message: KPI progresses created successfully'
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'status: 400, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create multiple KPI progresses
+      tags:
+      - KPI Progress
+  /api/v1/kpi-progresses/delete:
     delete:
       description: Delete a KPI progress record
       parameters:
       - description: Progress ID
-        in: path
-        name: id
+        in: query
+        name: date
+        required: true
+        type: string
+      - description: Progress ID
+        in: query
+        name: team_id
+        required: true
+        type: string
+      - description: Progress ID
+        in: query
+        name: employee_id
         required: true
         type: string
       produces:

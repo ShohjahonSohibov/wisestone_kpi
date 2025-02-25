@@ -31,13 +31,40 @@ func (r *KPIProgressRepository) Create(ctx context.Context, progress *models.KPI
 	return nil
 }
 
-func (r *KPIProgressRepository) Delete(ctx context.Context, id string) error {
-	objID, err := primitive.ObjectIDFromHex(id)
+func (r *KPIProgressRepository) CreateMany(ctx context.Context, progresses []*models.KPIProgress) error {
+	documents := make([]interface{}, len(progresses))
+	for i, progress := range progresses {
+		progress.BeforeCreate()
+		documents[i] = progress
+	}
+
+	result, err := r.collection.InsertMany(ctx, documents)
 	if err != nil {
 		return err
 	}
 
-	_, err = r.collection.DeleteOne(ctx, bson.M{"_id": objID})
+	// Update IDs of the original objects
+	for i, id := range result.InsertedIDs {
+		if oid, ok := id.(primitive.ObjectID); ok {
+			progresses[i].ID = oid.Hex()
+		}
+	}
+
+	return nil
+}
+
+func (r *KPIProgressRepository) Delete(ctx context.Context, date, teamId, employeeId string) error {
+	filter := bson.M{"date": date}
+
+	if teamId != "" {
+		filter["team_id"] = teamId
+	}
+
+	if employeeId != "" {
+		filter["employee_id"] = employeeId
+	}
+
+	_, err := r.collection.DeleteMany(ctx, filter)
 	return err
 }
 
