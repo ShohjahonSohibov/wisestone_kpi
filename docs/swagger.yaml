@@ -10,6 +10,29 @@ definitions:
     - team_id
     - user_id
     type: object
+  models.CreateBulkKPIProgress:
+    properties:
+      created_at:
+        type: string
+      created_by_id:
+        type: string
+      date:
+        type: string
+      employee_id:
+        type: string
+      factor_id:
+        type: string
+      factor_indicator_id:
+        type: string
+      id:
+        type: string
+      ratio:
+        type: integer
+      team_id:
+        type: string
+      updated_at:
+        type: string
+    type: object
   models.CreateKPICriterion:
     properties:
       description_en:
@@ -2016,7 +2039,7 @@ paths:
         required: true
         schema:
           items:
-            $ref: '#/definitions/models.KPIProgress'
+            $ref: '#/definitions/models.CreateBulkKPIProgress'
           type: array
       produces:
       - application/json
@@ -2048,17 +2071,14 @@ paths:
       - description: Progress ID
         in: query
         name: date
-        required: true
         type: string
       - description: Progress ID
         in: query
         name: team_id
-        required: true
         type: string
       - description: Progress ID
         in: query
         name: employee_id
-        required: true
         type: string
       produces:
       - application/json

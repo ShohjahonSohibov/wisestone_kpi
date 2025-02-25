@@ -18,6 +18,19 @@ type KPIProgress struct {
 	UpdatedAt         time.Time    `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
 }
 
+type CreateBulkKPIProgress struct {
+	ID                string    `json:"id,omitempty" bson:"_id,omitempty"`
+	FactorId          string    `bson:"factor_id,omitempty" json:"factor_id,omitempty"`
+	FactorIndicatorId string    `bson:"factor_indicator_id,omitempty" json:"factor_indicator_id,omitempty"`
+	Ratio             int32     `bson:"ratio,omitempty" json:"ratio,omitempty"`
+	TeamId            string    `bson:"team_id,omitempty" json:"team_id,omitempty"`
+	EmployeeId        string    `bson:"employee_id,omitempty" json:"employee_id,omitempty"`
+	CreatedById       string    `bson:"created_by_id,omitempty" json:"created_by_id,omitempty"`
+	Date              string    `bson:"date,omitempty" json:"date,omitempty"`
+	CreatedAt         time.Time `json:"created_at,omitempty" bson:"created_at,omitempty"`
+	UpdatedAt         time.Time `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
+}
+
 type CreateKPIProgress struct {
 	FactorId          string `bson:"factor_id,omitempty" json:"factor_id,omitempty"`
 	FactorIndicatorId string `bson:"factor_indicator_id,omitempty" json:"factor_indicator_id,omitempty"`
@@ -103,6 +116,12 @@ type ShortKPIPrgFactorIndicator struct {
 }
 
 func (k *KPIProgress) BeforeCreate() {
+	now := time.Now()
+	k.CreatedAt = now
+	k.UpdatedAt = now
+}
+
+func (k *CreateBulkKPIProgress) BeforeCreate() {
 	now := time.Now()
 	k.CreatedAt = now
 	k.UpdatedAt = now

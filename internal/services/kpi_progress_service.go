@@ -21,7 +21,7 @@ func (s *KPIProgressService) Create(ctx context.Context, req *models.KPIProgress
 	return s.kpiProgressRepo.Create(ctx, req)
 }
 
-func (s *KPIProgressService) CreateMany(ctx context.Context, progresses []*models.KPIProgress) error {
+func (s *KPIProgressService) CreateMany(ctx context.Context, progresses []*models.CreateBulkKPIProgress) error {
     return s.kpiProgressRepo.CreateMany(ctx, progresses)
 }
 

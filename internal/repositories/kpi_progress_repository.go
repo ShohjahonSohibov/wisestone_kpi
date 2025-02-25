@@ -31,7 +31,7 @@ func (r *KPIProgressRepository) Create(ctx context.Context, progress *models.KPI
 	return nil
 }
 
-func (r *KPIProgressRepository) CreateMany(ctx context.Context, progresses []*models.KPIProgress) error {
+func (r *KPIProgressRepository) CreateMany(ctx context.Context, progresses []*models.CreateBulkKPIProgress) error {
 	documents := make([]interface{}, len(progresses))
 	for i, progress := range progresses {
 		progress.BeforeCreate()

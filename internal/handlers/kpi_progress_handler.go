@@ -26,13 +26,13 @@ func NewKPIProgressHandler(kpiProgressService *services.KPIProgressService) *KPI
 // @Tags KPI Progress
 // @Accept json
 // @Produce json
-// @Param request body []models.KPIProgress true "Array of KPI progress creation requests"
+// @Param request body []models.CreateBulkKPIProgress true "Array of KPI progress creation requests"
 // @Success 201 {object} map[string]interface{} "status: 201, message: KPI progresses created successfully"
 // @Failure 400 {object} map[string]interface{} "status: 400, message: error message"
 // @Failure 500 {object} map[string]interface{} "status: 500, message: error message"
 // @Router /api/v1/kpi-progresses/bulk [post]
 func (h *KPIProgressHandler) CreateMany(c *gin.Context) {
-	var progresses []*models.KPIProgress
+	var progresses []*models.CreateBulkKPIProgress
 	if err := c.ShouldBindJSON(&progresses); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  http.StatusBadRequest,
@@ -103,9 +103,9 @@ func (h *KPIProgressHandler) Create(c *gin.Context) {
 // @Description Delete a KPI progress record
 // @Tags KPI Progress
 // @Produce json
-// @Param date query string true "Progress ID"
-// @Param team_id query string true "Progress ID"
-// @Param employee_id query string true "Progress ID"
+// @Param date query string false "Progress ID"
+// @Param team_id query string false "Progress ID"
+// @Param employee_id query string false "Progress ID"
 // @Success 200 {object} map[string]string
 // @Failure 500 {object} map[string]string
 // @Router /api/v1/kpi-progresses/delete [delete]
