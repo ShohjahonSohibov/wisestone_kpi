@@ -1951,7 +1951,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.CreateBulkKPIProgress"
+                                "$ref": "#/definitions/models.CreateKPIProgress"
                             }
                         }
                     }
@@ -3654,41 +3654,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.CreateBulkKPIProgress": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "created_by_id": {
-                    "type": "string"
-                },
-                "date": {
-                    "type": "string"
-                },
-                "employee_id": {
-                    "type": "string"
-                },
-                "factor_id": {
-                    "type": "string"
-                },
-                "factor_indicator_id": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "ratio": {
-                    "type": "integer"
-                },
-                "team_id": {
-                    "type": "string"
-                },
-                "updated_at": {
                     "type": "string"
                 }
             }

@@ -26,7 +26,7 @@ func NewKPIProgressHandler(kpiProgressService *services.KPIProgressService) *KPI
 // @Tags KPI Progress
 // @Accept json
 // @Produce json
-// @Param request body []models.CreateBulkKPIProgress true "Array of KPI progress creation requests"
+// @Param request body []models.CreateKPIProgress true "Array of KPI progress creation requests"
 // @Success 201 {object} map[string]interface{} "status: 201, message: KPI progresses created successfully"
 // @Failure 400 {object} map[string]interface{} "status: 400, message: error message"
 // @Failure 500 {object} map[string]interface{} "status: 500, message: error message"
