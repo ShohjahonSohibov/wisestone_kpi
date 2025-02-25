@@ -1347,6 +1347,53 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/kpi-parents/single": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get a KPI Parent by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "KPI Parents"
+                ],
+                "summary": "Get KPI Parent by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "KPI Parent ID",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "KPI Parent type",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "status: 200, data: KPI Parent object",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "status: 500, message: error message",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/kpi-parents/status/{id}": {
             "put": {
                 "security": [
@@ -1409,46 +1456,6 @@ const docTemplate = `{
             }
         },
         "/api/v1/kpi-parents/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Get a KPI Parent by its ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "KPI Parents"
-                ],
-                "summary": "Get KPI Parent by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "KPI Parent ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "status: 200, data: KPI Parent object",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "500": {
-                        "description": "status: 500, message: error message",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
             "put": {
                 "security": [
                     {

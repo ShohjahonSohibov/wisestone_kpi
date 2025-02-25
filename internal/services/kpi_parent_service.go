@@ -50,8 +50,8 @@ func (s *KPIParentService) Delete(ctx context.Context, id string) error {
 	return s.kpiParentRepo.Delete(ctx, id)
 }
 
-func (s *KPIParentService) GetByID(ctx context.Context, id string) (*models.KPIParent, error) {
-	return s.kpiParentRepo.GetByID(ctx, id)
+func (s *KPIParentService) GetByID(ctx context.Context, id, kpiType string) (*models.KPIParent, error) {
+	return s.kpiParentRepo.GetByID(ctx, id, kpiType)
 }
 
 func (s *KPIParentService) List(ctx context.Context, req *models.ListKPIParentRequest) (*models.ListKPIParentResponse, error) {

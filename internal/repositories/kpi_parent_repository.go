@@ -88,14 +88,24 @@ func (r *KpiParentRepository) Delete(ctx context.Context, id string) error {
 	return err
 }
 
-func (r *KpiParentRepository) GetByID(ctx context.Context, id string) (*models.KPIParent, error) {
-	objID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return nil, fmt.Errorf("invalid ID format: %v", err)
+func (r *KpiParentRepository) GetByID(ctx context.Context, id, kpiType string) (*models.KPIParent, error) {
+	matchStage := bson.M{}
+	if id != "" {
+		objID, err := primitive.ObjectIDFromHex(id)
+		if err != nil {
+			return nil, fmt.Errorf("invalid ID format: %v", err)
+		}
+
+		matchStage = bson.M{"_id": objID}
+	} else if kpiType != "" {
+		currentYear := time.Now().Format("2006")
+		matchStage["type"] = kpiType
+		matchStage["year"] = currentYear
 	}
+
 	pipeline := []bson.M{
 		{
-			"$match": bson.M{"_id": objID},
+			"$match": matchStage,
 		},
 		{
 			"$lookup": bson.M{

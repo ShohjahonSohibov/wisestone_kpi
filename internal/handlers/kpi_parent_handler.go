@@ -161,14 +161,16 @@ func (h *KpiParentHandler) Delete(c *gin.Context) {
 // @Description Get a KPI Parent by its ID
 // @Tags KPI Parents
 // @Produce json
-// @Param id path string true "KPI Parent ID"
+// @Param id query string false "KPI Parent ID"
+// @Param type query string false "KPI Parent type"
 // @Success 200 {object} map[string]interface{} "status: 200, data: KPI Parent object"
 // @Failure 500 {object} map[string]interface{} "status: 500, message: error message"
-// @Router /api/v1/kpi-parents/{id} [get]
+// @Router /api/v1/kpi-parents/single [get]
 func (h *KpiParentHandler) GetByID(c *gin.Context) {
-	id := c.Param("id")
+	id := c.Query("id")
+	kpiType := c.Query("type")
 
-	result, err := h.kpiParentService.GetByID(c.Request.Context(), id)
+	result, err := h.kpiParentService.GetByID(c.Request.Context(), id, kpiType)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			c.JSON(http.StatusNotFound, gin.H{

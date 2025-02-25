@@ -1660,32 +1660,6 @@ paths:
       summary: Delete KPI Parent
       tags:
       - KPI Parents
-    get:
-      description: Get a KPI Parent by its ID
-      parameters:
-      - description: KPI Parent ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 'status: 200, data: KPI Parent object'
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: 'status: 500, message: error message'
-          schema:
-            additionalProperties: true
-            type: object
-      security:
-      - ApiKeyAuth: []
-      summary: Get KPI Parent by ID
-      tags:
-      - KPI Parents
     put:
       consumes:
       - application/json
@@ -1723,6 +1697,36 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Update KPI Parent
+      tags:
+      - KPI Parents
+  /api/v1/kpi-parents/single:
+    get:
+      description: Get a KPI Parent by its ID
+      parameters:
+      - description: KPI Parent ID
+        in: query
+        name: id
+        type: string
+      - description: KPI Parent type
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'status: 200, data: KPI Parent object'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: 'status: 500, message: error message'
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get KPI Parent by ID
       tags:
       - KPI Parents
   /api/v1/kpi-parents/status/{id}:
