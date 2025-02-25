@@ -155,6 +155,7 @@ func InitRoutes(router *gin.Engine, db *mongo.Database) {
 			kpiProgress := protected.Group("/kpi-progresses")
 			{
 				kpiProgress.POST("", kpiProgressHandler.Create)
+				kpiProgress.POST("/bulk", kpiProgressHandler.CreateMany)
 				kpiProgress.GET("", kpiProgressHandler.List)
 				// kpiProgress.GET("/:id", kpiProgressHandler.GetByID)
 				// kpiProgress.PUT("/:id", kpiProgressHandler.Update)
